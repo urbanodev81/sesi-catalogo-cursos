@@ -1,0 +1,11 @@
+bin/
+obj/
+node_modules/
+dist/
+src/CatalogoCursos.Api/wwwroot/
+*.user
+.vs/
+.vscode/
+.idea/
+TestResults/
+publicacao/
