@@ -1,0 +1,19 @@
+# Blueprint do Render: um serviço web (plano gratuito) construído pelo Dockerfile da raiz.
+# O banco fica no Neon (plano gratuito); a URL de conexão entra à mão no painel do Render.
+services:
+  - type: web
+    name: sesi-catalogo-cursos
+    runtime: docker
+    plan: free
+    # Virgínia: mesma região do banco no Neon (AWS us-east-1), para cada consulta não cruzar o continente.
+    region: virginia
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      # A imagem escuta na 8080 (ASPNETCORE_HTTP_PORTS no Dockerfile); PORT diz ao Render para onde rotear.
+      - key: PORT
+        value: "8080"
+      # postgresql://usuario:senha@host/banco?sslmode=require — copiada do painel do Neon, nunca commitada.
+      - key: DATABASE_URL
+        sync: false

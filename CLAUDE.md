@@ -46,4 +46,8 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   do Figma (o protótipo não abre por fetch; o Ricardo exporta os frames em PNG).
 - Assets otimizados (22/10): imagens em WebP 1200 px (~10 MB → 154 KB), Open Sans em woff2 com subset
   Latin (1,1 MB → 192 KB). Migration `ImagensWebp` só troca as URLs do seed.
-- Falta: layout fiel ao Figma, publicação (Render + Neon, gratuitos), ZIP de publicação, README e USO_DE_IA finais, auditoria de acessibilidade.
+- Auditoria de acessibilidade (axe zerado), README e USO_DE_IA feitos em 22/10, exceto o que depende do Figma.
+- Publicação preparada (22/10): `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via
+  `DATABASE_URL`; `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8. Falta o Ricardo criar as contas.
+- Falta: layout fiel ao Figma (faltam telas de catálogo, detalhe e mobile), seed com os cursos do Figma,
+  URL publicada no README, repo público antes da entrega.

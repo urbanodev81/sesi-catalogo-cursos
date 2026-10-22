@@ -58,7 +58,9 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 │       └── estilos/            tokens, fonte Open Sans, base de acessibilidade
 ├── database/catalogo.sql       script SQL completo (schema + dados), gerado das migrations
 ├── docs/DESAFIO.md             requisito transcrito, com checklist
-├── Dockerfile  docker-compose.yml
+├── Dockerfile  docker-compose.yml  render.yaml
+├── preparar.sh                 máquina nova pronta com um comando
+├── gerar-zip-publicacao.sh     monta o ZIP dos arquivos de publicação
 ├── README.md  USO_DE_IA.md
 ```
 
@@ -174,8 +176,33 @@ Resultado: zero violações e nenhum alvo abaixo de 44 px.
 
 ## Processo de publicação
 
-*(a completar)* Plano: imagem Docker única no Render (plano gratuito) e PostgreSQL no Neon (plano
-gratuito), com a conexão em `DATABASE_URL`. Sem custo para o SESI-SP.
+Dois serviços gratuitos, sem custo para o SESI-SP:
+
+| Peça | Onde | Por quê |
+|---|---|---|
+| Aplicação (API + front) | Render, plano gratuito, deploy pelo `Dockerfile` | A mesma imagem do `docker compose` local: o que roda aqui é o que roda lá |
+| Banco | Neon, PostgreSQL 16 gratuito, região AWS us-east-1 | O PostgreSQL gratuito do Render expira em 30 dias; o do Neon não |
+
+A configuração do Render está versionada em [`render.yaml`](render.yaml) (Blueprint): serviço web na
+Virgínia (mesma região do banco), checagem de saúde em `/health` e deploy automático a cada push na `main`.
+A única configuração fora do repositório é a `DATABASE_URL`, que é segredo e entra pelo painel.
+
+Passo a passo, partindo do zero:
+
+1. **Neon:** criar o projeto (PostgreSQL 16, região *AWS US East 1*) e copiar a *connection string*
+   (`postgresql://...?sslmode=require`).
+2. **Render:** *New → Blueprint*, apontar para este repositório; o Render lê o `render.yaml` e pede a
+   `DATABASE_URL`: colar a do Neon.
+3. No primeiro boot, a aplicação aplica as migrations sozinha (schema + catálogo fictício). Não há passo
+   manual no banco; quem preferir pode rodar [`database/catalogo.sql`](database/catalogo.sql), que é
+   idempotente.
+4. Conferir `https://<serviço>.onrender.com/health` → `{"status":"ok"}`.
+
+**Arquivos de publicação (ZIP):** `./gerar-zip-publicacao.sh` gera
+`publicacao/sesi-catalogo-cursos-publicacao.zip` com a aplicação compilada (`app/`: `dotnet publish` com
+o build do front em `wwwroot`), o script SQL e os arquivos que montam a publicação (`Dockerfile`,
+`.dockerignore`, `render.yaml`). A configuração de desenvolvimento fica de fora. Para rodar o pacote sem
+Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime ASP.NET Core 10).
 
 ## Limitações conhecidas
 
