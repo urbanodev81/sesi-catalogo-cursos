@@ -13,12 +13,12 @@ defineProps<{ curso: CursoResumo }>()
         <img :src="`/assets/icones/${curso.categoria.icone}`" alt="" width="20" height="20" />
         {{ curso.categoria.rotulo }}
       </p>
-      <h3 class="card__titulo">
+      <h2 class="card__titulo">
         <!-- O link cobre o card inteiro (::after), mas o nome acessível é só o título. -->
         <RouterLink :to="{ name: 'curso', params: { slug: curso.slug } }" class="card__link">
           {{ curso.nomeCompleto }}
         </RouterLink>
-      </h3>
+      </h2>
       <p class="card__descricao">{{ curso.descricao }}</p>
       <ul class="card__meta">
         <li>{{ curso.modalidade.rotulo }}</li>

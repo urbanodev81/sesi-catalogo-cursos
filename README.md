@@ -139,7 +139,7 @@ sem salto de layout.
 
 ## Decisões de acessibilidade
 
-*(a completar com a auditoria final)* Já implementado:
+Implementado:
 - HTML semântico: `header`/`main`/`footer`, `form role="search"`, lista de cursos em `ul`, ficha do curso
   em `dl`, módulos em `details/summary` (teclado nativo).
 - Todo campo tem `label` visível; a contagem de resultados fica em `role="status"` e o leitor de tela a
@@ -149,6 +149,17 @@ sem salto de layout.
 - Card clicável inteiro, mas com nome acessível só no título (o link cobre o card por `::after`).
 - Foco visível em tudo, alvos de toque com pelo menos 44 px e `prefers-reduced-motion` respeitado.
 - Imagens decorativas com `alt=""`; links que abrem em nova aba avisam no texto.
+
+**Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
+regras WCAG 2.0/2.1/2.2 A e AA mais boas práticas, rodado por Playwright em todas as telas e estados —
+catálogo, busca, filtros combinados, lista vazia, filtro inválido, detalhe, curso inexistente e 404 — em
+1280 px e 390 px. Complementado com o que o axe não mede: rolagem horizontal a 320 px (reflow, WCAG
+1.4.10), tamanho de todo alvo clicável, ordem de tabulação e foco após trocar de página.
+Achados e correções:
+- Títulos pulavam de nível (`h1` da página → `h3` no card): o título do card passou a `h2`.
+- Logo do topo e link da trilha tinham 19 px de altura clicável: passaram a 44 px sem mudar o visual.
+
+Resultado: zero violações e nenhum alvo abaixo de 44 px.
 
 ## Processo de publicação
 
