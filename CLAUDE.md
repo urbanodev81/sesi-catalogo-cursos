@@ -17,6 +17,7 @@ dependência ou padrão que não se justifique em uma frase. Todo uso de IA rele
 ser o do Windows e quebrar):
 
 ```bash
+./preparar.sh                                          # máquina nova: instala .NET 10/Node 24, deps, banco, testes
 export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
