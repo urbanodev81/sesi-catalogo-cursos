@@ -5,14 +5,14 @@
  */
 @font-face {
   font-family: 'Open Sans';
-  src: url('../assets/fontes/OpenSans-Variable.ttf') format('truetype');
+  src: url('../assets/fontes/OpenSans-Variable.woff2') format('woff2');
   font-weight: 300 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
-  src: url('../assets/fontes/OpenSans-Italic-Variable.ttf') format('truetype');
+  src: url('../assets/fontes/OpenSans-Italic-Variable.woff2') format('woff2');
   font-weight: 300 800;
   font-style: italic;
   font-display: swap;

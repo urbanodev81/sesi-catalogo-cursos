@@ -299,3 +299,78 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/hero-image.webp'
+    WHERE "Id" = 1;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/banner-ava.webp'
+    WHERE "Id" = 2;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/video-thumb.webp'
+    WHERE "Id" = 3;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/hero-image.webp'
+    WHERE "Id" = 4;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/banner-ava.webp'
+    WHERE "Id" = 5;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/video-thumb.webp'
+    WHERE "Id" = 6;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/hero-image.webp'
+    WHERE "Id" = 7;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    UPDATE cursos SET "ImagemUrl" = '/assets/imagens/banner-ava.webp'
+    WHERE "Id" = 8;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261022051844_ImagensWebp') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20261022051844_ImagensWebp', '10.0.13');
+    END IF;
+END $EF$;
+COMMIT;
+

@@ -16,6 +16,7 @@ repositório, ao terminal e ao Docker da máquina de desenvolvimento.
 | Arquitetura | Propor stack e hospedagem gratuita | Escolha de .NET 10 + PostgreSQL + Vue 3, front servido pela API |
 | Back-end | Gerar entidades, endpoints, seed fictício e testes de integração | Revisar regras: filtro inválido = 400, ordenação por status, busca sem acento |
 | Front-end | Gerar cliente da API, estado de busca/filtros e telas base | *(a completar na etapa do Figma)* |
+| Otimização de assets | Converter PNG (3–4 MB) em WebP de 1200 px e TTF em woff2 com subset Latin, sem dependência nova no projeto (scripts avulsos via `uvx`) | Largura pelo maior uso real (detalhe, 1200 px); conferir visualmente a qualidade e que os eixos `wght`/`wdth` e os acentos sobreviveram ao subset |
 | Documentação | Esqueleto do README e deste arquivo | *(a completar)* |
 
 ## Prompts relevantes

@@ -32,7 +32,7 @@ public static class DadosIniciais
         new("matematica-aplicada-industria-4-0", "Matemática Aplicada à Indústria 4.0", "Matemática 4.0",
             "Razão, proporção, funções e leitura de gráficos aplicadas a indicadores de produção, sensores e automação.",
             1, Modalidade.Ead, 40, "Trabalhadores da indústria com ensino médio em andamento ou concluído.",
-            StatusCurso.InscricoesAbertas, "hero-image.png", null,
+            StatusCurso.InscricoesAbertas, "hero-image.webp", null,
             [
                 new("Números no chão de fábrica", [
                     new("Razão e proporção na produção", "Como calcular rendimento, perdas e consumo por peça."),
@@ -47,7 +47,7 @@ public static class DadosIniciais
         new("estatistica-controle-qualidade", "Estatística para Controle de Qualidade", "Estatística na Qualidade",
             "Amostragem, média, desvio-padrão e cartas de controle para acompanhar a estabilidade de um processo.",
             1, Modalidade.Hibrido, 60, "Inspetores de qualidade, líderes de produção e técnicos de processo.",
-            StatusCurso.EmBreve, "banner-ava.png", new DateOnly(2026, 11, 16),
+            StatusCurso.EmBreve, "banner-ava.webp", new DateOnly(2026, 11, 16),
             [
                 new("Fundamentos de estatística", [
                     new("Amostra e população", "Como escolher uma amostra representativa do lote."),
@@ -64,7 +64,7 @@ public static class DadosIniciais
         new("comunicacao-tecnica-redacao-profissional", "Comunicação Técnica e Redação Profissional", "Redação Profissional",
             "Escrita clara de relatórios, e-mails e procedimentos operacionais, com foco em objetividade e revisão.",
             2, Modalidade.Ead, 30, "Profissionais que redigem relatórios, procedimentos ou comunicados no trabalho.",
-            StatusCurso.InscricoesAbertas, "video-thumb.png", null,
+            StatusCurso.InscricoesAbertas, "video-thumb.webp", null,
             [
                 new("Escrever para ser entendido", [
                     new("Clareza e objetividade", "Frases curtas, voz ativa e uma ideia por parágrafo."),
@@ -78,7 +78,7 @@ public static class DadosIniciais
         new("ingles-instrumental-industria", "Inglês Instrumental para a Indústria", "Inglês Instrumental",
             "Leitura de manuais, fichas técnicas e telas de equipamentos em inglês, com vocabulário do setor industrial.",
             2, Modalidade.Presencial, 80, "Operadores e técnicos que lidam com manuais e equipamentos importados.",
-            StatusCurso.Encerrado, "hero-image.png", null,
+            StatusCurso.Encerrado, "hero-image.webp", null,
             [
                 new("Estratégias de leitura", [
                     new("Skimming e scanning", "Achar a informação certa sem traduzir o texto inteiro."),
@@ -92,7 +92,7 @@ public static class DadosIniciais
         new("quimica-materiais-industriais", "Química dos Materiais Industriais", "Química dos Materiais",
             "Propriedades de metais, polímeros e cerâmicos, e como a estrutura química define o uso de cada material.",
             3, Modalidade.Presencial, 48, "Estudantes do ensino médio e técnicos interessados em processos de transformação.",
-            StatusCurso.InscricoesAbertas, "banner-ava.png", null,
+            StatusCurso.InscricoesAbertas, "banner-ava.webp", null,
             [
                 new("Estrutura da matéria", [
                     new("Ligações químicas", "Iônica, covalente e metálica, e o que cada uma explica."),
@@ -107,7 +107,7 @@ public static class DadosIniciais
         new("fisica-aplicada-maquinas", "Física Aplicada a Máquinas e Equipamentos", "Física Aplicada",
             "Força, torque, energia e potência para entender o funcionamento e a eficiência de máquinas industriais.",
             3, Modalidade.Ead, 36, "Trabalhadores da manutenção e da operação de máquinas.",
-            StatusCurso.EmBreve, "video-thumb.png", new DateOnly(2027, 2, 1),
+            StatusCurso.EmBreve, "video-thumb.webp", new DateOnly(2027, 2, 1),
             [
                 new("Mecânica", [
                     new("Força e torque", "Alavancas, engrenagens e transmissão de movimento."),
@@ -121,7 +121,7 @@ public static class DadosIniciais
         new("economia-circular-industria", "Economia Circular na Indústria", "Economia Circular",
             "Princípios da economia circular, ciclo de vida do produto e exemplos de redução de desperdício na produção.",
             4, Modalidade.Ead, 20, "Qualquer pessoa interessada em sustentabilidade no ambiente de trabalho.",
-            StatusCurso.InscricoesAbertas, "hero-image.png", null,
+            StatusCurso.InscricoesAbertas, "hero-image.webp", null,
             [
                 new("Do linear ao circular", [
                     new("O modelo extrair-produzir-descartar", "Limites do modelo linear de produção."),
@@ -134,7 +134,7 @@ public static class DadosIniciais
         new("gestao-residuos-eficiencia-energetica", "Gestão de Resíduos e Eficiência Energética", "Gestão de Resíduos",
             "Classificação de resíduos, logística reversa e ações de eficiência energética com retorno mensurável.",
             4, Modalidade.Hibrido, 64, "Supervisores, técnicos de meio ambiente e membros de comissões internas.",
-            StatusCurso.Encerrado, "banner-ava.png", null,
+            StatusCurso.Encerrado, "banner-ava.webp", null,
             [
                 new("Resíduos", [
                     new("Classificação e armazenamento", "Classes de resíduos e cuidados de armazenamento."),

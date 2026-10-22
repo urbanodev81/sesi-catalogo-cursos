@@ -44,5 +44,6 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Back-end completo para o requisito: API, banco, seed, migrations, script SQL, 22 testes verdes.
 - Front funcional (catálogo, filtros, detalhe, estados) com **layout provisório** — aguardando as telas
   do Figma (o protótipo não abre por fetch; o Ricardo exporta os frames em PNG).
-- Falta: layout fiel ao Figma, otimizar imagens (PNG de 3–4 MB) e fonte (TTF → woff2), publicação
-  (Render + Neon, gratuitos), ZIP de publicação, README e USO_DE_IA finais, auditoria de acessibilidade.
+- Assets otimizados (22/10): imagens em WebP 1200 px (~10 MB → 154 KB), Open Sans em woff2 com subset
+  Latin (1,1 MB → 192 KB). Migration `ImagensWebp` só troca as URLs do seed.
+- Falta: layout fiel ao Figma, publicação (Render + Neon, gratuitos), ZIP de publicação, README e USO_DE_IA finais, auditoria de acessibilidade.
