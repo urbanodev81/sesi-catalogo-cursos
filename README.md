@@ -1,7 +1,7 @@
 # Catálogo de cursos — SESI Indústria
 
-> **Em construção.** Seções marcadas com *(a completar)* dependem do alinhamento com o Figma ou da
-> publicação.
+> **Pendente:** o layout fiel ao Figma e a publicação. As seções marcadas com *(a completar)* dependem
+> de uma das duas; o resto descreve o código como ele está.
 
 ## Objetivo da aplicação
 
@@ -64,6 +64,8 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 
 ## Instruções para execução
 
+Requisitos: **Docker** (com Compose) para as opções 1 e 3; **.NET SDK 10** e **Node 24** para a opção 2.
+
 **Opção 1 — tudo em Docker** (requer só Docker):
 
 ```bash
@@ -79,7 +81,16 @@ dotnet run --project src/CatalogoCursos.Api   # API em http://localhost:5070
 cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 ```
 
-**Testes:** `dotnet test` (requer Docker: cada execução cria um PostgreSQL descartável).
+**Opção 3 — máquina Linux/WSL do zero** (requer Docker e `curl`):
+
+```bash
+./preparar.sh   # instala .NET 10 e Node 24 só no usuário, baixa dependências, sobe o banco e roda os testes
+```
+
+O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
+
+**Testes:** `dotnet test` roda os 22 testes de integração (requer Docker: cada execução cria um
+PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
 
@@ -168,8 +179,16 @@ gratuito), com a conexão em `DATABASE_URL`. Sem custo para o SESI-SP.
 
 ## Limitações conhecidas
 
-*(a completar)*
-- Hospedagem gratuita "dorme" sem uso: a primeira visita pode levar cerca de 50 segundos. O front avisa
-  se o servidor demorar e oferece tentar de novo.
-- Sem integração com o Moodle (opcional no edital).
-- Diferenças em relação ao Figma: *(a completar)*
+- **Hospedagem gratuita "dorme" sem uso:** a primeira visita pode levar cerca de 50 segundos. O front
+  espera até 60 s; se passar disso, mostra a mensagem de demora e o botão "Tentar novamente". O edital
+  aceita indisponibilidade temporária porque há instruções para rodar localmente (acima).
+- **Sem integração com o Moodle**, que o edital deixa como diferencial opcional. O caminho seria trocar a
+  origem dos dados pela API de web services do Moodle (`core_course_get_courses`); o contrato da nossa API
+  (`/api/cursos`) não precisaria mudar.
+- **Sem paginação:** o catálogo fictício é pequeno e a lista volta inteira. Com centenas de cursos, a API
+  ganharia `pagina` e `tamanho`, e o total já está separado dos itens para isso.
+- **Testes automatizados só no back-end.** O front é verificado por compilação estrita (`vue-tsc`) e
+  pela auditoria de acessibilidade descrita acima, não por testes de componente.
+- **Somente leitura:** não há cadastro, edição nem exclusão de cursos, como o edital dispensa; os dados
+  mudam por migration.
+- **Diferenças em relação ao Figma:** *(a completar junto com o layout)*
