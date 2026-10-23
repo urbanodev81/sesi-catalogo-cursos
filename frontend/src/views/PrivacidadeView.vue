@@ -20,7 +20,8 @@ import { CONTATO } from '../conteudo/institucional'
       </li>
       <li>
         <strong>Suas preferências</strong>, no armazenamento local do navegador, nunca enviadas ao servidor:
-        as opções de acessibilidade, as aulas marcadas como concluídas e se você já viu o aviso de privacidade.
+        as opções de acessibilidade, se você já viu o aviso de privacidade e, enquanto você não entra, as
+        aulas marcadas como concluídas. Depois de entrar, o progresso fica na sua conta (veja abaixo).
       </li>
     </ul>
     <p>
@@ -41,6 +42,11 @@ import { CONTATO } from '../conteudo/institucional'
       Para alunos e professores, guardamos nome, e-mail, matrículas, aulas concluídas e o horário do último
       acesso (que mostra aos colegas de turma quem está online). Os documentos enviados ficam no banco de
       dados e só o próprio aluno consegue baixá-los; o professor vê apenas quantos foram entregues.
+    </p>
+    <p>
+      As contas desta demonstração são compartilhadas (a senha está publicada). Por isso, quando o servidor
+      reinicia, tudo o que foi enviado ou marcado com elas é apagado e a demonstração volta ao estado
+      inicial. Não envie documentos verdadeiros.
     </p>
 
     <h2>Contato</h2>
