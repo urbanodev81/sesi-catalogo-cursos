@@ -22,14 +22,14 @@ Link do Figma; imagens e ícones (em `frontend/public/assets/`); informações f
 
 ## 3. Desafio
 
-- [ ] Front-end baseado no Figma (responsividade e acessibilidade)
+- [x] Front-end baseado no Figma (responsividade e acessibilidade)
 - [x] Back-end em C#/.NET
 - [x] API para consulta dos cursos
 - [x] Banco de dados de código aberto (PostgreSQL)
 - [x] Integração front-end ↔ API ↔ banco
 - [ ] Publicação da aplicação
-- [ ] Documentação técnica
-- [ ] Registro do uso de IA (`USO_DE_IA.md`)
+- [x] Documentação técnica
+- [x] Registro do uso de IA (`USO_DE_IA.md`)
 
 ## 4. Informações para o desenvolvimento
 
@@ -37,7 +37,7 @@ Link do Figma; imagens e ícones (em `frontend/public/assets/`); informações f
 público-alvo; status; imagem de apresentação; data de disponibilização, quando aplicável.
 
 **b) Mínimo:** 6 cursos; 3 categorias; 2 modalidades; 3 status; cargas horárias, módulos, descrições de
-aulas e públicos-alvo diferentes. Todos os dados fictícios. *(Hoje: 8 cursos, 4 categorias,
+aulas e públicos-alvo diferentes. Todos os dados fictícios. *(Hoje: 12 cursos, 4 categorias,
 3 modalidades, 3 status — coberto por teste.)*
 
 **c) Funcionalidades obrigatórias:**
@@ -52,7 +52,7 @@ aulas e públicos-alvo diferentes. Todos os dados fictícios. *(Hoje: 8 cursos, 
 - [x] Mensagem quando nenhum curso for encontrado
 - [x] Estado de carregamento
 - [x] Mensagem em caso de erro
-- [ ] Interface funcional em diferentes tamanhos de tela *(base pronta; validar contra o Figma)*
+- [x] Interface funcional em diferentes tamanhos de tela *(1440, 390 e 320 px; mobile desenhado com as peças do Figma)*
 - Não é necessário cadastro, edição ou exclusão de cursos.
 
 **d) `USO_DE_IA.md`:** ferramenta; objetivo; prompts relevantes (aproveitado/descartado); como foi

@@ -1,7 +1,6 @@
 # Uso de Inteligência Artificial
 
-> Registro feito durante o desenvolvimento, etapa por etapa. Falta a etapa do layout do Figma, que
-> ainda não foi feita. As linhas marcadas com *(a completar)* entram junto com ela.
+> Registro feito durante o desenvolvimento, etapa por etapa.
 
 ## Ferramenta utilizada
 
@@ -16,7 +15,7 @@ e dos textos. As decisões e a revisão foram minhas: o que entrava, o que volta
 | Leitura do edital | Ler o PDF, o e-mail e o pacote de arquivos; transcrever tudo para `docs/DESAFIO.md`, com um checklist | Conferir a transcrição contra o original |
 | Arquitetura | Avaliar o edital e propor a stack e a hospedagem gratuita | Aceitar a proposta (.NET 10 + PostgreSQL + Vue 3, front servido pela API, Render + Neon) e pedir para começar |
 | Back-end | Gerar entidades, endpoints, seed fictício e testes de integração | Revisar as regras: filtro inválido = 400, ordenação por status, busca sem acento |
-| Front-end | Gerar cliente da API, estado de busca/filtros e telas base | Layout provisório até ter as telas do Figma; decidir mandar prints do protótipo, que a IA não consegue abrir. *(a completar na etapa do Figma)* |
+| Front-end | Gerar cliente da API, estado de busca/filtros e telas base; depois, montar home, listagem, página do curso e tela de aula a partir dos prints do Figma, e propor como fazer a listagem (que o protótipo não tem) só com peças dele | Mandar os prints do protótipo, que a IA não consegue abrir; escolher fazer a tela de aula completa, com progresso no navegador e sem login; revisar cada diferença em relação ao Figma listada no README |
 | Ambiente | Escrever `preparar.sh`, que deixa uma máquina sem nada pronta com um comando | Usá-lo para continuar o trabalho em outra máquina |
 | Otimização de assets | Converter PNG (3–4 MB) em WebP de 1200 px e TTF em woff2 com subset Latin, sem dependência nova no projeto (scripts avulsos via `uvx`) | Largura pelo maior uso real (detalhe, 1200 px); conferir visualmente a qualidade e que os eixos `wght`/`wdth` e os acentos sobreviveram ao subset |
 | Auditoria de acessibilidade | Rodar axe-core por Playwright em todas as telas/estados (desktop e mobile) e medir o que o axe não cobre: reflow a 320 px, alvos de toque, ordem de Tab, foco após navegar. Ferramenta em pasta temporária, fora das dependências do projeto | Aceitar as duas correções (nível de título, alvo de 44 px) e conferir no print que o visual não mudou |
@@ -42,17 +41,31 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    banco" fica num arquivo só.
    **Aproveitado:** busca contra uma coluna normalizada (`NomeBusca`) em vez da extensão `unaccent` do
    PostgreSQL. Funciona em qualquer Postgres gerenciado gratuito, sem permissão de criar extensão.
-   **Descartado:** os textos dos cursos, que a IA inventou porque não tinha acesso ao Figma. Eles serão
-   trocados pelos dados fictícios do protótipo *(a completar)*.
+   **Descartado:** os textos dos cursos, que a IA inventou porque não tinha acesso ao Figma. Foram
+   trocados pelos dados fictícios do protótipo quando os prints chegaram (migration `CatalogoDoFigma`).
 3. **Escolha "Mando prints das telas"**, numa pergunta da IA sobre como seguir com o visual. O link do
    Figma é de protótipo e não abre fora do navegador, então a IA não montou telas "no escuro". Ela
    esperou os prints, porque o edital cobra fidelidade e justificativa para cada diferença.
 4. **"Não consegue baixar e preparar tudo para mim?"**, na troca de máquina. Virou o `preparar.sh`.
 5. **Escolha das quatro frentes finais** (publicar, README/USO_DE_IA, auditoria de acessibilidade,
    layout do Figma). A auditoria veio antes do layout de propósito: o que ela corrigiu (estrutura de
-   títulos, área clicável) continua valendo com qualquer visual. Ela será rodada de novo depois.
+   títulos, área clicável) continua valendo com qualquer visual. Ela foi rodada de novo depois do layout
+   (achado nº 10 abaixo).
+6. **Prints do Figma, com "a página do curso fiel ao Figma e a tela de aula completa"**. A IA percebeu
+   que os cursos dos prints eram os "dados fictícios do catálogo" que o edital diz estarem no Figma, e
+   propôs alinhar o seed a eles antes do visual.
+   **Aproveitado:** o protótipo não tem a listagem com busca e filtros, e o edital pede para não criar
+   design novo. A listagem foi montada com o hero, os cards e o campo de busca que o protótipo já tem.
+   **Aproveitado:** o progresso das aulas atrás de uma interface (`RepositorioProgresso`), guardado no
+   navegador por enquanto. O login, se entrar, troca só a implementação.
+   **Decidido por mim:** "Matricule-se" leva à primeira aula, que é o fluxo do protótipo. Num sistema
+   real, levaria à matrícula no Moodle.
 
 ## Como o conteúdo foi validado
+
+- **Teste de interação** (Playwright, fora do projeto): busca, filtros combinados, limpar, lista vazia,
+  filtro inválido, abrir o curso, matricular-se, concluir aula, progresso após recarregar, busca de aula,
+  painel da aula no celular, acordeão por teclado, ordem de Tab.
 
 - **Testes de integração** (`tests/`): 27 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
@@ -107,3 +120,14 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    `scroll-margin-top` do CSS, mas o vue-router rola com `scrollTo` e ignora essa propriedade. O teste
    de interação mediu a seção em 0 px do topo, embaixo do cabeçalho. **Correção:** o recuo de 72 px
    passado no `scrollBehavior` do router.
+10. **Foco que pulava o "Pular para o conteúdo".** Para o leitor de tela acompanhar a troca de página, a
+    IA move o foco para o `<main>` quando a rota muda. Mas, ao abrir uma página direto pelo link, a
+    primeira resolução da rota (de `/` para a URL aberta) também contava como troca. O foco já começava
+    no conteúdo, e o primeiro Tab ia para o meio da página. O axe não acusa isso; quem pegou foi o teste
+    de ordem de Tab na reauditoria depois do layout. **Correção:** o foco só se move em navegações
+    depois de `router.isReady()` (commit `12bfee4`).
+11. **Botão que nunca resolveria o erro.** Com um filtro inválido na URL (ex.: link antigo com uma
+    categoria que não existe), a tela mostrava "Não foi possível carregar os cursos" com "Tentar
+    novamente". Tentar de novo dá o mesmo 400, para sempre. O teste de interação mostrou o problema.
+    **Correção:** o cliente lê a mensagem do campo que a API já devolvia ("Categoria 'xpto' não
+    existe.") e a tela oferece "Limpar filtros" no lugar de "Tentar novamente".

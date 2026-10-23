@@ -1,13 +1,17 @@
 # Catálogo de cursos — SESI Indústria
 
-> **Pendente:** o layout fiel ao Figma e a publicação. As seções marcadas com *(a completar)* dependem
-> de uma das duas; o resto descreve o código como ele está.
+> **Pendente:** a publicação (URL abaixo). O resto descreve o código como ele está.
 
 ## Objetivo da aplicação
 
 Aplicação web para o Centro de Tecnologias e Educação Digital (CTED) apresentar o catálogo de cursos do
 ambiente virtual de aprendizagem. O usuário consulta, pesquisa pelo nome, filtra por categoria,
-modalidade e status (combináveis) e abre os detalhes de cada curso, com módulos e aulas.
+modalidade e status (combináveis) e abre os detalhes de cada curso, com módulos e aulas. Além do
+requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navegação entre aulas e progresso
+guardado no navegador.
+
+Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
+`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula).
 
 - **Aplicação publicada:** *(a completar)*
 - **Requisito original:** [`docs/DESAFIO.md`](docs/DESAFIO.md)
@@ -37,7 +41,7 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
   Em desenvolvimento, o Vite repassa `/api` para a API (proxy).
 - **Migrations ao iniciar:** a API aplica as migrations (schema e catálogo fictício) quando sobe, porque
   a hospedagem gratuita não dá terminal para rodar comandos à mão.
-- **A URL como estado:** busca e filtros ficam na query string (`/?busca=matematica&modalidade=ead`).
+- **A URL como estado:** busca e filtros ficam na query string (`/cursos?busca=matematica&modalidade=ead`).
   O link é compartilhável e o "voltar" do navegador desfaz o último filtro.
 
 ## Estrutura das pastas
@@ -53,7 +57,9 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 │   ├── public/assets/          imagens, ícones e logos do material do Figma
 │   └── src/
 │       ├── api/                cliente HTTP e tipos espelhando os DTOs
-│       ├── composables/        useCatalogo: busca, filtros, estados, sincronia com a URL
+│       ├── composables/        useCatalogo (busca, filtros, estados, URL) e useCarrossel
+│       ├── conteudo/           texto institucional do Figma (não é dado do catálogo)
+│       ├── progresso/          progresso nas aulas, atrás de uma interface (hoje no navegador)
 │       ├── components/ views/  telas e componentes
 │       └── estilos/            tokens, fonte Open Sans, base de acessibilidade
 ├── database/catalogo.sql       script SQL completo (schema + dados), gerado das migrations
@@ -155,16 +161,33 @@ aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única 
 
 ## Estratégia de responsividade
 
-*(a completar após o alinhamento com o Figma)* Base atual: mobile-first; os filtros passam de uma coluna
-(celular) para duas (tablet) e para uma linha (≥ 1024 px); grade de cards com
-`auto-fill/minmax(300px)`; tipografia fluida com `clamp()`; imagens com proporção fixa (`aspect-ratio`),
-sem salto de layout.
+O protótipo só tem telas de desktop (1440 px); as versões menores foram desenhadas aqui com as mesmas
+peças, sem criar componente visual novo.
+
+- **Mobile-first em CSS puro**, sem framework: uma folha (`estilos/base.css`) com tokens de cor e espaço.
+  Os pontos de quebra são onde o conteúdo pede, não por aparelho: 640 px (filtros em duas colunas),
+  900 px (hero e "Sobre o curso" em duas colunas, barra lateral da aula fixa) e 1024 px (filtros numa
+  linha só).
+- **Grades que se ajustam sozinhas:** cards da listagem com `repeat(auto-fill, minmax(272px, 1fr))` (uma
+  coluna no celular, quatro em 1440 px); diferenciais com `auto-fit`.
+- **Tipografia fluida com `clamp()`:** o título do hero vai de 40 px a 80 px sem degraus.
+- **Carrosséis com `scroll-snap`:** no toque, o dedo arrasta; no desktop, as setas do Figma rolam um card
+  por vez. Sem biblioteca.
+- **Telas que mudam de forma:** no celular, o menu vira um botão "Menu"; a barra lateral da aula vira um
+  painel aberto por "Conteúdo do curso"; a barra de matrícula mostra o nome breve do curso.
+- **Imagens com `aspect-ratio`** e `width`/`height` no HTML: o layout não pula quando elas carregam.
+- Verificado em 1440, 390 e 320 px (reflow da WCAG 1.4.10: nenhuma página rola na horizontal).
 
 ## Decisões de acessibilidade
 
 Implementado:
 - HTML semântico: `header`/`main`/`footer`, `form role="search"`, lista de cursos em `ul`, ficha do curso
-  em `dl`, módulos em `details/summary` (teclado nativo).
+  em `dl`, acordeão em `details/summary` (abre por teclado e leitor de tela sem JavaScript).
+- Hierarquia de títulos sem saltos em todas as páginas (o card é `h3` no carrossel da home e `h2` na
+  listagem, pela posição na página).
+- Tela de aula: progresso em `role="progressbar"` com texto ("11% concluído, 1 de 9 aulas"), aula atual
+  com `aria-current="page"`, aula concluída anunciada como "(concluída)", módulos com `aria-expanded`.
+- Botão de play e seta de voltar só com ícone têm nome acessível em texto oculto.
 - Todo campo tem `label` visível; a contagem de resultados fica em `role="status"` e o leitor de tela a
   anuncia a cada busca ou filtro; erro em `role="alert"`.
 - Link "Pular para o conteúdo"; ao trocar de página, o foco vai para o conteúdo principal e o título da
@@ -174,13 +197,15 @@ Implementado:
 - Imagens decorativas com `alt=""`; links que abrem em nova aba avisam no texto.
 
 **Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
-regras WCAG 2.0/2.1/2.2 A e AA mais boas práticas, rodado por Playwright em todas as telas e estados —
-catálogo, busca, filtros combinados, lista vazia, filtro inválido, detalhe, curso inexistente e 404 — em
-1280 px e 390 px. Complementado com o que o axe não mede: rolagem horizontal a 320 px (reflow, WCAG
+regras WCAG 2.0/2.1/2.2 A e AA mais boas práticas, rodado por Playwright em 14 telas e estados — home,
+listagem, busca, filtros combinados, lista vazia, filtro inválido, curso (aberto, em breve, encerrado e
+inexistente, com os acordeões abertos), aula, aula inexistente, área do aluno e 404 — em 1440 px e 390 px. Complementado com o que o axe não mede: rolagem horizontal a 320 px (reflow, WCAG
 1.4.10), tamanho de todo alvo clicável, ordem de tabulação e foco após trocar de página.
 Achados e correções:
 - Títulos pulavam de nível (`h1` da página → `h3` no card): o título do card passou a `h2`.
 - Logo do topo e link da trilha tinham 19 px de altura clicável: passaram a 44 px sem mudar o visual.
+- Abrir uma página direto pelo link (não a home) já levava o foco ao conteúdo, e o "Pular para o
+  conteúdo" ficava para trás: a primeira resolução da rota contava como troca de página. Corrigido.
 
 Resultado: zero violações e nenhum alvo abaixo de 44 px.
 
@@ -224,15 +249,35 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
   (`/api/cursos`) não precisaria mudar.
 - **Sem paginação:** o catálogo fictício é pequeno e a lista volta inteira. Com centenas de cursos, a API
   ganharia `pagina` e `tamanho`, e o total já está separado dos itens para isso.
+- **Progresso das aulas só no navegador:** sem login (o edital não pede), o progresso fica no
+  `localStorage` e não acompanha o aluno em outro aparelho. Ele está atrás da interface
+  `RepositorioProgresso`, então guardar na API é trocar a implementação, não as telas.
 - **Testes automatizados só no back-end.** O front é verificado por compilação estrita (`vue-tsc`) e
   pela auditoria de acessibilidade descrita acima, não por testes de componente.
 - **Somente leitura:** não há cadastro, edição nem exclusão de cursos, como o edital dispensa; os dados
   mudam por migration.
-- **Diferenças em relação ao Figma** *(casca e home; as outras páginas entram junto com o layout delas)*:
+- **Diferenças em relação ao Figma:**
+  - **Listagem de cursos montada com peças do protótipo.** O Figma não tem a página com busca e filtros
+    (só "Ver todos os cursos" apontando para ela). Como o edital pede para não criar design novo, ela usa
+    o hero da home em versão curta, os cards de "Principais cursos" e o campo de busca em pílula da tela
+    de aula. O card da listagem ganha uma linha com modalidade, carga horária e status, porque são os
+    filtros da página e o usuário precisa ver por que um curso apareceu.
+  - **Página do curso com mais informações no hero.** O protótipo mostra só "Início do curso" e
+    "Certificação"; entraram modalidade, carga horária, status e público-alvo, que o edital lista como
+    informações do curso. Os ícones dessas linhas não vêm no pacote e foram desenhados no mesmo traço.
+    A trilha "Cursos / nome breve" também é nossa, para quem chega por link direto.
+  - **"Matricule-se" e o play levam à primeira aula.** Não há login nem Moodle; esse é o fluxo do
+    protótipo (curso → aula). Curso em breve ou encerrado não mostra o botão nem a barra fixa, e sim um
+    aviso (o encerrado aponta para os cursos com inscrições abertas).
+  - **Textos do acordeão escritos aqui.** O protótipo só mostra os títulos fechados de "Módulos", "Aulas
+    online e avaliações" e "Dúvidas frequentes". Módulos vêm da API; os outros dois são texto genérico.
+  - **Tela de aula:** o status "atual" vale para a aula aberta, e o progresso conta as aulas concluídas
+    pelo botão "Concluir". O banner é o mesmo em todas as aulas (o pacote traz um só). Acrescentamos o
+    botão de concluir e os links para a aula anterior e a próxima, que o protótipo não mostra.
   - **Fotos repetidas.** O pacote traz só três fotos (hero, banner do AVA e capa do vídeo), então os
     cards reaproveitam essas três. Cada card do protótipo tem uma foto própria.
-  - **Sem botão de play na chamada final.** O protótipo mostra um vídeo, mas nenhum vídeo foi fornecido.
-    Um botão de play que não toca nada seria uma promessa falsa, então fica só a imagem.
+  - **Sem botão de play na chamada final da home.** O protótipo mostra um vídeo, mas nenhum vídeo foi
+    fornecido, e ali não há aula para onde levar. Um play que não toca nada seria uma promessa falsa.
   - **Rodapé só com links que levam a algum lugar.** Blog, Termos de Uso, Política de Privacidade e
     Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
@@ -243,5 +288,5 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     de azul e de verde.
   - **Quinto depoimento completado.** O print corta o card; o fim do texto e o sobrenome foram escritos
     no mesmo tom dos outros.
-  - **Versão para celular desenhada aqui.** O protótipo só tem desktop. No celular, o menu vira um botão
-    "Menu", e os carrosséis passam a ser arrastados com o dedo (as setas continuam).
+  - **Versões para celular desenhadas aqui.** O protótipo só tem desktop (ver "Estratégia de
+    responsividade").

@@ -39,17 +39,16 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Acessibilidade não é polimento: rótulo em todo campo, contagem em `role=status`, foco visível,
   foco no `<main>` ao trocar de página, alvo de toque ≥ 44px, `prefers-reduced-motion`.
 
-## Estado (21/10/2026)
+## Estado (23/10/2026)
 
-- Back-end completo para o requisito: API, banco, seed, migrations, script SQL, 27 testes verdes.
-- Front funcional (catálogo, filtros, detalhe, estados) com **layout provisório** — aguardando as telas
-  do Figma (o protótipo não abre por fetch; o Ricardo exporta os frames em PNG).
-- Assets otimizados (22/10): imagens em WebP 1200 px (~10 MB → 154 KB), Open Sans em woff2 com subset
-  Latin (1,1 MB → 192 KB). Migration `ImagensWebp` só troca as URLs do seed.
-- Auditoria de acessibilidade (axe zerado), README e USO_DE_IA feitos em 22/10, exceto o que depende do Figma.
-- Publicação preparada (22/10): `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via
-  `DATABASE_URL`; `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8. Falta o Ricardo criar as contas.
-- Casca (cabeçalho/rodapé) e home fiéis ao Figma (22/10): `/` é a home, o catálogo foi para `/cursos`.
-  Texto institucional em `frontend/src/conteudo/institucional.ts`; carrossel = scroll-snap + `useCarrossel`.
-- Falta: layout fiel ao Figma (listagem, detalhe, aula), seed com os cursos do Figma,
-  URL publicada no README, repo público antes da entrega.
+- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 27 testes verdes.
+- Front fiel ao Figma: home (`/`), listagem (`/cursos`, montada com peças do Figma — o protótipo não a tem),
+  curso (`/cursos/:slug`) e aula (`/cursos/:slug/modulos/:m/aulas/:a`, sem casca, `meta.semCasca`).
+  Progresso das aulas no localStorage atrás de `progresso/RepositorioProgresso` (trocar pela API se o login entrar).
+  Texto institucional em `frontend/src/conteudo/institucional.ts`; ícones de traço em `IconeLinha.vue`.
+- Assets otimizados (WebP 1200 px, Open Sans woff2 Latin). Auditoria a11y refeita em 23/10 (14 telas × 1440/390,
+  axe zerado, reflow 320 px, ordem de Tab). README (com "diferenças em relação ao Figma") e USO_DE_IA completos.
+- Publicação preparada: `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via `DATABASE_URL`;
+  `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8.
+- Falta: o Ricardo criar Neon + Render, URL publicada no README, repo público antes da entrega.
+  Login aluno/professor é opcional, depois disso.
