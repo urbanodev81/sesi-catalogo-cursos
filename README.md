@@ -107,7 +107,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 27 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 38 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco

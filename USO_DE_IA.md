@@ -69,9 +69,9 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   filtro inválido, abrir o curso, matricular-se, concluir aula, progresso após recarregar, busca de aula,
   painel da aula no celular, acordeão por teclado, ordem de Tab.
 
-- **Testes de integração** (`tests/`): 27 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 38 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
-  3 status), a busca, os filtros combinados, as respostas 400/404 e o detalhe com módulos.
+  3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos e o login (sessão, papéis, limite de tentativas, progresso).
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
 - **Execução real** com `docker compose`: cada rota conferida por HTTP (SPA, API, assets, OpenAPI),
   com leitura dos logs do contêiner.

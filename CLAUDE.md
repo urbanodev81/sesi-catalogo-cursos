@@ -22,7 +22,7 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 27 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 38 testes; sobem Postgres próprio (Testcontainers)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -41,7 +41,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 
 ## Estado (23/10/2026)
 
-- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 27 testes verdes.
+- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 38 testes verdes.
 - Front fiel ao Figma: home (`/`), listagem (`/cursos`, montada com peças do Figma — o protótipo não a tem),
   curso (`/cursos/:slug`) e aula (`/cursos/:slug/modulos/:m/aulas/:a`, sem casca, `meta.semCasca`).
   Progresso das aulas no localStorage atrás de `progresso/RepositorioProgresso` (trocar pela API se o login entrar).
@@ -50,5 +50,6 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   axe zerado, reflow 320 px, ordem de Tab). README (com "diferenças em relação ao Figma") e USO_DE_IA completos.
 - Publicação preparada: `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via `DATABASE_URL`;
   `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8.
+- Login de demonstração (aluno e professor) na `main` desde 23/10: cookie HttpOnly, PasswordHasher, 5 logins/min
+  por IP, contas do seed com senha `sesi2026` (`Dados/ContasDeDemonstracao.cs`); 38 testes.
 - Falta: o Ricardo criar Neon + Render, URL publicada no README, repo público antes da entrega.
-  Login aluno/professor é opcional, depois disso.
