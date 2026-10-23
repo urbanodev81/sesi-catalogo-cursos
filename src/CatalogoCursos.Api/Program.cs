@@ -74,10 +74,14 @@ app.UseStatusCodePages();
 
 // Migrations (schema + catálogo fictício) aplicadas ao subir: a hospedagem gratuita
 // não dá shell para rodar `dotnet ef database update` à mão.
-if (app.Configuration.GetValue("Banco:MigrarAoIniciar", true))
+// Na publicação, a demonstração também volta ao seed a cada boot (ver DemoRestaurada).
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
-    await scope.ServiceProvider.GetRequiredService<CatalogoContext>().Database.MigrateAsync();
+    var db = scope.ServiceProvider.GetRequiredService<CatalogoContext>();
+    if (app.Configuration.GetValue("Banco:MigrarAoIniciar", true))
+        await db.Database.MigrateAsync();
+    if (app.Configuration.GetValue("Demo:RestaurarAoIniciar", false))
+        await DemoRestaurada.Executar(db);
 }
 
 app.UseAuthentication();

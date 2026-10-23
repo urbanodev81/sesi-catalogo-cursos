@@ -14,6 +14,9 @@ services:
       # A imagem escuta na 8080 (ASPNETCORE_HTTP_PORTS no Dockerfile); PORT diz ao Render para onde rotear.
       - key: PORT
         value: "8080"
+      # A senha das contas de demonstração é pública: a cada boot, o que os visitantes mudaram volta ao seed.
+      - key: Demo__RestaurarAoIniciar
+        value: "true"
       # postgresql://usuario:senha@host/banco?sslmode=require — copiada do painel do Neon, nunca commitada.
       - key: DATABASE_URL
         sync: false
