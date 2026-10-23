@@ -1581,6 +1581,309 @@ h3 {
   flex: 0 0 clamp(48px, 10vw, 100px);
 }
 
+/* ---------- Painel do aluno: avaliações, documentos, colegas e perfil ---------- */
+.pagina-hero__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.painel-aluno {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  align-items: start;
+}
+@media (min-width: 1000px) {
+  .painel-aluno {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* Documentos ocupam a coluna da direita inteira; avaliações e colegas empilham na esquerda. */
+  .painel-aluno > :nth-child(2) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+.painel-bloco {
+  align-content: start;
+}
+.painel-bloco .cartao__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.painel-bloco .cartao__titulo .icone-linha {
+  color: var(--vermelho);
+}
+.painel-bloco__contagem {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+.painel-bloco__resumo {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.primeira-maiuscula::first-letter {
+  text-transform: uppercase;
+}
+
+.avaliacoes,
+.documentos,
+.colegas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.avaliacoes li {
+  display: flex;
+  gap: 1rem;
+  padding-block: 0.875rem;
+  border-top: 1px solid var(--borda);
+}
+.avaliacoes li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.avaliacoes__dia {
+  flex: none;
+  width: 3.5rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: var(--raio);
+  background: var(--vermelho);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+.avaliacoes__titulo {
+  font-weight: 600;
+}
+.avaliacoes__info,
+.documentos__info {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.avaliacoes__info a,
+.documentos__info a {
+  color: inherit;
+  font-weight: 600;
+}
+.avaliacoes__tipo {
+  display: inline-block;
+  margin-right: 0.375rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: var(--bege);
+  color: #5c3a00;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.documentos__regra {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.documentos li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding-block: 0.875rem;
+  border-top: 1px solid var(--borda);
+}
+.documentos__texto {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+.documentos__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+.documentos__info a {
+  overflow-wrap: anywhere;
+}
+.documentos__aviso {
+  margin-top: 0.25rem !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--verde);
+}
+.documentos__aviso--erro {
+  color: var(--vermelho-escuro);
+}
+.documentos label.botao {
+  cursor: pointer;
+}
+/* O input de arquivo está oculto; o foco dele aparece no rótulo, que é o botão visível. */
+.documentos input:focus-visible + label {
+  outline: 3px solid var(--vermelho);
+  outline-offset: 2px;
+}
+.documentos input:disabled + label {
+  opacity: 0.6;
+  cursor: default;
+}
+.selo--ok {
+  background: #dff3e6;
+  color: var(--verde);
+}
+.selo--pendente {
+  background: #fde7e6;
+  color: var(--vermelho-escuro);
+}
+
+.colegas li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.625rem;
+}
+.colegas__avatar {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fundo-suave);
+  border: 1px solid var(--borda);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+.colegas__ponto {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #a1a1aa;
+}
+.colegas__ponto--online {
+  background: #16a34a;
+}
+.colegas__nome {
+  display: block;
+  font-weight: 600;
+}
+.colegas__info {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.colegas__info strong {
+  font-weight: 600;
+}
+.colegas__online {
+  color: var(--verde);
+}
+
+.perfil {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .perfil {
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  }
+}
+.perfil__dados {
+  justify-items: start;
+}
+.perfil__avatar {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--vermelho);
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.perfil__lista {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  width: 100%;
+}
+.perfil__lista div {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--borda);
+}
+.perfil__lista dt {
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+.perfil__lista dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.perfil__nota {
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+.perfil__resumo .secao__titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.perfil__numeros {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+}
+.perfil__numeros .cartao {
+  gap: 0.25rem;
+}
+.perfil__numeros strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+.perfil__numeros span {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.perfil__numero--alerta strong {
+  color: var(--vermelho-escuro);
+}
+.perfil__proxima {
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+.perfil__rotulo {
+  font-size: 0.75rem !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vermelho-escuro);
+}
+.perfil__proxima-titulo {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+.perfil__proxima a {
+  color: inherit;
+  font-weight: 600;
+}
+
 /* ---------- Rodapé ---------- */
 .rodape {
   background: var(--vinho-rodape);

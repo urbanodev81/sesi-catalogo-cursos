@@ -1,11 +1,16 @@
 import type {
   AulaConteudo,
   AulaMarcada,
+  Avaliacao,
+  Colega,
   ConsultaCursos,
   CursoDetalhe,
+  Documento,
+  Envio,
   Filtros,
   ListaCursos,
   MeuCurso,
+  Perfil,
   Progresso,
   Turma,
   Usuario,
@@ -32,6 +37,7 @@ export class ErroApi extends Error {
 /** Mensagem do ProblemDetails da API ("E-mail ou senha incorretos."), com texto próprio para o 429. */
 async function mensagemDoProblema(resposta: Response) {
   if (resposta.status === 429) return 'Muitas tentativas seguidas. Espere um minuto e tente de novo.'
+  if (resposta.status === 413) return 'O arquivo passa de 2 MB. Envie uma versão menor.'
   try {
     const corpo = (await resposta.json()) as { detail?: string }
     if (corpo.detail) return corpo.detail
@@ -81,7 +87,7 @@ async function obter<T>(caminho: string, sinal?: AbortSignal, init?: RequestInit
 
   if (resposta.status === 404) throw new ErroApi('Conteúdo não encontrado.', true)
   if (resposta.status === 400) throw new ErroApi(await mensagemDeValidacao(resposta), false, true)
-  if (resposta.status === 401 || resposta.status === 409 || resposta.status === 429) {
+  if ([401, 409, 413, 422, 429].includes(resposta.status)) {
     throw new ErroApi(await mensagemDoProblema(resposta), false, false, resposta.status)
   }
   if (!resposta.ok) throw new ErroApi('Não foi possível carregar os cursos agora. Tente novamente.', false, false, resposta.status)
@@ -126,3 +132,19 @@ const base = (slug: string) => `/api/cursos/${encodeURIComponent(slug)}`
 export const obterProgresso = (slug: string) => obter<Progresso>(`${base(slug)}/progresso`)
 export const matricular = (slug: string) => enviar(`${base(slug)}/matricula`)
 export const concluirAula = (slug: string, aula: AulaMarcada) => enviar(`${base(slug)}/progresso`, aula)
+
+// ---------- Painel do aluno ----------
+
+export const obterAvaliacoes = (sinal?: AbortSignal) => obter<Avaliacao[]>('/api/aluno/avaliacoes', sinal)
+export const obterDocumentos = (sinal?: AbortSignal) => obter<Documento[]>('/api/aluno/documentos', sinal)
+export const obterColegas = (sinal?: AbortSignal) => obter<Colega[]>('/api/aluno/colegas', sinal)
+export const obterPerfil = (sinal?: AbortSignal) => obter<Perfil>('/api/aluno/perfil', sinal)
+export const enviarPresenca = () => enviar('/api/conta/presenca')
+export const urlDoArquivo = (documento: number) => `/api/aluno/documentos/${documento}/arquivo`
+
+/** Multipart, sem Content-Type à mão: o navegador põe o boundary. */
+export const enviarDocumento = (documento: number, arquivo: File) => {
+  const corpo = new FormData()
+  corpo.append('arquivo', arquivo)
+  return obter<Envio>(`/api/aluno/documentos/${documento}`, undefined, { method: 'POST', body: corpo })
+}

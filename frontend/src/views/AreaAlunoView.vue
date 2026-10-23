@@ -3,6 +3,9 @@ import { computed, nextTick, onBeforeUnmount, ref, shallowRef, watch } from 'vue
 import { RouterLink } from 'vue-router'
 import { ErroApi, obterMeusCursos, obterTurmas } from '../api/cliente'
 import type { MeuCurso, Turma } from '../api/tipos'
+import ColegasTurma from '../components/aluno/ColegasTurma.vue'
+import DocumentosPendentes from '../components/aluno/DocumentosPendentes.vue'
+import ProximasAvaliacoes from '../components/aluno/ProximasAvaliacoes.vue'
 import { useSessao } from '../conta/sessao'
 
 // Login de demonstração (não é requisito do edital): o aluno vê os cursos que está fazendo e o
@@ -90,7 +93,10 @@ const formatarData = (iso: string) =>
         <p v-else-if="usuario">Continue de onde parou.</p>
         <p v-else>Entre para acompanhar o seu progresso nos cursos.</p>
       </div>
-      <button v-if="usuario" type="button" class="botao botao--claro" @click="aoSair">Sair</button>
+      <div v-if="usuario" class="pagina-hero__acoes">
+        <RouterLink v-if="usuario.papel === 'aluno'" :to="{ name: 'perfil' }" class="botao botao--claro">Meu perfil</RouterLink>
+        <button type="button" class="botao botao--claro" @click="aoSair">Sair</button>
+      </div>
     </div>
   </section>
 
@@ -137,7 +143,8 @@ const formatarData = (iso: string) =>
     </div>
 
     <!-- ---------- Aluno: meus cursos ---------- -->
-    <section v-else-if="usuario.papel === 'aluno'" aria-labelledby="titulo-meus">
+    <template v-else-if="usuario.papel === 'aluno'">
+    <section aria-labelledby="titulo-meus">
       <h2 id="titulo-meus" class="secao__titulo">Meus cursos</h2>
       <div v-if="meusCursos.length === 0" class="aviso">
         <p>Você ainda não começou nenhum curso.</p>
@@ -178,6 +185,14 @@ const formatarData = (iso: string) =>
         </li>
       </ul>
     </section>
+
+    <!-- Cada bloco carrega sozinho: um que falhe não derruba os outros. -->
+    <div class="painel-aluno">
+      <ProximasAvaliacoes />
+      <DocumentosPendentes />
+      <ColegasTurma />
+    </div>
+    </template>
 
     <!-- ---------- Professor: turmas ---------- -->
     <section v-else aria-labelledby="titulo-turmas">

@@ -6,6 +6,7 @@ import BotaoTopo from './components/BotaoTopo.vue'
 import CabecalhoSite from './components/CabecalhoSite.vue'
 import ProgressoNavegacao from './components/ProgressoNavegacao.vue'
 import RodapeSite from './components/RodapeSite.vue'
+import { manterPresenca } from './conta/presenca'
 import { carregarSessao } from './conta/sessao'
 
 // Troca de página numa SPA não move o foco: o leitor de tela continuaria no link
@@ -15,6 +16,7 @@ import { carregarSessao } from './conta/sessao'
 // troca de página, e mover o foco ali pularia o "Pular para o conteúdo".
 const route = useRoute()
 carregarSessao()
+manterPresenca()
 useRouter()
   .isReady()
   .then(() =>

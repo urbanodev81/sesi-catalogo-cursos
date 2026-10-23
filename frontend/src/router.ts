@@ -32,6 +32,12 @@ export const router = createRouter({
       meta: { titulo: 'Área do aluno' },
     },
     {
+      path: '/area-do-aluno/perfil',
+      name: 'perfil',
+      component: () => import('./views/PerfilView.vue'),
+      meta: { titulo: 'Meu perfil' },
+    },
+    {
       path: '/:caminho(.*)*',
       name: 'nao-encontrado',
       component: () => import('./views/NaoEncontradoView.vue'),

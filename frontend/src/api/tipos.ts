@@ -122,3 +122,46 @@ export interface Turma {
   totalAulas: number
   alunos: AlunoProgresso[]
 }
+
+// ---------- Painel do aluno ----------
+
+export interface Avaliacao {
+  id: number
+  titulo: string
+  tipo: Opcao
+  /** ISO 8601 com fuso. */
+  em: string
+  cursoSlug: string
+  cursoNome: string
+}
+
+export interface Envio {
+  nomeArquivo: string
+  tamanho: number
+  em: string
+}
+
+export interface Documento {
+  id: number
+  titulo: string
+  orientacao: string
+  /** null enquanto o aluno não enviou. */
+  envio: Envio | null
+}
+
+export interface Colega {
+  nome: string
+  online: boolean
+  /** Nome breve dos cursos em comum. */
+  cursos: string[]
+}
+
+export interface Perfil {
+  nome: string
+  email: string
+  alunoDesde: string | null
+  cursos: number
+  aulasConcluidas: number
+  documentosPendentes: number
+  proximaAvaliacao: Avaliacao | null
+}
