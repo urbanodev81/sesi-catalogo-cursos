@@ -1383,6 +1383,10 @@ h3 {
   padding-top: 1.5rem;
   border-top: 1px solid var(--borda);
 }
+.aula-conteudo__erro {
+  color: var(--vermelho-escuro);
+  font-weight: 600;
+}
 .aula-conteudo__feita {
   font-weight: 600;
   color: var(--verde);
@@ -1417,6 +1421,164 @@ h3 {
 .aula-vizinha--proxima {
   grid-column: -2;
   text-align: right;
+}
+
+/* ---------- Área do aluno (login de demonstração) ---------- */
+.pagina-hero__linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.area {
+  padding-block: 2.5rem 5rem;
+}
+.area__login {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .area__login {
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+.cartao {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: #fff;
+  box-shadow: var(--sombra);
+}
+.cartao--suave {
+  background: var(--fundo-suave);
+  box-shadow: none;
+}
+.cartao p {
+  margin: 0;
+}
+.cartao__titulo {
+  font-size: 1.25rem;
+  margin: 0;
+}
+.area__erro {
+  color: var(--vermelho-escuro);
+  font-weight: 600;
+}
+.area__demo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.area__demo li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.area__demo strong {
+  display: block;
+  font-size: 0.8125rem;
+}
+
+.meus-cursos {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+.meu-curso {
+  align-content: start;
+}
+.meu-curso .botao,
+.meu-curso .etiqueta {
+  justify-self: start;
+}
+.meu-curso__nome {
+  font-size: 1.125rem;
+  margin: 0;
+}
+.meu-curso__nome a {
+  color: inherit;
+}
+.meu-curso__progresso {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.meu-curso__fim {
+  font-weight: 600;
+  color: var(--verde);
+}
+.barra-progresso.barra-progresso--clara {
+  background: #e4e4e7;
+}
+.barra-progresso--clara span {
+  background: var(--texto);
+}
+
+.turma {
+  margin-top: 2rem;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+.turma__titulo {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  font-size: 1.0625rem;
+}
+.turma__titulo a {
+  color: inherit;
+}
+.turma__titulo small {
+  display: block;
+  margin-top: 0.25rem;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.turma__rolagem {
+  overflow-x: auto;
+}
+.turma table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.turma th,
+.turma td {
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  border-top: 1px solid var(--borda);
+}
+.turma thead th {
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+  background: var(--fundo-suave);
+}
+.turma tbody th {
+  font-weight: 600;
+}
+.turma__pct {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.turma__pct .barra-progresso {
+  flex: 0 0 clamp(48px, 10vw, 100px);
 }
 
 /* ---------- Rodapé ---------- */

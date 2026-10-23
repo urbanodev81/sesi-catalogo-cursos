@@ -47,15 +47,22 @@ watch(
 onBeforeUnmount(() => controle?.abort())
 
 // ---------- Progresso ----------
-const { concluidas, concluir, concluida } = useProgresso(() => props.slug)
+const { concluidas, concluir, concluida, erro: erroProgresso } = useProgresso(() => props.slug)
 const totalAulas = computed(() => curso.value?.modulos.reduce((soma, m) => soma + m.aulas.length, 0) ?? 0)
 const percentual = computed(() =>
   totalAulas.value ? Math.round((concluidas.value.size / totalAulas.value) * 100) : 0,
 )
 const atualConcluida = computed(() => concluida(props.modulo, props.aula))
 
-function concluirAula() {
-  concluir(props.modulo, props.aula)
+const erroConclusao = ref('')
+async function concluirAula() {
+  erroConclusao.value = ''
+  try {
+    await concluir(props.modulo, props.aula)
+  } catch (e) {
+    erroConclusao.value = e instanceof ErroApi ? e.message : 'Não foi possível salvar o progresso.'
+    return
+  }
   const proxima = aulaAtual.value?.proxima
   if (proxima) router.push(rotaAula(proxima.modulo, proxima.aula))
 }
@@ -202,6 +209,9 @@ const blocos = computed(() => {
         </template>
 
         <div class="aula-conteudo__acoes">
+          <p v-if="erroProgresso || erroConclusao" class="aula-conteudo__erro" role="alert">
+            {{ erroConclusao || erroProgresso }}
+          </p>
           <button v-if="!atualConcluida" type="button" class="botao botao--escuro" @click="concluirAula">
             {{ aulaAtual.proxima ? 'Concluir e ir para a próxima' : 'Concluir aula' }}
           </button>

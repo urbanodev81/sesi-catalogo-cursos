@@ -545,6 +545,86 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.AulaConcluida", b =>
+                {
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AulaId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("Em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UsuarioId", "AulaId");
+
+                    b.HasIndex("AulaId");
+
+                    b.ToTable("aulas_concluidas", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UsuarioId = 1,
+                            AulaId = 44,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 1,
+                            AulaId = 45,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 1,
+                            AulaId = 48,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 9, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 44,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 45,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 46,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 47,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 13, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 48,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            AulaId = 49,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 3,
+                            AulaId = 44,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 13, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Categoria", b =>
                 {
                     b.Property<int>("Id")
@@ -886,6 +966,62 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>
+                {
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("Em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UsuarioId", "CursoId");
+
+                    b.HasIndex("CursoId");
+
+                    b.ToTable("matriculas", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UsuarioId = 1,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 1,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 2,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 3,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UsuarioId = 3,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 14, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0))
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Modulo", b =>
                 {
                     b.Property<int>("Id")
@@ -1118,6 +1254,76 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.Property<string>("Papel")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("SenhaHash")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("usuarios", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "aluno@exemplo.com",
+                            Nome = "Ana Souza",
+                            Papel = "Aluno",
+                            SenhaHash = "AQAAAAIAAYagAAAAEOb51gKldn8woOxHCSHZRI1DnQRXeDjueJZt8bZ3R8lAz0As3qZOkHSshi+Fpamvzg=="
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "bruno@exemplo.com",
+                            Nome = "Bruno Lima",
+                            Papel = "Aluno",
+                            SenhaHash = "AQAAAAIAAYagAAAAEPu3q9CXXw7l+/F2R5+biUqAuC+pDEl71uD0giWmCL5kEXSwdDoq/cwlHAfF2CPR5w=="
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "carla@exemplo.com",
+                            Nome = "Carla Mendes",
+                            Papel = "Aluno",
+                            SenhaHash = "AQAAAAIAAYagAAAAEE5huoRfewrTExs2BLiy+VlYscDO4M4hssQ8gYQiAecqk9HoeTU2tkjRh55I2b1FyQ=="
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "professor@exemplo.com",
+                            Nome = "Marina Rocha",
+                            Papel = "Professor",
+                            SenhaHash = "AQAAAAIAAYagAAAAEDLXTpaZWRhgbZXeY0sygV6DDAbITcS830+mCHniMcEJEm9cVKkFyHHjjgsvT0KC6w=="
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Aula", b =>
                 {
                     b.HasOne("CatalogoCursos.Api.Dominio.Modulo", null)
@@ -1125,6 +1331,23 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .HasForeignKey("ModuloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.AulaConcluida", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.Aula", "Aula")
+                        .WithMany()
+                        .HasForeignKey("AulaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CatalogoCursos.Api.Dominio.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aula");
                 });
 
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Curso", b =>
@@ -1136,6 +1359,25 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.Curso", "Curso")
+                        .WithMany()
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CatalogoCursos.Api.Dominio.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curso");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Modulo", b =>

@@ -82,3 +82,43 @@ export interface ConsultaCursos {
   modalidade?: string
   status?: string
 }
+
+// ---------- Conta (login de demonstração) ----------
+
+export interface Usuario {
+  nome: string
+  email: string
+  papel: 'aluno' | 'professor'
+}
+
+export interface AulaMarcada {
+  modulo: number
+  aula: number
+}
+
+export interface Progresso {
+  matriculado: boolean
+  /** "modulo.aula", ex.: "1.2". */
+  concluidas: string[]
+}
+
+export interface MeuCurso {
+  curso: CursoResumo
+  totalAulas: number
+  concluidas: number
+  /** Primeira aula ainda não concluída; null quando terminou o curso. */
+  proxima: AulaMarcada | null
+}
+
+export interface AlunoProgresso {
+  nome: string
+  concluidas: number
+  ultimaAtividade: string | null
+}
+
+export interface Turma {
+  slug: string
+  nome: string
+  totalAulas: number
+  alunos: AlunoProgresso[]
+}

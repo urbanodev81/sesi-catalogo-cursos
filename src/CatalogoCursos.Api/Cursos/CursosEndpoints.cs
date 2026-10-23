@@ -149,7 +149,7 @@ public static class CursosEndpoints
             Rotulos.TodosStatus.Select(s => new Opcao(s.Valor, s.Rotulo)).ToList()));
     }
 
-    private static CursoResumoDto Resumo(Curso c)
+    internal static CursoResumoDto Resumo(Curso c)
     {
         var modalidade = Rotulos.De(c.Modalidade);
         var status = Rotulos.De(c.Status);

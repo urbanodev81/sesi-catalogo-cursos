@@ -298,6 +298,24 @@ public static class DadosIniciais
             ]),
     ];
 
+    /// <summary>Id que o seed dá ao curso (posição na lista, a partir de 1).</summary>
+    public static int IdCurso(string slug) => Array.FindIndex(Cursos, c => c.Slug == slug) + 1;
+
+    /// <summary>Id que o seed dá à aula: a mesma contagem sequencial de <see cref="Aplicar"/>.</summary>
+    public static int IdAula(string slug, int modulo, int aula)
+    {
+        var id = 0;
+        foreach (var c in Cursos)
+            for (var m = 0; m < c.Modulos.Length; m++)
+                for (var a = 0; a < c.Modulos[m].Aulas.Length; a++)
+                {
+                    id++;
+                    if (c.Slug == slug && m + 1 == modulo && a + 1 == aula)
+                        return id;
+                }
+        throw new ArgumentException($"Aula {modulo}.{aula} de '{slug}' não existe no seed.");
+    }
+
     public static void Aplicar(ModelBuilder mb)
     {
         mb.Entity<Categoria>().HasData(Categorias);
