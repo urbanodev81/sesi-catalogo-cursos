@@ -224,6 +224,10 @@ Implementado:
   aba muda.
 - Card clicável inteiro, mas com nome acessível só no título (o link cobre o card por `::after`).
 - Foco visível em tudo, alvos de toque com pelo menos 44 px e `prefers-reduced-motion` respeitado.
+- "Voltar ao topo" (aparece depois de rolar 600 px): tem nome acessível e leva o foco ao conteúdo
+  principal, para o foco do teclado não sumir junto com o botão. A rolagem é suave, salvo com movimento
+  reduzido. A barra de carregamento entre páginas é `aria-hidden`, porque a troca já é anunciada pelo
+  título da aba e pelo foco.
 - Imagens decorativas com `alt=""`; links que abrem em nova aba avisam no texto.
 
 **Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
@@ -315,6 +319,12 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
     Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
+  - **Barra de carregamento entre páginas e botão "voltar ao topo".** Não estão no protótipo. As páginas
+    fora da home são baixadas sob demanda, e no primeiro acesso a cada uma (pior no plano gratuito)
+    nada indicava que o clique tinha funcionado. A barra é uma linha de 3 px no vermelho do Figma e só
+    aparece se a troca passar de 180 ms. O botão usa o vermelho e o raio do próprio layout e, na página
+    do curso, fica acima da barra de matrícula. Barra e não tela de carregamento por cima do conteúdo:
+    um overlay esconde o que ainda está legível e pisca quando a página chega rápido.
   - **"Área do aluno"** leva a uma página provisória, porque o login não faz parte do requisito.
   - **Cores das categorias Linguagens e Sustentabilidade.** O protótipo só mostra as etiquetas de
     Matemática (bege) e Ciências da Natureza (lilás). As outras duas seguem a mesma lógica, em tom claro

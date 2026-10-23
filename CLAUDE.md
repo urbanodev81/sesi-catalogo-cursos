@@ -54,4 +54,6 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   por IP, contas do seed com senha `sesi2026` (`Dados/ContasDeDemonstracao.cs`); 38 testes.
 - Publicado em 23/10: https://sesi-catalogo-cursos-yict.onrender.com (Render, Blueprint, conta GitHub urbanodev81;
   Neon us-east-1, string sem pooler). Deploy automático a cada push na `main`.
+- Barra de carregamento entre páginas (`ProgressoNavegacao`, 180 ms de carência) e "voltar ao topo"
+  (`BotaoTopo`) desde 23/10. Modo escuro, redes flutuantes e painel de a11y avaliados e recusados (USO_DE_IA nº 7).
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.

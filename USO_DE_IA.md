@@ -62,12 +62,24 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    o fez numa branch separada (`login`), para eu decidir se entra na entrega.
    **Decidido por mim:** "Matricule-se" leva à primeira aula, que é o fluxo do protótipo. Num sistema
    real, levaria à matrícula no Moodle.
+7. **"Olhe nossos outros projetos, estou pensando em aplicar algumas coisas nossas, como acessibilidade,
+   light/dark mode, botão de redes sociais e subir e descer suavemente, além do loading quando muda de
+   tela. O que acha?"** A IA levantou como esses recursos foram feitos em outros sites meus e pesou cada
+   um contra a regra do edital de não criar design novo.
+   **Aproveitado:** a barra de carregamento entre páginas e o "voltar ao topo", que são pequenos e
+   resolvem problemas reais (rotas carregadas sob demanda; páginas longas no celular).
+   **Descartado:** o modo escuro, que seria uma segunda paleta fora do Figma; o botão flutuante de redes
+   sociais, que repetiria o rodapé do protótipo sem nenhum destino real; o botão de "descer", que a
+   rolagem do navegador já resolve. **Decidido por mim:** o painel de acessibilidade com VLibras ficou
+   de fora, mesmo recomendado pela IA.
 
 ## Como o conteúdo foi validado
 
 - **Teste de interação** (Playwright, fora do projeto): busca, filtros combinados, limpar, lista vazia,
   filtro inválido, abrir o curso, matricular-se, concluir aula, progresso após recarregar, busca de aula,
-  painel da aula no celular, acordeão por teclado, ordem de Tab.
+  painel da aula no celular, acordeão por teclado, ordem de Tab. Barra de carregamento e "voltar ao topo"
+  em 1440 e 390 px: a barra aparece com a tela atrasada e some ao chegar, o botão leva ao topo com o foco
+  no conteúdo, e na página do curso não cobre a barra de matrícula em nenhuma posição de rolagem.
 
 - **Testes de integração** (`tests/`): 38 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
