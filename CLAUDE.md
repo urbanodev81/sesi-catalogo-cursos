@@ -49,5 +49,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Auditoria de acessibilidade (axe zerado), README e USO_DE_IA feitos em 22/10, exceto o que depende do Figma.
 - Publicação preparada (22/10): `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via
   `DATABASE_URL`; `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8. Falta o Ricardo criar as contas.
-- Falta: layout fiel ao Figma (faltam telas de catálogo, detalhe e mobile), seed com os cursos do Figma,
+- Casca (cabeçalho/rodapé) e home fiéis ao Figma (22/10): `/` é a home, o catálogo foi para `/cursos`.
+  Texto institucional em `frontend/src/conteudo/institucional.ts`; carrossel = scroll-snap + `useCarrossel`.
+- Falta: layout fiel ao Figma (listagem, detalhe, aula), seed com os cursos do Figma,
   URL publicada no README, repo público antes da entrega.

@@ -94,3 +94,16 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    aplica todas as migrations, em sequência, num banco novo. **Correção:** a migration `CatalogoDoFigma`
    remove os dois índices de ordem no começo e os recria no fim, dentro da mesma transação. Depois, o
    `catalogo.sql` regerado foi aplicado num banco vazio para conferir.
+7. **Página mais larga que a tela no celular.** No carrossel de depoimentos, a IA escreveu a nota
+   "5 de 5" num texto só para leitor de tela (`position: absolute`), sem um ancestral posicionado dentro
+   do carrossel. O texto escapou do recorte da rolagem e esticou a página para 1193 px numa tela de
+   390 px. O axe não acusa isso; quem pegou foi o print em 390 px, e depois a medição eliminando cada
+   carrossel. **Correção:** `position: relative` no card do depoimento.
+8. **Botões com a cor errada por ordem no CSS.** Os modificadores `.botao--claro` e `.botao--contorno`
+   foram escritos antes da regra `.botao` no arquivo. Com a mesma especificidade, a última regra ganha, e
+   os três botões da home saíram vermelhos em vez de brancos. O build passou; o print mostrou o erro.
+   **Correção:** seletor `.botao.botao--claro`, que não depende da ordem.
+9. **Âncora escondida atrás do cabeçalho fixo.** O link "Sobre" (`/#sobre`) contava com o
+   `scroll-margin-top` do CSS, mas o vue-router rola com `scrollTo` e ignora essa propriedade. O teste
+   de interação mediu a seção em 0 px do topo, embaixo do cabeçalho. **Correção:** o recuo de 72 px
+   passado no `scrollBehavior` do router.

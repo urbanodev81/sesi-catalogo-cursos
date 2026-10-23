@@ -6,6 +6,6 @@ import { RouterLink } from 'vue-router'
   <div class="container aviso">
     <h1>Página não encontrada</h1>
     <p>O endereço acessado não existe.</p>
-    <RouterLink to="/" class="botao">Ir para o catálogo</RouterLink>
+    <RouterLink to="/" class="botao">Ir para a página inicial</RouterLink>
   </div>
 </template>

@@ -228,4 +228,20 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
   pela auditoria de acessibilidade descrita acima, não por testes de componente.
 - **Somente leitura:** não há cadastro, edição nem exclusão de cursos, como o edital dispensa; os dados
   mudam por migration.
-- **Diferenças em relação ao Figma:** *(a completar junto com o layout)*
+- **Diferenças em relação ao Figma** *(casca e home; as outras páginas entram junto com o layout delas)*:
+  - **Fotos repetidas.** O pacote traz só três fotos (hero, banner do AVA e capa do vídeo), então os
+    cards reaproveitam essas três. Cada card do protótipo tem uma foto própria.
+  - **Sem botão de play na chamada final.** O protótipo mostra um vídeo, mas nenhum vídeo foi fornecido.
+    Um botão de play que não toca nada seria uma promessa falsa, então fica só a imagem.
+  - **Rodapé só com links que levam a algum lugar.** Blog, Termos de Uso, Política de Privacidade e
+    Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
+    conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
+    Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
+  - **"Área do aluno"** leva a uma página provisória, porque o login não faz parte do requisito.
+  - **Cores das categorias Linguagens e Sustentabilidade.** O protótipo só mostra as etiquetas de
+    Matemática (bege) e Ciências da Natureza (lilás). As outras duas seguem a mesma lógica, em tom claro
+    de azul e de verde.
+  - **Quinto depoimento completado.** O print corta o card; o fim do texto e o sobrenome foram escritos
+    no mesmo tom dos outros.
+  - **Versão para celular desenhada aqui.** O protótipo só tem desktop. No celular, o menu vira um botão
+    "Menu", e os carrosséis passam a ser arrastados com o dedo (as setas continuam).

@@ -41,7 +41,7 @@ const formatarData = (iso: string) =>
 <template>
   <div class="container detalhe">
     <nav aria-label="Trilha de navegação" class="trilha">
-      <RouterLink to="/">Catálogo de cursos</RouterLink>
+      <RouterLink :to="{ name: 'catalogo' }">Catálogo de cursos</RouterLink>
       <span aria-hidden="true"> / </span>
       <span aria-current="page">{{ detalhe?.curso.nomeBreve ?? 'Curso' }}</span>
     </nav>
@@ -51,7 +51,7 @@ const formatarData = (iso: string) =>
     <div v-else-if="estado === 'nao-encontrado'" class="aviso">
       <h1>Curso não encontrado</h1>
       <p>O curso procurado não existe ou foi removido do catálogo.</p>
-      <RouterLink to="/" class="botao">Ver todos os cursos</RouterLink>
+      <RouterLink :to="{ name: 'catalogo' }" class="botao">Ver todos os cursos</RouterLink>
     </div>
 
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">

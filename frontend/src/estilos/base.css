@@ -1,7 +1,8 @@
 /*
- * Base provisória: cores tiradas dos SVGs do material (vermelho #D00602, bege #FCD19C)
- * e a Open Sans fornecida. O layout final segue o Figma; aqui ficam os tokens, o reset
- * e o que é acessibilidade (foco, contraste, movimento reduzido), que não muda com o layout.
+ * Cores dos SVGs do material (vermelho #D00602, bege #FCD19C) e dos prints do Figma
+ * (vinho das faixas, card dos depoimentos, fundo do rodapé), com a Open Sans fornecida.
+ * Aqui ficam os tokens, o reset, a casca (cabeçalho e rodapé) e o que é acessibilidade
+ * (foco, contraste, movimento reduzido).
  */
 @font-face {
   font-family: 'Open Sans';
@@ -28,6 +29,11 @@
   --fundo-suave: #f5f5f5;
   --borda: #d9d9d9;
   --verde: #1b6e3a;
+  --vinho: #8a0000;
+  --vinho-card: #c3202e;
+  --vinho-rodape: #1f0000;
+  --vermelho-card: #a00018;
+  --altura-topo: 72px;
   --raio: 8px;
   --sombra: 0 2px 8px rgb(0 0 0 / 0.08);
   font-family: 'Open Sans', system-ui, sans-serif;
@@ -91,19 +97,487 @@ h3 {
   top: 1rem;
 }
 
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Cabeçalho ---------- */
 .topo {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #fff;
   border-bottom: 1px solid var(--borda);
+  transition: background-color 0.2s ease;
+}
+/* Na home ele flutua sobre o hero (o hero sobe por baixo dele, ver .inicio-hero). */
+.topo--transparente {
+  background: transparent;
+  border-color: transparent;
+  color: #fff;
 }
 .topo__barra {
   display: flex;
   align-items: center;
-  min-height: 72px;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--altura-topo);
 }
 /* Logo tem 19px de altura; o link cresce até o alvo de toque de 44px. */
 .topo__marca {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+}
+.topo__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.topo__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+.topo__nav a:hover,
+.topo__nav a[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.topo__nav .topo__aluno {
+  margin-left: 0.5rem;
+  padding-inline: 1rem;
+  border: 1px solid #8a8a8f;
+  border-radius: var(--raio);
+}
+.topo--transparente .topo__aluno {
+  border-color: rgb(255 255 255 / 0.7);
+}
+.topo--transparente :focus-visible {
+  outline-color: #fff;
+}
+.topo__menu {
+  display: none;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: var(--raio);
+  min-height: 44px;
+  padding: 0 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.topo__hamburguer,
+.topo__hamburguer::before,
+.topo__hamburguer::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+}
+.topo__hamburguer::before,
+.topo__hamburguer::after {
+  content: '';
+  position: absolute;
+}
+.topo__hamburguer::before {
+  top: -6px;
+}
+.topo__hamburguer::after {
+  top: 6px;
+}
+@media (max-width: 767px) {
+  .topo__menu {
+    display: inline-flex;
+  }
+  .topo__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    color: var(--texto);
+    border-bottom: 1px solid var(--borda);
+    box-shadow: var(--sombra);
+  }
+  .topo__nav--aberto {
+    display: block;
+  }
+  .topo__nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1rem 1rem;
+  }
+  .topo__nav .topo__aluno {
+    margin: 0.5rem 0 0;
+    justify-content: center;
+  }
+}
+
+/* ---------- Home ---------- */
+.inicio-hero {
+  /* Sobe por baixo do cabeçalho transparente e devolve a altura dele no padding. */
+  margin-top: calc(-1 * var(--altura-topo));
+  padding-block: calc(var(--altura-topo) + clamp(3rem, 8vw, 6.5rem)) clamp(3rem, 8vw, 7rem);
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgb(165 20 26 / 0.95) 35%, rgb(190 10 10 / 0.8)),
+    url('/assets/imagens/hero-image.webp') center right / cover;
+}
+.inicio-hero h1 {
+  font-size: clamp(2.5rem, 6.5vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 11ch;
+  margin-bottom: 1.5rem;
+}
+.inicio-hero p {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  max-width: 36ch;
+  margin: 0 0 2.5rem;
+}
+
+.botao img {
+  margin-left: 0.5rem;
+}
+/* .botao.botao--x: os modificadores vêm antes de .botao no arquivo e perderiam na cascata. */
+.botao.botao--claro,
+.botao.botao--claro:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--texto);
+}
+.botao.botao--claro:hover {
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.35);
+}
+.botao.botao--contorno {
+  background: #fff;
+  color: var(--texto);
+  border: 1px solid #8a8a8f;
+  font-weight: 500;
+}
+.botao.botao--contorno:hover {
+  background: var(--fundo-suave);
+  border-color: var(--texto);
+}
+
+.secao {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+.secao__titulo {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+}
+.secao__sobretitulo {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.secao__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.secao__rodape--fim {
+  justify-content: flex-end;
+}
+
+/*
+ * Trilho do carrossel: ocupa a largura da tela (o último card "vaza" à direita, como no
+ * Figma) e alinha o primeiro card com o container pelo padding.
+ */
+.trilho {
+  --recuo: max(1rem, (100% - 1200px) / 2);
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0.5rem var(--recuo) 1rem;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--recuo);
+  scrollbar-width: none;
+}
+.trilho::-webkit-scrollbar {
+  display: none;
+}
+.trilho > li {
+  flex: 0 0 min(80vw, 272px);
+  scroll-snap-align: start;
+}
+.trilho:focus-visible {
+  outline-offset: -3px;
+}
+
+.setas {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.setas__botao {
+  background: none;
+  border: 0;
+  padding: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+.setas__botao:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.setas--claras img {
+  filter: invert(1);
+}
+.setas--claras .setas__botao:focus-visible {
+  outline-color: #fff;
+}
+
+.destaque {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 370px;
+  border-radius: var(--raio);
+  overflow: hidden;
+  color: #fff;
+  background: var(--vermelho-card);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.12);
+  transition: transform 0.15s ease;
+  isolation: isolate; /* camadas: foto (-2), degradê (-1), texto; o link (::after) cobre o card */
+}
+.destaque:hover,
+.destaque:focus-within {
+  transform: translateY(-3px);
+}
+.destaque:has(.card__link:focus-visible) {
+  outline: 3px solid var(--vermelho);
+  outline-offset: 2px;
+}
+.destaque__imagem {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+/* Degradê do Figma: foto em cima, vermelho sólido onde fica o texto (garante o contraste). */
+.destaque::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgb(160 0 24 / 0.15) 0%, rgb(160 0 24 / 0.6) 30%, var(--vermelho-card) 58%);
+}
+.destaque__texto {
+  padding: 1.5rem;
+}
+.destaque__titulo {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 1rem;
+}
+.destaque__resumo {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+.destaque--esqueleto {
+  background: linear-gradient(90deg, var(--fundo-suave) 25%, #e9e9e9 50%, var(--fundo-suave) 75%);
+  background-size: 200% 100%;
+  animation: brilho 1.2s infinite;
+  box-shadow: none;
+}
+.destaque--esqueleto::before {
+  content: none;
+}
+.destaque--todos {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: #fff;
+  color: var(--texto);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.destaque--todos::before {
+  content: none;
+}
+.destaque--todos:focus-visible {
+  outline-offset: -3px;
+}
+
+.etiqueta {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--texto);
+  background: var(--bege);
+}
+/* Matemática e Ciências da Natureza vêm do Figma; as outras duas seguem a mesma lógica (tom claro). */
+.etiqueta--ciencias-da-natureza {
+  background: #e3d4ff;
+}
+.etiqueta--linguagens {
+  background: #cfe3ff;
+}
+.etiqueta--sustentabilidade {
+  background: #cdebd4;
+}
+
+.impacto {
+  display: grid;
+  gap: 2.5rem;
+  scroll-margin-top: var(--altura-topo);
+}
+@media (min-width: 900px) {
+  .impacto {
+    grid-template-columns: 1fr 2.2fr;
+    gap: 5rem;
+  }
+}
+.impacto__chamada p {
+  font-size: 1.125rem;
+  margin: 0;
+}
+.impacto__numeros {
+  margin: 0;
+}
+.impacto__numeros div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 1rem;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--borda);
+}
+.impacto__numeros dd {
+  order: -1;
+  margin: 0;
+  font-size: clamp(1.75rem, 7vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.impacto__numeros dt {
+  font-size: clamp(0.875rem, 2.5vw, 1.0625rem);
+  font-weight: 600;
+}
+.diferenciais {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  scroll-margin-top: var(--altura-topo);
+}
+.diferenciais h3 {
+  font-size: 1rem;
+  margin: 1rem 0 0.25rem;
+}
+.diferenciais p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+
+.faixa-vinho {
+  background: var(--vinho);
+  color: #fff;
+}
+.faixa-vinho :focus-visible {
+  outline-color: #fff;
+}
+.depoimento {
+  position: relative; /* prende o texto .visualmente-oculto, senão ele escapa do trilho e alarga a página */
+  display: flex;
+  flex-direction: column;
+  min-height: 370px;
+  padding: 1.5rem;
+  border-radius: var(--raio);
+  background: var(--vinho-card);
+}
+.depoimento blockquote {
+  margin: 0 0 auto;
+  font-size: 1.0625rem;
+}
+.depoimento blockquote p {
+  margin: 0 0 1.5rem;
+}
+.depoimento__autor {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgb(255 255 255 / 0.88);
+}
+.depoimento__autor strong {
+  display: block;
+  color: #fff;
+}
+.depoimento__nota {
+  display: flex;
+  margin: 1rem 0 0;
+}
+
+.chamada {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
+}
+@media (min-width: 900px) {
+  .chamada {
+    grid-template-columns: 1fr 1.8fr;
+    gap: 2.5rem;
+  }
+}
+.chamada p {
+  font-size: 1.0625rem;
+  margin: 0 0 2rem;
+}
+.chamada__imagem {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--raio);
 }
 
 .hero {
@@ -410,22 +884,79 @@ dd .selo {
   color: var(--texto-suave);
 }
 
+/* ---------- Rodapé ---------- */
 .rodape {
-  background: var(--texto);
+  background: var(--vinho-rodape);
   color: #fff;
-  padding-block: 2rem;
+  padding-block: 3rem 1.5rem;
+  font-size: 0.875rem;
 }
-.rodape__barra {
+.rodape :focus-visible {
+  outline-color: #fff;
+}
+.rodape a {
+  color: inherit;
+  text-decoration: none;
+}
+.rodape a:hover {
+  text-decoration: underline;
+}
+.rodape__colunas {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.rodape__marca address {
+  font-style: normal;
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1.5rem;
+}
+.rodape__titulo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5rem;
+}
+.rodape nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rodape nav a {
+  display: inline-block;
+  padding-block: 0.25rem;
+  color: #d4c4c4;
+}
+/* Com mouse vale o espaçamento do Figma (28px por linha, acima dos 24px do WCAG 2.2 AA); no toque, 44px. */
+@media (pointer: coarse) {
+  .rodape nav a,
+  .rodape__marca a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+.rodape__base {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  margin-top: 2.5rem;
+}
+.rodape__base p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #d4c4c4;
 }
 .rodape__redes {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
 }
