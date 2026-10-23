@@ -99,7 +99,7 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   falso recusado com a mensagem da API, envio de PDF atualizando a contagem de pendentes, perfil, axe e
   ausência de rolagem horizontal em 1440 e 390 px.
 
-- **Testes de integração** (`tests/`): 46 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 48 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
   3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos e o login (sessão, papéis, limite de tentativas, progresso).
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.

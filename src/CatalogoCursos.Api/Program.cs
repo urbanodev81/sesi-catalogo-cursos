@@ -1,3 +1,4 @@
+using CatalogoCursos.Api;
 using System.Threading.RateLimiting;
 using CatalogoCursos.Api.Contas;
 using CatalogoCursos.Api.Cursos;
@@ -55,6 +56,18 @@ builder.Services.Configure<ForwardedHeadersOptions>(o =>
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+
+// Cabeçalhos de segurança em toda resposta (API e front). A CSP só libera, além da própria origem,
+// o VLibras do governo (vlibras.gov.br), que o painel de acessibilidade carrega.
+app.Use(async (http, next) =>
+{
+    var h = http.Response.Headers;
+    h["Content-Security-Policy"] = Seguranca.Csp;
+    h["X-Content-Type-Options"] = "nosniff";
+    h["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    h["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()";
+    await next();
+});
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 

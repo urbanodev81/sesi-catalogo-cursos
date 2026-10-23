@@ -22,7 +22,7 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 46 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 48 testes; sobem Postgres próprio (Testcontainers)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -41,7 +41,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 
 ## Estado (23/10/2026)
 
-- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 46 testes verdes.
+- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 48 testes verdes.
 - Front fiel ao Figma: home (`/`), listagem (`/cursos`, montada com peças do Figma — o protótipo não a tem),
   curso (`/cursos/:slug`) e aula (`/cursos/:slug/modulos/:m/aulas/:a`, sem casca, `meta.semCasca`).
   Progresso das aulas no localStorage atrás de `progresso/RepositorioProgresso` (trocar pela API se o login entrar).

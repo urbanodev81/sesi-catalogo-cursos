@@ -107,7 +107,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 46 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 48 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
@@ -155,6 +155,12 @@ Regras:
 - Valor de filtro desconhecido responde `400` (ProblemDetails) dizendo qual campo, em vez de uma lista
   vazia silenciosa.
 - A ordem é inscrições abertas → em breve → encerrado e, dentro de cada status, por nome.
+- **Cabeçalhos de segurança em toda resposta** (`Seguranca.cs`): CSP sem script inline, só com a própria
+  origem e o VLibras (o domínio do governo e o caminho do repositório oficial dele no jsDelivr), com
+  `frame-ancestors 'none'` contra clickjacking; `X-Content-Type-Options: nosniff`, `Referrer-Policy` e
+  `Permissions-Policy` sem câmera, microfone ou localização. As exceções que o VLibras exige
+  (`unsafe-eval`, `blob:`, `wasm`, iframe do avatar) foram medidas no navegador com o tradutor aberto,
+  até não sobrar violação.
 
 Exemplo: `GET /api/cursos?busca=matematica&modalidade=ead`
 
