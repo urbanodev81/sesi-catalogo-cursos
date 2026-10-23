@@ -22,7 +22,7 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 22 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 27 testes; sobem Postgres próprio (Testcontainers)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -41,7 +41,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 
 ## Estado (21/10/2026)
 
-- Back-end completo para o requisito: API, banco, seed, migrations, script SQL, 22 testes verdes.
+- Back-end completo para o requisito: API, banco, seed, migrations, script SQL, 27 testes verdes.
 - Front funcional (catálogo, filtros, detalhe, estados) com **layout provisório** — aguardando as telas
   do Figma (o protótipo não abre por fetch; o Ricardo exporta os frames em PNG).
 - Assets otimizados (22/10): imagens em WebP 1200 px (~10 MB → 154 KB), Open Sans em woff2 com subset

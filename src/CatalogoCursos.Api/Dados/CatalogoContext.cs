@@ -26,6 +26,7 @@ public class CatalogoContext(DbContextOptions<CatalogoContext> options) : DbCont
             e.Property(x => x.Slug).HasMaxLength(120);
             e.Property(x => x.NomeCompleto).HasMaxLength(200);
             e.Property(x => x.NomeBreve).HasMaxLength(80);
+            e.Property(x => x.Resumo).HasMaxLength(300);
             e.Property(x => x.PublicoAlvo).HasMaxLength(300);
             e.Property(x => x.ImagemUrl).HasMaxLength(300);
             e.Property(x => x.NomeBusca).HasMaxLength(300);

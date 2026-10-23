@@ -18,6 +18,8 @@ public class Curso
     public required string Slug { get; set; }
     public required string NomeCompleto { get; set; }
     public required string NomeBreve { get; set; }
+    /// <summary>Texto curto do card; a <see cref="Descricao"/> é o "Sobre o curso" da página de detalhe.</summary>
+    public required string Resumo { get; set; }
     public required string Descricao { get; set; }
     public int CategoriaId { get; set; }
     public Categoria Categoria { get; set; } = null!;
@@ -26,7 +28,7 @@ public class Curso
     public required string PublicoAlvo { get; set; }
     public StatusCurso Status { get; set; }
     public required string ImagemUrl { get; set; }
-    /// <summary>Só faz sentido para curso que ainda não abriu (status "em breve").</summary>
+    /// <summary>Início das aulas ("Início do curso" no Figma); vazio quando o curso já encerrou.</summary>
     public DateOnly? DataDisponibilizacao { get; set; }
 
     /// <summary>
@@ -54,6 +56,8 @@ public class Aula
     public int Ordem { get; set; }
     public required string Titulo { get; set; }
     public required string Descricao { get; set; }
+    /// <summary>Texto da aula: parágrafos separados por linha em branco; linha com "## " é subtítulo.</summary>
+    public required string Conteudo { get; set; }
 }
 
 public static class TextoBusca

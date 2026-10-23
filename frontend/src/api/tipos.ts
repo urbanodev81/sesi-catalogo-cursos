@@ -20,6 +20,9 @@ export interface CursoResumo {
   slug: string
   nomeCompleto: string
   nomeBreve: string
+  /** Texto curto do card. */
+  resumo: string
+  /** "Sobre o curso", na página de detalhe. */
   descricao: string
   categoria: Categoria
   modalidade: Opcao
@@ -27,7 +30,7 @@ export interface CursoResumo {
   publicoAlvo: string
   status: Opcao
   imagemUrl: string
-  /** ISO (AAAA-MM-DD), só em curso que ainda não abriu. */
+  /** Início do curso, ISO (AAAA-MM-DD); null quando já encerrou. */
   dataDisponibilizacao: string | null
 }
 
@@ -51,6 +54,26 @@ export interface Modulo {
 export interface CursoDetalhe {
   curso: CursoResumo
   modulos: Modulo[]
+}
+
+export interface AulaRef {
+  modulo: number
+  aula: number
+  titulo: string
+}
+
+export interface AulaConteudo {
+  cursoSlug: string
+  cursoNome: string
+  modulo: number
+  moduloTitulo: string
+  aula: number
+  titulo: string
+  descricao: string
+  /** Parágrafos separados por linha em branco; linha com "## " é subtítulo. */
+  conteudo: string
+  anterior: AulaRef | null
+  proxima: AulaRef | null
 }
 
 export interface ConsultaCursos {

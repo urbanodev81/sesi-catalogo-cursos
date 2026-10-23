@@ -77,7 +77,7 @@ const formatarData = (iso: string) =>
           <dd><span :class="['selo', `selo--${detalhe.curso.status.valor}`]">{{ detalhe.curso.status.rotulo }}</span></dd>
         </div>
         <div v-if="detalhe.curso.dataDisponibilizacao">
-          <dt>Disponível a partir de</dt>
+          <dt>Início do curso</dt>
           <dd><time :datetime="detalhe.curso.dataDisponibilizacao">{{ formatarData(detalhe.curso.dataDisponibilizacao) }}</time></dd>
         </div>
         <div><dt>Público-alvo</dt><dd>{{ detalhe.curso.publicoAlvo }}</dd></div>

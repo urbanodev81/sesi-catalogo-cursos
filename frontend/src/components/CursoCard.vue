@@ -19,7 +19,7 @@ defineProps<{ curso: CursoResumo }>()
           {{ curso.nomeCompleto }}
         </RouterLink>
       </h2>
-      <p class="card__descricao">{{ curso.descricao }}</p>
+      <p class="card__descricao">{{ curso.resumo }}</p>
       <ul class="card__meta">
         <li>{{ curso.modalidade.rotulo }}</li>
         <li>{{ curso.cargaHorariaHoras }} horas</li>

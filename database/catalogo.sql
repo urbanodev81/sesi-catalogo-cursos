@@ -374,3 +374,736 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    DROP INDEX "IX_aulas_ModuloId_Ordem";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    DROP INDEX "IX_modulos_CursoId_Ordem";
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    ALTER TABLE cursos ADD "Resumo" character varying(300) NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    ALTER TABLE aulas ADD "Conteudo" text NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = '## Boas-vindas
+
+    Neste curso, a matemática sai do caderno e vai para a bancada: cada conceito aparece ligado a uma peça, um instrumento ou um desenho técnico da metalurgia.
+
+    Ao final, você vai ler cotas, converter unidades, escolher o instrumento certo e interpretar tolerâncias com segurança.', "Descricao" = 'Como o curso funciona e o que você vai medir até o fim dele.', "Titulo" = 'Introdução'
+    WHERE "Id" = 1;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = '## Boas práticas
+
+    Se você está interessado em se aprofundar em Matemática para a Precisão, especialmente em Medidas e Escalas na Metalurgia, aqui estão algumas dicas para maximizar sua experiência online. Primeiro, crie um espaço de estudo livre de distrações, onde você possa se concentrar totalmente no material.
+
+    Estabeleça uma rotina de estudos, reservando horários específicos para assistir às aulas e realizar as atividades. Além disso, interaja com seus colegas e instrutores nos fóruns e chats disponíveis, pois isso enriquece o aprendizado e ajuda a esclarecer dúvidas. Não se esqueça de revisar o conteúdo regularmente e aplicar os conhecimentos em situações práticas sempre que possível.
+
+    Por fim, mantenha-se atualizado sobre as novas técnicas e normas em medidas e escalas na metalurgia, já que essa área está sempre evoluindo. Com dedicação e as estratégias corretas, você estará preparado para se destacar no setor!
+
+    ## Recomendações
+
+    Se você está interessado em se aprofundar na matemática aplicada à metalurgia, aqui estão algumas dicas valiosas. Primeiro, escolha um curso que ofereça uma abordagem prática, com aulas que incluam exercícios e estudos de caso. Isso ajudará a entender como aplicar medidas e escalas na prática. Além disso, verifique se o curso é reconhecido por instituições relevantes, pois isso pode impactar sua formação e carreira.
+
+    Outro aspecto importante é a experiência dos instrutores. Procure cursos que tenham profissionais com experiência no setor, pois eles podem compartilhar insights valiosos que vão além da teoria.
+
+    Considere também a carga horária e a flexibilidade do curso. Se você trabalha, um curso que ofereça aulas noturnas ou aos finais de semana pode ser mais conveniente.
+
+    Por fim, não se esqueça de se conectar com outros alunos e profissionais da área. Isso pode abrir portas e proporcionar um aprendizado ainda mais enriquecedor. Investir em um bom curso de matemática para a metalurgia é essencial para garantir precisão e eficiência no trabalho.', "Descricao" = 'Dicas para aproveitar melhor o estudo online.', "Titulo" = 'Boas práticas'
+    WHERE "Id" = 2;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = '## Materiais de apoio
+
+    Guarde a tabela de conversão entre milímetro, polegada e micrômetro: ela vai ser usada em quase todas as aulas.
+
+    O glossário reúne os termos de metrologia que aparecem no curso, como resolução, exatidão, incerteza e tolerância.', "Descricao" = 'Materiais de apoio: tabela de conversões e glossário.', "ModuloId" = 1, "Ordem" = 3, "Titulo" = 'Extras'
+    WHERE "Id" = 3;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O Sistema Internacional padroniza as unidades para que uma peça medida em São Paulo tenha a mesma medida em qualquer lugar.
+
+    Na metalurgia, o milímetro é a unidade de trabalho: desenhos, instrumentos e tolerâncias usam essa escala.', "Descricao" = 'Metro, quilograma e segundo no dia a dia da produção.', "Ordem" = 1, "Titulo" = 'O Sistema Internacional na oficina'
+    WHERE "Id" = 4;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Uma polegada vale 25,4 mm. Converter é multiplicar ou dividir por esse fator, e o erro mais comum é a vírgula no lugar errado.
+
+    ## Exercício
+
+    Converta 3/8" para milímetros e confira o resultado com o paquímetro na aula seguinte.', "Descricao" = 'Milímetro, polegada e micrômetro sem erro de vírgula.', "Ordem" = 2, "Titulo" = 'Conversão de unidades'
+    WHERE "Id" = 5;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O paquímetro mede dimensões externas, internas e de profundidade com resolução de 0,05 mm ou 0,02 mm.
+
+    A leitura soma a escala principal com o traço do nônio que coincide; apoiar a peça corretamente evita erro de paralaxe.', "Descricao" = 'Leitura do nônio e cuidados de medição.', "Titulo" = 'Paquímetro'
+    WHERE "Id" = 6;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O micrômetro chega a 0,01 mm e é o instrumento de quem controla ajuste de eixo e furo.
+
+    A catraca garante a mesma pressão de medição: apertar o tambor com a mão muda o resultado.', "Descricao" = 'Quando a precisão precisa ir além do paquímetro.', "Titulo" = 'Micrômetro'
+    WHERE "Id" = 7;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Escala 1:2 significa que o desenho tem metade do tamanho real; 2:1, o dobro. A cota sempre informa a medida real.
+
+    Medir o desenho com régua é um erro clássico: a escala serve para a proporção, não para a fabricação.', "Descricao" = 'Ampliação, redução e leitura de cotas.', "Titulo" = 'Escalas no desenho técnico'
+    WHERE "Id" = 8;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Tolerância é a variação permitida em torno da medida nominal. Um eixo de 20 mm com tolerância de ±0,05 mm é bom entre 19,95 e 20,05 mm.
+
+    Ajuste é a combinação de tolerâncias de eixo e furo: com folga, incerto ou com interferência.', "Descricao" = 'Quanto a peça pode variar e continuar boa.', "Titulo" = 'Tolerâncias e ajustes'
+    WHERE "Id" = 9;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Toda estampa corrida é um padrão que se repete: a unidade mínima, chamada rapport, é desenhada uma vez e replicada.
+
+    Identificar os eixos de simetria ajuda a prever como o desenho vai se comportar na peça pronta.', "Descricao" = 'Eixos de simetria e repetição em estampas.', "Titulo" = 'Simetria e padrões'
+    WHERE "Id" = 10;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Translação desloca, rotação gira e reflexão espelha. Combinadas, essas três operações geram quase todos os padrões têxteis.
+
+    ## Prática
+
+    Monte um padrão a partir de um único motivo usando só rotações de 90 graus.', "Descricao" = 'Translação, rotação e reflexão no desenho de estampas.', "ModuloId" = 5, "Ordem" = 2, "Titulo" = 'Transformações geométricas'
+    WHERE "Id" = 11;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O molde é uma figura plana que, costurada, cria volume. Retângulos, trapézios e curvas são calculados a partir das medidas do corpo.
+
+    A folga de costura é somada ao contorno, e esquecê-la muda o tamanho final da peça.', "Descricao" = 'Como medidas do corpo viram figuras planas.', "Ordem" = 1, "Titulo" = 'Do molde à peça'
+    WHERE "Id" = 12;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Encaixe é a arrumação dos moldes sobre o tecido. A área aproveitada dividida pela área total dá o rendimento do corte.
+
+    Pequenas rotações dos moldes, respeitando o fio do tecido, podem economizar metros em uma produção.', "Descricao" = 'Posicionar moldes para desperdiçar menos tecido.', "ModuloId" = 6, "Ordem" = 2, "Titulo" = 'Encaixe e aproveitamento'
+    WHERE "Id" = 13;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Medir todas as peças de um lote quase nunca é viável. A amostra precisa representar o lote: aleatória e do tamanho certo.
+
+    Amostra tirada só do começo do turno esconde o desgaste da ferramenta no fim dele.', "Descricao" = 'Como escolher uma amostra representativa do lote.', "Ordem" = 1, "Titulo" = 'Amostra e população'
+    WHERE "Id" = 14;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'A média diz onde o processo está; o desvio-padrão diz o quanto ele varia. Dois processos com a mesma média podem ter qualidades muito diferentes.
+
+    A mediana é menos sensível a valores extremos e ajuda a detectar medições fora do padrão.', "Descricao" = 'Média, mediana, amplitude e desvio-padrão.', "ModuloId" = 7, "Ordem" = 2, "Titulo" = 'Medidas de tendência e dispersão'
+    WHERE "Id" = 15;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'A carta de controle acompanha a média das amostras ao longo do tempo, com limites calculados a partir do próprio processo.
+
+    Ponto fora do limite, ou sete pontos seguidos do mesmo lado da média, são sinais de causa especial a investigar.', "Descricao" = 'Limites de controle e sinais de processo instável.', "Ordem" = 1, "Titulo" = 'Cartas de controle'
+    WHERE "Id" = 16;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Cp compara a tolerância com a variação do processo; Cpk considera também se o processo está centralizado.
+
+    Um Cpk abaixo de 1,33 costuma indicar que o processo produz peças fora da especificação com frequência.', "Descricao" = 'Cp e Cpk explicados com exemplos da indústria.', "ModuloId" = 8, "Ordem" = 2, "Titulo" = 'Capacidade do processo'
+    WHERE "Id" = 17;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'No encontro presencial, cada grupo mede um lote de peças, registra os dados e monta a carta de controle à mão.
+
+    A discussão final compara as cartas dos grupos e as causas de variação encontradas.', "Descricao" = 'Medição real de peças e montagem da carta de controle.', "Ordem" = 1, "Titulo" = 'Coleta em laboratório'
+    WHERE "Id" = 18;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Velocidade é distância por tempo; aceleração é a variação da velocidade. Uma ponte rolante que freia de repente balança a carga.
+
+    Calcular a aceleração ajuda a definir rampas de partida e parada mais seguras.', "Descricao" = 'O movimento das esteiras e pontes rolantes.', "Titulo" = 'Velocidade e aceleração'
+    WHERE "Id" = 19;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O atrito se opõe ao movimento e transforma energia em calor. É útil no freio e prejudicial no mancal.
+
+    Lubrificação correta reduz o atrito, a temperatura e a troca de componentes.', "Descricao" = 'Por que as peças aquecem e se desgastam.', "Titulo" = 'Força e atrito'
+    WHERE "Id" = 20;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Trabalho é força vezes deslocamento. Potência é esse trabalho dividido pelo tempo.
+
+    Conhecer a potência necessária evita superdimensionar motores e desperdiçar energia.', "Descricao" = 'Quanta energia uma prensa usa a cada golpe.', "Titulo" = 'Trabalho e potência das prensas'
+    WHERE "Id" = 21;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O forno transfere calor por condução, convecção e radiação. O isolamento térmico define quanto dessa energia se perde.
+
+    ## Segurança
+
+    Superfícies acima de 60 °C exigem proteção: o calor que se perde também queima.', "Descricao" = 'Temperatura, condução e perdas térmicas.', "Titulo" = 'Calor nos fornos'
+    WHERE "Id" = 22;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Cada fibra pede uma família de corantes: reativos para algodão, dispersos para poliéster, ácidos para lã e náilon.
+
+    A fixação depende de temperatura, tempo e auxiliares químicos no banho.', "Descricao" = 'Como a cor se liga à fibra.', "ModuloId" = 12, "Ordem" = 1, "Titulo" = 'Corantes e fixação'
+    WHERE "Id" = 23;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O pH muda a velocidade da reação e o aproveitamento do corante. Fora da faixa, a cor sai manchada ou mais clara.
+
+    Medir o pH no começo e no fim do banho é a forma mais barata de evitar retrabalho.', "Descricao" = 'O controle que define a cor final.', "Ordem" = 2, "Titulo" = 'pH do banho'
+    WHERE "Id" = 24;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Efluente de tinturaria carrega cor, sal e carga orgânica. O tratamento combina etapas físicas, químicas e biológicas.
+
+    Reduzir o volume de banho reduz também o volume de efluente a tratar.', "Descricao" = 'O que sai do processo e como tratar.', "ModuloId" = 13, "Ordem" = 1, "Titulo" = 'Tratamento de efluentes'
+    WHERE "Id" = 25;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Química verde busca reações com menos resíduos e menos substâncias perigosas.
+
+    Na prática: corantes de alta fixação, banhos mais curtos e reaproveitamento de água de enxágue.', "Descricao" = 'Trocar produtos e processos por alternativas menos agressivas.', "Ordem" = 2, "Titulo" = 'Química verde'
+    WHERE "Id" = 26;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Os átomos de um metal se organizam em redes cristalinas. O tipo de rede influencia ductilidade e resistência.
+
+    Defeitos nessa rede, longe de serem só problemas, são o que permite deformar o metal sem quebrá-lo.', "Descricao" = 'Redes cristalinas e o que elas explicam.', "ModuloId" = 14, "Ordem" = 1, "Titulo" = 'Arranjo atômico'
+    WHERE "Id" = 27;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Liga é a mistura de um metal com outros elementos. No aço, o teor de carbono muda dureza e soldabilidade.
+
+    Cromo e níquel dão resistência à corrosão; é a base do aço inoxidável.', "Descricao" = 'Aço, alumínio e o papel de cada elemento.', "Ordem" = 2, "Titulo" = 'Ligas metálicas'
+    WHERE "Id" = 28;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'No ensaio de tração, um corpo de prova é esticado até romper. O gráfico tensão × deformação mostra o comportamento do material.
+
+    O limite de escoamento indica até onde o material volta ao formato original.', "Descricao" = 'Limite de escoamento e resistência máxima.', "ModuloId" = 15, "Ordem" = 1, "Titulo" = 'Ensaio de tração'
+    WHERE "Id" = 29;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Dureza é a resistência à penetração. Cada escala usa um penetrador e uma carga diferentes.
+
+    Comparar valores de escalas diferentes exige tabela de conversão, nunca conta direta.', "Descricao" = 'Brinell, Rockwell e Vickers.', "Ordem" = 2, "Titulo" = 'Dureza'
+    WHERE "Id" = 30;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Em laboratório, as turmas fazem ensaios de dureza e observam amostras ao microscópio.
+
+    O relatório final relaciona a estrutura observada com as propriedades medidas.', "Descricao" = 'Identificação de materiais por ensaios simples.', "Titulo" = 'Ensaio prático'
+    WHERE "Id" = 31;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Texto técnico bom é o que não precisa ser relido. Frases curtas e voz ativa deixam claro quem faz o quê.
+
+    Uma ideia por parágrafo facilita a leitura de quem só passa os olhos.', "Descricao" = 'Frases curtas, voz ativa e uma ideia por parágrafo.', "ModuloId" = 17, "Ordem" = 1, "Titulo" = 'Clareza e objetividade'
+    WHERE "Id" = 32;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'O gestor quer a conclusão primeiro; o colega precisa do passo a passo; o cliente, da solução.
+
+    Antes de escrever, responda: quem vai ler e o que essa pessoa precisa decidir?', "Descricao" = 'Ajustar o texto para gestor, colega ou cliente.', "Ordem" = 2, "Titulo" = 'Adequação ao leitor'
+    WHERE "Id" = 33;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Um relatório técnico tem objetivo, método, resultados e conclusão. A conclusão responde ao objetivo.
+
+    Dados sem interpretação não são relatório; interpretação sem dados não é técnica.', "Descricao" = 'Estrutura, dados e conclusão que sustenta a decisão.', "ModuloId" = 18, "Ordem" = 1, "Titulo" = 'Relatório técnico'
+    WHERE "Id" = 34;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE aulas SET "Conteudo" = 'Cada passo do procedimento começa com um verbo e descreve uma única ação.
+
+    Teste o procedimento com alguém que não conhece a tarefa: onde a pessoa travar, o texto falhou.', "Descricao" = 'Passo a passo verificável e sem ambiguidade.', "Ordem" = 2, "Titulo" = 'Procedimento operacional'
+    WHERE "Id" = 35;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "DataDisponibilizacao" = DATE '2027-01-05', "Descricao" = 'Explore nosso curso de Matemática para a Precisão: Medidas e Escalas na Metalurgia, perfeito para quem deseja se destacar nesse campo! Este programa abrangente foi desenvolvido para capacitar profissionais com as habilidades e conhecimentos fundamentais para garantir medições precisas e eficientes no ambiente metalúrgico.', "ImagemUrl" = '/assets/imagens/banner-ava.webp', "Modalidade" = 'Hibrido', "NomeBreve" = 'Medidas e Escalas', "NomeBusca" = 'matematica para a precisao: medidas e escalas na metalurgia medidas e escalas', "NomeCompleto" = 'Matemática para a Precisão: Medidas e Escalas na Metalurgia', "PublicoAlvo" = 'Operadores, ajustadores e técnicos de usinagem com ensino médio em andamento ou concluído.', "Resumo" = 'Aplicação de grandezas, proporções e escalas em processos de corte, furação e usinagem.', "Slug" = 'matematica-precisao-medidas-escalas-metalurgia'
+    WHERE "Id" = 1;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 30, "DataDisponibilizacao" = DATE '2027-02-01', "Descricao" = 'Neste curso, a geometria vira ferramenta de criação: simetrias, rotações e malhas explicam estampas, e a modelagem plana mostra como o tecido se transforma em peça com o menor desperdício possível.', "ImagemUrl" = '/assets/imagens/hero-image.webp', "Modalidade" = 'Ead', "NomeBreve" = 'Geometria Têxtil', "NomeBusca" = 'geometria e modelagem no design textil geometria textil', "NomeCompleto" = 'Geometria e Modelagem no Design Têxtil', "PublicoAlvo" = 'Estudantes e profissionais de confecção, estamparia e design de moda.', "Resumo" = 'Explora formas geométricas, simetria e padrões matemáticos presentes em tecidos e estampas.', "Slug" = 'geometria-modelagem-design-textil'
+    WHERE "Id" = 2;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 60, "CategoriaId" = 1, "DataDisponibilizacao" = DATE '2026-11-16', "Descricao" = 'Amostragem, média, desvio-padrão e cartas de controle para acompanhar a estabilidade de um processo e decidir com base em dados, não em impressão.', "Modalidade" = 'Hibrido', "NomeBreve" = 'Estatística na Qualidade', "NomeBusca" = 'estatistica e controle de qualidade na producao estatistica na qualidade', "NomeCompleto" = 'Estatística e Controle de Qualidade na Produção', "PublicoAlvo" = 'Inspetores de qualidade, líderes de produção e técnicos de processo.', "Resumo" = 'Leitura e interpretação de dados de controle de qualidade e produtividade.', "Slug" = 'estatistica-controle-qualidade-producao', "Status" = 'EmBreve'
+    WHERE "Id" = 3;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 48, "CategoriaId" = 3, "DataDisponibilizacao" = DATE '2026-11-09', "Descricao" = 'Os conceitos de movimento, força e energia aplicados ao que acontece na planta metalúrgica: esteiras, prensas, fornos e o desgaste das máquinas.', "NomeBreve" = 'Física na Metalurgia', "NomeBusca" = 'fisica do movimento e da energia na metalurgia fisica na metalurgia', "NomeCompleto" = 'Física do Movimento e da Energia na Metalurgia', "PublicoAlvo" = 'Trabalhadores da operação e da manutenção de máquinas na metalurgia.', "Resumo" = 'Estudo de forças, atrito, calor e energia em máquinas, fornos e prensas.', "Slug" = 'fisica-movimento-energia-metalurgia', "Status" = 'InscricoesAbertas'
+    WHERE "Id" = 4;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 36, "DataDisponibilizacao" = DATE '2026-11-03', "Descricao" = 'Como corantes, auxiliares e banhos químicos funcionam na tinturaria, e como reduzir o consumo de água, energia e produtos sem perder a qualidade do acabamento.', "Modalidade" = 'Ead', "NomeBreve" = 'Química Sustentável', "NomeBusca" = 'quimica e sustentabilidade quimica sustentavel', "NomeCompleto" = 'Química e Sustentabilidade', "PublicoAlvo" = 'Profissionais de tinturaria, lavanderia industrial e acabamento têxtil.', "Resumo" = 'Estudo das reações químicas envolvidas na tinturaria e acabamento de tecidos.', "Slug" = 'quimica-sustentabilidade'
+    WHERE "Id" = 5;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 64, "DataDisponibilizacao" = NULL, "Descricao" = 'Da estrutura atômica às propriedades que importam na fábrica: por que um aço é mais duro que outro, como os tratamentos térmicos mudam o material e como os ensaios comprovam isso.', "Modalidade" = 'Presencial', "NomeBreve" = 'Ciência dos Materiais', "NomeBusca" = 'ciencia dos materiais na metalurgia ciencia dos materiais', "NomeCompleto" = 'Ciência dos Materiais na Metalurgia', "PublicoAlvo" = 'Técnicos de metalurgia, mecânica e controle de qualidade.', "Resumo" = 'Conceitos básicos de estrutura, resistência e propriedades dos metais.', "Slug" = 'ciencia-materiais-metalurgia', "Status" = 'Encerrado'
+    WHERE "Id" = 6;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 30, "CategoriaId" = 2, "DataDisponibilizacao" = DATE '2026-11-03', "Descricao" = 'Escrever bem no trabalho é escrever para ser entendido na primeira leitura. O curso trabalha relatórios, e-mails e procedimentos operacionais com foco em clareza, objetividade e revisão.', "NomeBreve" = 'Redação Profissional', "NomeBusca" = 'comunicacao tecnica e redacao profissional redacao profissional', "NomeCompleto" = 'Comunicação Técnica e Redação Profissional', "PublicoAlvo" = 'Profissionais que redigem relatórios, procedimentos ou comunicados no trabalho.', "Resumo" = 'Escrita clara de relatórios, e-mails e procedimentos operacionais, com foco em objetividade e revisão.', "Slug" = 'comunicacao-tecnica-redacao-profissional'
+    WHERE "Id" = 7;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE cursos SET "CargaHorariaHoras" = 20, "DataDisponibilizacao" = DATE '2026-11-03', "Descricao" = 'O modelo extrair-produzir-descartar tem limite. O curso apresenta os princípios da economia circular e como aplicá-los no projeto, na produção e no pós-uso dos produtos.', "Modalidade" = 'Ead', "NomeBreve" = 'Economia Circular', "NomeBusca" = 'economia circular na industria economia circular', "NomeCompleto" = 'Economia Circular na Indústria', "PublicoAlvo" = 'Qualquer pessoa interessada em sustentabilidade no ambiente de trabalho.', "Resumo" = 'Princípios da economia circular, ciclo de vida do produto e exemplos de redução de desperdício na produção.', "Slug" = 'economia-circular-industria', "Status" = 'InscricoesAbertas'
+    WHERE "Id" = 8;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO cursos ("Id", "CargaHorariaHoras", "CategoriaId", "DataDisponibilizacao", "Descricao", "ImagemUrl", "Modalidade", "NomeBreve", "NomeBusca", "NomeCompleto", "PublicoAlvo", "Resumo", "Slug", "Status")
+    VALUES (9, 64, 4, NULL, 'Resíduo e energia desperdiçada são custo. O curso ensina a classificar e destinar resíduos corretamente e a montar um plano de eficiência energética com retorno mensurável.', '/assets/imagens/video-thumb.webp', 'Hibrido', 'Gestão de Resíduos', 'gestao de residuos e eficiencia energetica gestao de residuos', 'Gestão de Resíduos e Eficiência Energética', 'Supervisores, técnicos de meio ambiente e membros de comissões internas.', 'Classificação de resíduos, logística reversa e ações de eficiência energética com retorno mensurável.', 'gestao-residuos-eficiencia-energetica', 'Encerrado');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "Titulo" = 'Introdução'
+    WHERE "Id" = 1;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "Titulo" = 'Grandezas e unidades'
+    WHERE "Id" = 2;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 1, "Ordem" = 3, "Titulo" = 'Instrumentos de medição'
+    WHERE "Id" = 3;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 1, "Ordem" = 4, "Titulo" = 'Escalas e tolerâncias'
+    WHERE "Id" = 4;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "Ordem" = 1, "Titulo" = 'Formas no tecido'
+    WHERE "Id" = 5;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 2, "Ordem" = 2, "Titulo" = 'Modelagem plana'
+    WHERE "Id" = 6;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "Ordem" = 1, "Titulo" = 'Fundamentos de estatística'
+    WHERE "Id" = 7;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 3, "Ordem" = 2, "Titulo" = 'Controle estatístico de processo'
+    WHERE "Id" = 8;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 3, "Ordem" = 3, "Titulo" = 'Prática presencial'
+    WHERE "Id" = 9;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 4, "Titulo" = 'Movimento e força'
+    WHERE "Id" = 10;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 4, "Titulo" = 'Energia e calor'
+    WHERE "Id" = 11;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 5, "Titulo" = 'Reações na tinturaria'
+    WHERE "Id" = 12;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 5, "Titulo" = 'Acabamento responsável'
+    WHERE "Id" = 13;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 6, "Titulo" = 'Estrutura dos metais'
+    WHERE "Id" = 14;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 6, "Titulo" = 'Propriedades e ensaios'
+    WHERE "Id" = 15;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 6, "Ordem" = 3, "Titulo" = 'Laboratório'
+    WHERE "Id" = 16;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 7, "Ordem" = 1, "Titulo" = 'Escrever para ser entendido'
+    WHERE "Id" = 17;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    UPDATE modulos SET "CursoId" = 7, "Ordem" = 2, "Titulo" = 'Gêneros do trabalho'
+    WHERE "Id" = 18;
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (19, 8, 1, 'Do linear ao circular');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (20, 8, 2, 'Na prática');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (36, 'No modelo linear, o recurso vira produto e depois lixo. Matéria-prima cara e aterros cheios mostram o limite desse caminho.
+
+    A economia circular trata o resíduo como recurso para outro processo.', 'Limites do modelo linear de produção.', 19, 1, 'O modelo extrair-produzir-descartar');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (37, 'A ordem importa: reduzir vem antes de reciclar, porque evita o resíduo em vez de tratá-lo.
+
+    Remanufatura devolve o produto ao uso com desempenho de novo, gastando muito menos material.', 'Reduzir, reutilizar, remanufaturar e reciclar.', 19, 2, 'Os princípios da circularidade');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (38, 'A análise de ciclo de vida soma os impactos de cada etapa: extração, fabricação, transporte, uso e descarte.
+
+    Decisões de projeto definem a maior parte desse impacto, antes da primeira peça ser produzida.', 'Mapear impactos do projeto ao descarte.', 20, 1, 'Ciclo de vida do produto');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (21, 9, 1, 'Resíduos');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (22, 9, 2, 'Energia');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (23, 9, 3, 'Projeto final');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (39, 'Resíduos industriais são classificados em perigosos e não perigosos. A classe define armazenamento, transporte e destino.
+
+    Misturar classes encarece a destinação de tudo o que foi misturado.', 'Classes de resíduos e cuidados de armazenamento.', 21, 1, 'Classificação e armazenamento');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (40, 'Na logística reversa, o produto volta ao fabricante depois do uso para reaproveitamento ou destinação correta.
+
+    Embalagens, pilhas, pneus e eletrônicos já têm sistemas obrigatórios.', 'Responsabilidade compartilhada e destinação correta.', 21, 2, 'Logística reversa');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (41, 'A conta de energia separa consumo, demanda e horário. Entender cada parte mostra onde está o custo.
+
+    Medir por equipamento revela que poucos consumidores respondem pela maior parte do gasto.', 'Ler a conta de energia e achar os maiores consumidores.', 22, 1, 'Diagnóstico de consumo');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (42, 'Cada medida tem custo, economia e prazo de retorno. Começar pelas de retorno rápido financia as seguintes.
+
+    O plano só funciona com responsável e data para cada ação.', 'Priorizar medidas pelo retorno e pelo custo.', 22, 2, 'Plano de ação');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (43, 'A turma visita uma unidade industrial, levanta resíduos e consumos e monta um plano de melhoria.
+
+    A apresentação final é feita para a equipe da própria unidade visitada.', 'Levantamento em campo e apresentação do plano.', 23, 1, 'Visita técnica');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    CREATE UNIQUE INDEX "IX_aulas_ModuloId_Ordem" ON aulas ("ModuloId", "Ordem");
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    CREATE UNIQUE INDEX "IX_modulos_CursoId_Ordem" ON modulos ("CursoId", "Ordem");
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    PERFORM setval(
+        pg_get_serial_sequence('cursos', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM cursos) + 1,
+            nextval(pg_get_serial_sequence('cursos', 'Id'))),
+        false);
+    PERFORM setval(
+        pg_get_serial_sequence('modulos', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM modulos) + 1,
+            nextval(pg_get_serial_sequence('modulos', 'Id'))),
+        false);
+    PERFORM setval(
+        pg_get_serial_sequence('aulas', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM aulas) + 1,
+            nextval(pg_get_serial_sequence('aulas', 'Id'))),
+        false);
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002242_CatalogoDoFigma') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20261023002242_CatalogoDoFigma', '10.0.13');
+    END IF;
+END $EF$;
+COMMIT;
+

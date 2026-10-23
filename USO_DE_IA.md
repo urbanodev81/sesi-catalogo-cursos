@@ -54,7 +54,7 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
 
 ## Como o conteúdo foi validado
 
-- **Testes de integração** (`tests/`): 22 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 27 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
   3 status), a busca, os filtros combinados, as respostas 400/404 e o detalhe com módulos.
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
@@ -87,3 +87,10 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    página → `h3` no card), e o logo e o link da trilha tinham só 19 px de altura clicável, abaixo dos
    44 px. **Correção:** título do card como `h2` e área clicável de 44 px sem mudar o visual
    (commit `215ffed`).
+6. **Migration que não aplicava num banco existente.** Ao trocar o catálogo pelos cursos do Figma, a IA
+   gerou a migration com `dotnet ef migrations add` e seguiu em frente. Dez testes quebraram com
+   `23505: duplicate key ... IX_aulas_ModuloId_Ordem`: o EF atualiza o seed linha a linha, e no meio do
+   caminho duas aulas ficavam na mesma posição do mesmo módulo. Os testes pegaram porque cada execução
+   aplica todas as migrations, em sequência, num banco novo. **Correção:** a migration `CatalogoDoFigma`
+   remove os dois índices de ordem no começo e os recria no fim, dentro da mesma transação. Depois, o
+   `catalogo.sql` regerado foi aplicado num banco vazio para conferir.

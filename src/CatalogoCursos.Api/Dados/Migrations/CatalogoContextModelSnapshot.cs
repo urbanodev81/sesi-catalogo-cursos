@@ -30,6 +30,10 @@ namespace CatalogoCursos.Api.Dados.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Conteudo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("text");
@@ -56,280 +60,387 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         new
                         {
                             Id = 1,
-                            Descricao = "Como calcular rendimento, perdas e consumo por peça.",
+                            Conteudo = "## Boas-vindas\n\nNeste curso, a matemática sai do caderno e vai para a bancada: cada conceito aparece ligado a uma peça, um instrumento ou um desenho técnico da metalurgia.\n\nAo final, você vai ler cotas, converter unidades, escolher o instrumento certo e interpretar tolerâncias com segurança.",
+                            Descricao = "Como o curso funciona e o que você vai medir até o fim dele.",
                             ModuloId = 1,
                             Ordem = 1,
-                            Titulo = "Razão e proporção na produção"
+                            Titulo = "Introdução"
                         },
                         new
                         {
                             Id = 2,
-                            Descricao = "Leitura de OEE, refugo e meta de produção.",
+                            Conteudo = "## Boas práticas\n\nSe você está interessado em se aprofundar em Matemática para a Precisão, especialmente em Medidas e Escalas na Metalurgia, aqui estão algumas dicas para maximizar sua experiência online. Primeiro, crie um espaço de estudo livre de distrações, onde você possa se concentrar totalmente no material.\n\nEstabeleça uma rotina de estudos, reservando horários específicos para assistir às aulas e realizar as atividades. Além disso, interaja com seus colegas e instrutores nos fóruns e chats disponíveis, pois isso enriquece o aprendizado e ajuda a esclarecer dúvidas. Não se esqueça de revisar o conteúdo regularmente e aplicar os conhecimentos em situações práticas sempre que possível.\n\nPor fim, mantenha-se atualizado sobre as novas técnicas e normas em medidas e escalas na metalurgia, já que essa área está sempre evoluindo. Com dedicação e as estratégias corretas, você estará preparado para se destacar no setor!\n\n## Recomendações\n\nSe você está interessado em se aprofundar na matemática aplicada à metalurgia, aqui estão algumas dicas valiosas. Primeiro, escolha um curso que ofereça uma abordagem prática, com aulas que incluam exercícios e estudos de caso. Isso ajudará a entender como aplicar medidas e escalas na prática. Além disso, verifique se o curso é reconhecido por instituições relevantes, pois isso pode impactar sua formação e carreira.\n\nOutro aspecto importante é a experiência dos instrutores. Procure cursos que tenham profissionais com experiência no setor, pois eles podem compartilhar insights valiosos que vão além da teoria.\n\nConsidere também a carga horária e a flexibilidade do curso. Se você trabalha, um curso que ofereça aulas noturnas ou aos finais de semana pode ser mais conveniente.\n\nPor fim, não se esqueça de se conectar com outros alunos e profissionais da área. Isso pode abrir portas e proporcionar um aprendizado ainda mais enriquecedor. Investir em um bom curso de matemática para a metalurgia é essencial para garantir precisão e eficiência no trabalho.",
+                            Descricao = "Dicas para aproveitar melhor o estudo online.",
                             ModuloId = 1,
                             Ordem = 2,
-                            Titulo = "Porcentagem e indicadores"
+                            Titulo = "Boas práticas"
                         },
                         new
                         {
                             Id = 3,
-                            Descricao = "Relação linear entre leitura do sensor e grandeza medida.",
-                            ModuloId = 2,
-                            Ordem = 1,
-                            Titulo = "Função afim na calibração"
+                            Conteudo = "## Materiais de apoio\n\nGuarde a tabela de conversão entre milímetro, polegada e micrômetro: ela vai ser usada em quase todas as aulas.\n\nO glossário reúne os termos de metrologia que aparecem no curso, como resolução, exatidão, incerteza e tolerância.",
+                            Descricao = "Materiais de apoio: tabela de conversões e glossário.",
+                            ModuloId = 1,
+                            Ordem = 3,
+                            Titulo = "Extras"
                         },
                         new
                         {
                             Id = 4,
-                            Descricao = "Interpretar séries de dados vindas de máquinas conectadas.",
+                            Conteudo = "O Sistema Internacional padroniza as unidades para que uma peça medida em São Paulo tenha a mesma medida em qualquer lugar.\n\nNa metalurgia, o milímetro é a unidade de trabalho: desenhos, instrumentos e tolerâncias usam essa escala.",
+                            Descricao = "Metro, quilograma e segundo no dia a dia da produção.",
                             ModuloId = 2,
-                            Ordem = 2,
-                            Titulo = "Gráficos de tendência"
+                            Ordem = 1,
+                            Titulo = "O Sistema Internacional na oficina"
                         },
                         new
                         {
                             Id = 5,
-                            Descricao = "Montar um painel simples de acompanhamento de linha.",
+                            Conteudo = "Uma polegada vale 25,4 mm. Converter é multiplicar ou dividir por esse fator, e o erro mais comum é a vírgula no lugar errado.\n\n## Exercício\n\nConverta 3/8\" para milímetros e confira o resultado com o paquímetro na aula seguinte.",
+                            Descricao = "Milímetro, polegada e micrômetro sem erro de vírgula.",
                             ModuloId = 2,
-                            Ordem = 3,
-                            Titulo = "Estudo de caso"
+                            Ordem = 2,
+                            Titulo = "Conversão de unidades"
                         },
                         new
                         {
                             Id = 6,
-                            Descricao = "Como escolher uma amostra representativa do lote.",
+                            Conteudo = "O paquímetro mede dimensões externas, internas e de profundidade com resolução de 0,05 mm ou 0,02 mm.\n\nA leitura soma a escala principal com o traço do nônio que coincide; apoiar a peça corretamente evita erro de paralaxe.",
+                            Descricao = "Leitura do nônio e cuidados de medição.",
                             ModuloId = 3,
+                            Ordem = 1,
+                            Titulo = "Paquímetro"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Conteudo = "O micrômetro chega a 0,01 mm e é o instrumento de quem controla ajuste de eixo e furo.\n\nA catraca garante a mesma pressão de medição: apertar o tambor com a mão muda o resultado.",
+                            Descricao = "Quando a precisão precisa ir além do paquímetro.",
+                            ModuloId = 3,
+                            Ordem = 2,
+                            Titulo = "Micrômetro"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Conteudo = "Escala 1:2 significa que o desenho tem metade do tamanho real; 2:1, o dobro. A cota sempre informa a medida real.\n\nMedir o desenho com régua é um erro clássico: a escala serve para a proporção, não para a fabricação.",
+                            Descricao = "Ampliação, redução e leitura de cotas.",
+                            ModuloId = 4,
+                            Ordem = 1,
+                            Titulo = "Escalas no desenho técnico"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Conteudo = "Tolerância é a variação permitida em torno da medida nominal. Um eixo de 20 mm com tolerância de ±0,05 mm é bom entre 19,95 e 20,05 mm.\n\nAjuste é a combinação de tolerâncias de eixo e furo: com folga, incerto ou com interferência.",
+                            Descricao = "Quanto a peça pode variar e continuar boa.",
+                            ModuloId = 4,
+                            Ordem = 2,
+                            Titulo = "Tolerâncias e ajustes"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Conteudo = "Toda estampa corrida é um padrão que se repete: a unidade mínima, chamada rapport, é desenhada uma vez e replicada.\n\nIdentificar os eixos de simetria ajuda a prever como o desenho vai se comportar na peça pronta.",
+                            Descricao = "Eixos de simetria e repetição em estampas.",
+                            ModuloId = 5,
+                            Ordem = 1,
+                            Titulo = "Simetria e padrões"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Conteudo = "Translação desloca, rotação gira e reflexão espelha. Combinadas, essas três operações geram quase todos os padrões têxteis.\n\n## Prática\n\nMonte um padrão a partir de um único motivo usando só rotações de 90 graus.",
+                            Descricao = "Translação, rotação e reflexão no desenho de estampas.",
+                            ModuloId = 5,
+                            Ordem = 2,
+                            Titulo = "Transformações geométricas"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Conteudo = "O molde é uma figura plana que, costurada, cria volume. Retângulos, trapézios e curvas são calculados a partir das medidas do corpo.\n\nA folga de costura é somada ao contorno, e esquecê-la muda o tamanho final da peça.",
+                            Descricao = "Como medidas do corpo viram figuras planas.",
+                            ModuloId = 6,
+                            Ordem = 1,
+                            Titulo = "Do molde à peça"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Conteudo = "Encaixe é a arrumação dos moldes sobre o tecido. A área aproveitada dividida pela área total dá o rendimento do corte.\n\nPequenas rotações dos moldes, respeitando o fio do tecido, podem economizar metros em uma produção.",
+                            Descricao = "Posicionar moldes para desperdiçar menos tecido.",
+                            ModuloId = 6,
+                            Ordem = 2,
+                            Titulo = "Encaixe e aproveitamento"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Conteudo = "Medir todas as peças de um lote quase nunca é viável. A amostra precisa representar o lote: aleatória e do tamanho certo.\n\nAmostra tirada só do começo do turno esconde o desgaste da ferramenta no fim dele.",
+                            Descricao = "Como escolher uma amostra representativa do lote.",
+                            ModuloId = 7,
                             Ordem = 1,
                             Titulo = "Amostra e população"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 15,
+                            Conteudo = "A média diz onde o processo está; o desvio-padrão diz o quanto ele varia. Dois processos com a mesma média podem ter qualidades muito diferentes.\n\nA mediana é menos sensível a valores extremos e ajuda a detectar medições fora do padrão.",
                             Descricao = "Média, mediana, amplitude e desvio-padrão.",
-                            ModuloId = 3,
+                            ModuloId = 7,
                             Ordem = 2,
                             Titulo = "Medidas de tendência e dispersão"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 16,
+                            Conteudo = "A carta de controle acompanha a média das amostras ao longo do tempo, com limites calculados a partir do próprio processo.\n\nPonto fora do limite, ou sete pontos seguidos do mesmo lado da média, são sinais de causa especial a investigar.",
                             Descricao = "Limites de controle e sinais de processo instável.",
-                            ModuloId = 4,
+                            ModuloId = 8,
                             Ordem = 1,
                             Titulo = "Cartas de controle"
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 17,
+                            Conteudo = "Cp compara a tolerância com a variação do processo; Cpk considera também se o processo está centralizado.\n\nUm Cpk abaixo de 1,33 costuma indicar que o processo produz peças fora da especificação com frequência.",
                             Descricao = "Cp e Cpk explicados com exemplos da indústria.",
-                            ModuloId = 4,
+                            ModuloId = 8,
                             Ordem = 2,
                             Titulo = "Capacidade do processo"
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 18,
+                            Conteudo = "No encontro presencial, cada grupo mede um lote de peças, registra os dados e monta a carta de controle à mão.\n\nA discussão final compara as cartas dos grupos e as causas de variação encontradas.",
                             Descricao = "Medição real de peças e montagem da carta de controle.",
-                            ModuloId = 5,
+                            ModuloId = 9,
                             Ordem = 1,
                             Titulo = "Coleta em laboratório"
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 19,
+                            Conteudo = "Velocidade é distância por tempo; aceleração é a variação da velocidade. Uma ponte rolante que freia de repente balança a carga.\n\nCalcular a aceleração ajuda a definir rampas de partida e parada mais seguras.",
+                            Descricao = "O movimento das esteiras e pontes rolantes.",
+                            ModuloId = 10,
+                            Ordem = 1,
+                            Titulo = "Velocidade e aceleração"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Conteudo = "O atrito se opõe ao movimento e transforma energia em calor. É útil no freio e prejudicial no mancal.\n\nLubrificação correta reduz o atrito, a temperatura e a troca de componentes.",
+                            Descricao = "Por que as peças aquecem e se desgastam.",
+                            ModuloId = 10,
+                            Ordem = 2,
+                            Titulo = "Força e atrito"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Conteudo = "Trabalho é força vezes deslocamento. Potência é esse trabalho dividido pelo tempo.\n\nConhecer a potência necessária evita superdimensionar motores e desperdiçar energia.",
+                            Descricao = "Quanta energia uma prensa usa a cada golpe.",
+                            ModuloId = 11,
+                            Ordem = 1,
+                            Titulo = "Trabalho e potência das prensas"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Conteudo = "O forno transfere calor por condução, convecção e radiação. O isolamento térmico define quanto dessa energia se perde.\n\n## Segurança\n\nSuperfícies acima de 60 °C exigem proteção: o calor que se perde também queima.",
+                            Descricao = "Temperatura, condução e perdas térmicas.",
+                            ModuloId = 11,
+                            Ordem = 2,
+                            Titulo = "Calor nos fornos"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Conteudo = "Cada fibra pede uma família de corantes: reativos para algodão, dispersos para poliéster, ácidos para lã e náilon.\n\nA fixação depende de temperatura, tempo e auxiliares químicos no banho.",
+                            Descricao = "Como a cor se liga à fibra.",
+                            ModuloId = 12,
+                            Ordem = 1,
+                            Titulo = "Corantes e fixação"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Conteudo = "O pH muda a velocidade da reação e o aproveitamento do corante. Fora da faixa, a cor sai manchada ou mais clara.\n\nMedir o pH no começo e no fim do banho é a forma mais barata de evitar retrabalho.",
+                            Descricao = "O controle que define a cor final.",
+                            ModuloId = 12,
+                            Ordem = 2,
+                            Titulo = "pH do banho"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Conteudo = "Efluente de tinturaria carrega cor, sal e carga orgânica. O tratamento combina etapas físicas, químicas e biológicas.\n\nReduzir o volume de banho reduz também o volume de efluente a tratar.",
+                            Descricao = "O que sai do processo e como tratar.",
+                            ModuloId = 13,
+                            Ordem = 1,
+                            Titulo = "Tratamento de efluentes"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Conteudo = "Química verde busca reações com menos resíduos e menos substâncias perigosas.\n\nNa prática: corantes de alta fixação, banhos mais curtos e reaproveitamento de água de enxágue.",
+                            Descricao = "Trocar produtos e processos por alternativas menos agressivas.",
+                            ModuloId = 13,
+                            Ordem = 2,
+                            Titulo = "Química verde"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Conteudo = "Os átomos de um metal se organizam em redes cristalinas. O tipo de rede influencia ductilidade e resistência.\n\nDefeitos nessa rede, longe de serem só problemas, são o que permite deformar o metal sem quebrá-lo.",
+                            Descricao = "Redes cristalinas e o que elas explicam.",
+                            ModuloId = 14,
+                            Ordem = 1,
+                            Titulo = "Arranjo atômico"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Conteudo = "Liga é a mistura de um metal com outros elementos. No aço, o teor de carbono muda dureza e soldabilidade.\n\nCromo e níquel dão resistência à corrosão; é a base do aço inoxidável.",
+                            Descricao = "Aço, alumínio e o papel de cada elemento.",
+                            ModuloId = 14,
+                            Ordem = 2,
+                            Titulo = "Ligas metálicas"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Conteudo = "No ensaio de tração, um corpo de prova é esticado até romper. O gráfico tensão × deformação mostra o comportamento do material.\n\nO limite de escoamento indica até onde o material volta ao formato original.",
+                            Descricao = "Limite de escoamento e resistência máxima.",
+                            ModuloId = 15,
+                            Ordem = 1,
+                            Titulo = "Ensaio de tração"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Conteudo = "Dureza é a resistência à penetração. Cada escala usa um penetrador e uma carga diferentes.\n\nComparar valores de escalas diferentes exige tabela de conversão, nunca conta direta.",
+                            Descricao = "Brinell, Rockwell e Vickers.",
+                            ModuloId = 15,
+                            Ordem = 2,
+                            Titulo = "Dureza"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Conteudo = "Em laboratório, as turmas fazem ensaios de dureza e observam amostras ao microscópio.\n\nO relatório final relaciona a estrutura observada com as propriedades medidas.",
+                            Descricao = "Identificação de materiais por ensaios simples.",
+                            ModuloId = 16,
+                            Ordem = 1,
+                            Titulo = "Ensaio prático"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Conteudo = "Texto técnico bom é o que não precisa ser relido. Frases curtas e voz ativa deixam claro quem faz o quê.\n\nUma ideia por parágrafo facilita a leitura de quem só passa os olhos.",
                             Descricao = "Frases curtas, voz ativa e uma ideia por parágrafo.",
-                            ModuloId = 6,
+                            ModuloId = 17,
                             Ordem = 1,
                             Titulo = "Clareza e objetividade"
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 33,
+                            Conteudo = "O gestor quer a conclusão primeiro; o colega precisa do passo a passo; o cliente, da solução.\n\nAntes de escrever, responda: quem vai ler e o que essa pessoa precisa decidir?",
                             Descricao = "Ajustar o texto para gestor, colega ou cliente.",
-                            ModuloId = 6,
+                            ModuloId = 17,
                             Ordem = 2,
                             Titulo = "Adequação ao leitor"
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 34,
+                            Conteudo = "Um relatório técnico tem objetivo, método, resultados e conclusão. A conclusão responde ao objetivo.\n\nDados sem interpretação não são relatório; interpretação sem dados não é técnica.",
                             Descricao = "Estrutura, dados e conclusão que sustenta a decisão.",
-                            ModuloId = 7,
+                            ModuloId = 18,
                             Ordem = 1,
                             Titulo = "Relatório técnico"
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 35,
+                            Conteudo = "Cada passo do procedimento começa com um verbo e descreve uma única ação.\n\nTeste o procedimento com alguém que não conhece a tarefa: onde a pessoa travar, o texto falhou.",
                             Descricao = "Passo a passo verificável e sem ambiguidade.",
-                            ModuloId = 7,
+                            ModuloId = 18,
                             Ordem = 2,
                             Titulo = "Procedimento operacional"
                         },
                         new
                         {
-                            Id = 15,
-                            Descricao = "Achar a informação certa sem traduzir o texto inteiro.",
-                            ModuloId = 8,
-                            Ordem = 1,
-                            Titulo = "Skimming e scanning"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Descricao = "Palavras que ajudam e as que enganam.",
-                            ModuloId = 8,
-                            Ordem = 2,
-                            Titulo = "Cognatos e falsos cognatos"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Descricao = "Termos de segurança, ferramentas e procedimentos.",
-                            ModuloId = 9,
-                            Ordem = 1,
-                            Titulo = "Manuais de manutenção"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Descricao = "Mensagens de alarme e menus de IHM.",
-                            ModuloId = 9,
-                            Ordem = 2,
-                            Titulo = "Interfaces de máquinas"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Descricao = "Iônica, covalente e metálica, e o que cada uma explica.",
-                            ModuloId = 10,
-                            Ordem = 1,
-                            Titulo = "Ligações químicas"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Descricao = "Dureza, condutividade e resistência à corrosão.",
-                            ModuloId = 10,
-                            Ordem = 2,
-                            Titulo = "Propriedades dos materiais"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Descricao = "Aço, alumínio e tratamentos térmicos.",
-                            ModuloId = 11,
-                            Ordem = 1,
-                            Titulo = "Metais e ligas"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Descricao = "Termoplásticos, termofixos e reciclagem.",
-                            ModuloId = 11,
-                            Ordem = 2,
-                            Titulo = "Polímeros"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Descricao = "Ensaios simples de identificação de materiais.",
-                            ModuloId = 11,
-                            Ordem = 3,
-                            Titulo = "Laboratório"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Descricao = "Alavancas, engrenagens e transmissão de movimento.",
-                            ModuloId = 12,
-                            Ordem = 1,
-                            Titulo = "Força e torque"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Descricao = "Por que a máquina aquece e como reduzir perdas.",
-                            ModuloId = 12,
-                            Ordem = 2,
-                            Titulo = "Atrito e lubrificação"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Descricao = "Calcular a potência necessária para uma tarefa.",
-                            ModuloId = 13,
-                            Ordem = 1,
-                            Titulo = "Trabalho e potência"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Descricao = "Onde a energia se perde num motor elétrico.",
-                            ModuloId = 13,
-                            Ordem = 2,
-                            Titulo = "Eficiência energética"
-                        },
-                        new
-                        {
-                            Id = 28,
+                            Id = 36,
+                            Conteudo = "No modelo linear, o recurso vira produto e depois lixo. Matéria-prima cara e aterros cheios mostram o limite desse caminho.\n\nA economia circular trata o resíduo como recurso para outro processo.",
                             Descricao = "Limites do modelo linear de produção.",
-                            ModuloId = 14,
+                            ModuloId = 19,
                             Ordem = 1,
                             Titulo = "O modelo extrair-produzir-descartar"
                         },
                         new
                         {
-                            Id = 29,
+                            Id = 37,
+                            Conteudo = "A ordem importa: reduzir vem antes de reciclar, porque evita o resíduo em vez de tratá-lo.\n\nRemanufatura devolve o produto ao uso com desempenho de novo, gastando muito menos material.",
                             Descricao = "Reduzir, reutilizar, remanufaturar e reciclar.",
-                            ModuloId = 14,
+                            ModuloId = 19,
                             Ordem = 2,
                             Titulo = "Os princípios da circularidade"
                         },
                         new
                         {
-                            Id = 30,
+                            Id = 38,
+                            Conteudo = "A análise de ciclo de vida soma os impactos de cada etapa: extração, fabricação, transporte, uso e descarte.\n\nDecisões de projeto definem a maior parte desse impacto, antes da primeira peça ser produzida.",
                             Descricao = "Mapear impactos do projeto ao descarte.",
-                            ModuloId = 15,
+                            ModuloId = 20,
                             Ordem = 1,
                             Titulo = "Ciclo de vida do produto"
                         },
                         new
                         {
-                            Id = 31,
+                            Id = 39,
+                            Conteudo = "Resíduos industriais são classificados em perigosos e não perigosos. A classe define armazenamento, transporte e destino.\n\nMisturar classes encarece a destinação de tudo o que foi misturado.",
                             Descricao = "Classes de resíduos e cuidados de armazenamento.",
-                            ModuloId = 16,
+                            ModuloId = 21,
                             Ordem = 1,
                             Titulo = "Classificação e armazenamento"
                         },
                         new
                         {
-                            Id = 32,
+                            Id = 40,
+                            Conteudo = "Na logística reversa, o produto volta ao fabricante depois do uso para reaproveitamento ou destinação correta.\n\nEmbalagens, pilhas, pneus e eletrônicos já têm sistemas obrigatórios.",
                             Descricao = "Responsabilidade compartilhada e destinação correta.",
-                            ModuloId = 16,
+                            ModuloId = 21,
                             Ordem = 2,
                             Titulo = "Logística reversa"
                         },
                         new
                         {
-                            Id = 33,
+                            Id = 41,
+                            Conteudo = "A conta de energia separa consumo, demanda e horário. Entender cada parte mostra onde está o custo.\n\nMedir por equipamento revela que poucos consumidores respondem pela maior parte do gasto.",
                             Descricao = "Ler a conta de energia e achar os maiores consumidores.",
-                            ModuloId = 17,
+                            ModuloId = 22,
                             Ordem = 1,
                             Titulo = "Diagnóstico de consumo"
                         },
                         new
                         {
-                            Id = 34,
+                            Id = 42,
+                            Conteudo = "Cada medida tem custo, economia e prazo de retorno. Começar pelas de retorno rápido financia as seguintes.\n\nO plano só funciona com responsável e data para cada ação.",
                             Descricao = "Priorizar medidas pelo retorno e pelo custo.",
-                            ModuloId = 17,
+                            ModuloId = 22,
                             Ordem = 2,
                             Titulo = "Plano de ação"
                         },
                         new
                         {
-                            Id = 35,
+                            Id = 43,
+                            Conteudo = "A turma visita uma unidade industrial, levanta resíduos e consumos e monta um plano de melhoria.\n\nA apresentação final é feita para a equipe da própria unidade visitada.",
                             Descricao = "Levantamento em campo e apresentação do plano.",
-                            ModuloId = 18,
+                            ModuloId = 23,
                             Ordem = 1,
                             Titulo = "Visita técnica"
                         });
@@ -447,6 +558,11 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
 
+                    b.Property<string>("Resumo")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -472,120 +588,149 @@ namespace CatalogoCursos.Api.Dados.Migrations
                             Id = 1,
                             CargaHorariaHoras = 40,
                             CategoriaId = 1,
-                            Descricao = "Razão, proporção, funções e leitura de gráficos aplicadas a indicadores de produção, sensores e automação.",
-                            ImagemUrl = "/assets/imagens/hero-image.webp",
-                            Modalidade = "Ead",
-                            NomeBreve = "Matemática 4.0",
-                            NomeBusca = "matematica aplicada a industria 4.0 matematica 4.0",
-                            NomeCompleto = "Matemática Aplicada à Indústria 4.0",
-                            PublicoAlvo = "Trabalhadores da indústria com ensino médio em andamento ou concluído.",
-                            Slug = "matematica-aplicada-industria-4-0",
+                            DataDisponibilizacao = new DateOnly(2027, 1, 5),
+                            Descricao = "Explore nosso curso de Matemática para a Precisão: Medidas e Escalas na Metalurgia, perfeito para quem deseja se destacar nesse campo! Este programa abrangente foi desenvolvido para capacitar profissionais com as habilidades e conhecimentos fundamentais para garantir medições precisas e eficientes no ambiente metalúrgico.",
+                            ImagemUrl = "/assets/imagens/banner-ava.webp",
+                            Modalidade = "Hibrido",
+                            NomeBreve = "Medidas e Escalas",
+                            NomeBusca = "matematica para a precisao: medidas e escalas na metalurgia medidas e escalas",
+                            NomeCompleto = "Matemática para a Precisão: Medidas e Escalas na Metalurgia",
+                            PublicoAlvo = "Operadores, ajustadores e técnicos de usinagem com ensino médio em andamento ou concluído.",
+                            Resumo = "Aplicação de grandezas, proporções e escalas em processos de corte, furação e usinagem.",
+                            Slug = "matematica-precisao-medidas-escalas-metalurgia",
                             Status = "InscricoesAbertas"
                         },
                         new
                         {
                             Id = 2,
-                            CargaHorariaHoras = 60,
+                            CargaHorariaHoras = 30,
                             CategoriaId = 1,
-                            DataDisponibilizacao = new DateOnly(2026, 11, 16),
-                            Descricao = "Amostragem, média, desvio-padrão e cartas de controle para acompanhar a estabilidade de um processo.",
-                            ImagemUrl = "/assets/imagens/banner-ava.webp",
-                            Modalidade = "Hibrido",
-                            NomeBreve = "Estatística na Qualidade",
-                            NomeBusca = "estatistica para controle de qualidade estatistica na qualidade",
-                            NomeCompleto = "Estatística para Controle de Qualidade",
-                            PublicoAlvo = "Inspetores de qualidade, líderes de produção e técnicos de processo.",
-                            Slug = "estatistica-controle-qualidade",
+                            DataDisponibilizacao = new DateOnly(2027, 2, 1),
+                            Descricao = "Neste curso, a geometria vira ferramenta de criação: simetrias, rotações e malhas explicam estampas, e a modelagem plana mostra como o tecido se transforma em peça com o menor desperdício possível.",
+                            ImagemUrl = "/assets/imagens/hero-image.webp",
+                            Modalidade = "Ead",
+                            NomeBreve = "Geometria Têxtil",
+                            NomeBusca = "geometria e modelagem no design textil geometria textil",
+                            NomeCompleto = "Geometria e Modelagem no Design Têxtil",
+                            PublicoAlvo = "Estudantes e profissionais de confecção, estamparia e design de moda.",
+                            Resumo = "Explora formas geométricas, simetria e padrões matemáticos presentes em tecidos e estampas.",
+                            Slug = "geometria-modelagem-design-textil",
                             Status = "EmBreve"
                         },
                         new
                         {
                             Id = 3,
-                            CargaHorariaHoras = 30,
-                            CategoriaId = 2,
-                            Descricao = "Escrita clara de relatórios, e-mails e procedimentos operacionais, com foco em objetividade e revisão.",
+                            CargaHorariaHoras = 60,
+                            CategoriaId = 1,
+                            DataDisponibilizacao = new DateOnly(2026, 11, 16),
+                            Descricao = "Amostragem, média, desvio-padrão e cartas de controle para acompanhar a estabilidade de um processo e decidir com base em dados, não em impressão.",
                             ImagemUrl = "/assets/imagens/video-thumb.webp",
-                            Modalidade = "Ead",
-                            NomeBreve = "Redação Profissional",
-                            NomeBusca = "comunicacao tecnica e redacao profissional redacao profissional",
-                            NomeCompleto = "Comunicação Técnica e Redação Profissional",
-                            PublicoAlvo = "Profissionais que redigem relatórios, procedimentos ou comunicados no trabalho.",
-                            Slug = "comunicacao-tecnica-redacao-profissional",
-                            Status = "InscricoesAbertas"
+                            Modalidade = "Hibrido",
+                            NomeBreve = "Estatística na Qualidade",
+                            NomeBusca = "estatistica e controle de qualidade na producao estatistica na qualidade",
+                            NomeCompleto = "Estatística e Controle de Qualidade na Produção",
+                            PublicoAlvo = "Inspetores de qualidade, líderes de produção e técnicos de processo.",
+                            Resumo = "Leitura e interpretação de dados de controle de qualidade e produtividade.",
+                            Slug = "estatistica-controle-qualidade-producao",
+                            Status = "EmBreve"
                         },
                         new
                         {
                             Id = 4,
-                            CargaHorariaHoras = 80,
-                            CategoriaId = 2,
-                            Descricao = "Leitura de manuais, fichas técnicas e telas de equipamentos em inglês, com vocabulário do setor industrial.",
+                            CargaHorariaHoras = 48,
+                            CategoriaId = 3,
+                            DataDisponibilizacao = new DateOnly(2026, 11, 9),
+                            Descricao = "Os conceitos de movimento, força e energia aplicados ao que acontece na planta metalúrgica: esteiras, prensas, fornos e o desgaste das máquinas.",
                             ImagemUrl = "/assets/imagens/hero-image.webp",
                             Modalidade = "Presencial",
-                            NomeBreve = "Inglês Instrumental",
-                            NomeBusca = "ingles instrumental para a industria ingles instrumental",
-                            NomeCompleto = "Inglês Instrumental para a Indústria",
-                            PublicoAlvo = "Operadores e técnicos que lidam com manuais e equipamentos importados.",
-                            Slug = "ingles-instrumental-industria",
-                            Status = "Encerrado"
+                            NomeBreve = "Física na Metalurgia",
+                            NomeBusca = "fisica do movimento e da energia na metalurgia fisica na metalurgia",
+                            NomeCompleto = "Física do Movimento e da Energia na Metalurgia",
+                            PublicoAlvo = "Trabalhadores da operação e da manutenção de máquinas na metalurgia.",
+                            Resumo = "Estudo de forças, atrito, calor e energia em máquinas, fornos e prensas.",
+                            Slug = "fisica-movimento-energia-metalurgia",
+                            Status = "InscricoesAbertas"
                         },
                         new
                         {
                             Id = 5,
-                            CargaHorariaHoras = 48,
+                            CargaHorariaHoras = 36,
                             CategoriaId = 3,
-                            Descricao = "Propriedades de metais, polímeros e cerâmicos, e como a estrutura química define o uso de cada material.",
+                            DataDisponibilizacao = new DateOnly(2026, 11, 3),
+                            Descricao = "Como corantes, auxiliares e banhos químicos funcionam na tinturaria, e como reduzir o consumo de água, energia e produtos sem perder a qualidade do acabamento.",
                             ImagemUrl = "/assets/imagens/banner-ava.webp",
-                            Modalidade = "Presencial",
-                            NomeBreve = "Química dos Materiais",
-                            NomeBusca = "quimica dos materiais industriais quimica dos materiais",
-                            NomeCompleto = "Química dos Materiais Industriais",
-                            PublicoAlvo = "Estudantes do ensino médio e técnicos interessados em processos de transformação.",
-                            Slug = "quimica-materiais-industriais",
+                            Modalidade = "Ead",
+                            NomeBreve = "Química Sustentável",
+                            NomeBusca = "quimica e sustentabilidade quimica sustentavel",
+                            NomeCompleto = "Química e Sustentabilidade",
+                            PublicoAlvo = "Profissionais de tinturaria, lavanderia industrial e acabamento têxtil.",
+                            Resumo = "Estudo das reações químicas envolvidas na tinturaria e acabamento de tecidos.",
+                            Slug = "quimica-sustentabilidade",
                             Status = "InscricoesAbertas"
                         },
                         new
                         {
                             Id = 6,
-                            CargaHorariaHoras = 36,
+                            CargaHorariaHoras = 64,
                             CategoriaId = 3,
-                            DataDisponibilizacao = new DateOnly(2027, 2, 1),
-                            Descricao = "Força, torque, energia e potência para entender o funcionamento e a eficiência de máquinas industriais.",
+                            Descricao = "Da estrutura atômica às propriedades que importam na fábrica: por que um aço é mais duro que outro, como os tratamentos térmicos mudam o material e como os ensaios comprovam isso.",
                             ImagemUrl = "/assets/imagens/video-thumb.webp",
-                            Modalidade = "Ead",
-                            NomeBreve = "Física Aplicada",
-                            NomeBusca = "fisica aplicada a maquinas e equipamentos fisica aplicada",
-                            NomeCompleto = "Física Aplicada a Máquinas e Equipamentos",
-                            PublicoAlvo = "Trabalhadores da manutenção e da operação de máquinas.",
-                            Slug = "fisica-aplicada-maquinas",
-                            Status = "EmBreve"
+                            Modalidade = "Presencial",
+                            NomeBreve = "Ciência dos Materiais",
+                            NomeBusca = "ciencia dos materiais na metalurgia ciencia dos materiais",
+                            NomeCompleto = "Ciência dos Materiais na Metalurgia",
+                            PublicoAlvo = "Técnicos de metalurgia, mecânica e controle de qualidade.",
+                            Resumo = "Conceitos básicos de estrutura, resistência e propriedades dos metais.",
+                            Slug = "ciencia-materiais-metalurgia",
+                            Status = "Encerrado"
                         },
                         new
                         {
                             Id = 7,
-                            CargaHorariaHoras = 20,
-                            CategoriaId = 4,
-                            Descricao = "Princípios da economia circular, ciclo de vida do produto e exemplos de redução de desperdício na produção.",
+                            CargaHorariaHoras = 30,
+                            CategoriaId = 2,
+                            DataDisponibilizacao = new DateOnly(2026, 11, 3),
+                            Descricao = "Escrever bem no trabalho é escrever para ser entendido na primeira leitura. O curso trabalha relatórios, e-mails e procedimentos operacionais com foco em clareza, objetividade e revisão.",
                             ImagemUrl = "/assets/imagens/hero-image.webp",
                             Modalidade = "Ead",
-                            NomeBreve = "Economia Circular",
-                            NomeBusca = "economia circular na industria economia circular",
-                            NomeCompleto = "Economia Circular na Indústria",
-                            PublicoAlvo = "Qualquer pessoa interessada em sustentabilidade no ambiente de trabalho.",
-                            Slug = "economia-circular-industria",
+                            NomeBreve = "Redação Profissional",
+                            NomeBusca = "comunicacao tecnica e redacao profissional redacao profissional",
+                            NomeCompleto = "Comunicação Técnica e Redação Profissional",
+                            PublicoAlvo = "Profissionais que redigem relatórios, procedimentos ou comunicados no trabalho.",
+                            Resumo = "Escrita clara de relatórios, e-mails e procedimentos operacionais, com foco em objetividade e revisão.",
+                            Slug = "comunicacao-tecnica-redacao-profissional",
                             Status = "InscricoesAbertas"
                         },
                         new
                         {
                             Id = 8,
+                            CargaHorariaHoras = 20,
+                            CategoriaId = 4,
+                            DataDisponibilizacao = new DateOnly(2026, 11, 3),
+                            Descricao = "O modelo extrair-produzir-descartar tem limite. O curso apresenta os princípios da economia circular e como aplicá-los no projeto, na produção e no pós-uso dos produtos.",
+                            ImagemUrl = "/assets/imagens/banner-ava.webp",
+                            Modalidade = "Ead",
+                            NomeBreve = "Economia Circular",
+                            NomeBusca = "economia circular na industria economia circular",
+                            NomeCompleto = "Economia Circular na Indústria",
+                            PublicoAlvo = "Qualquer pessoa interessada em sustentabilidade no ambiente de trabalho.",
+                            Resumo = "Princípios da economia circular, ciclo de vida do produto e exemplos de redução de desperdício na produção.",
+                            Slug = "economia-circular-industria",
+                            Status = "InscricoesAbertas"
+                        },
+                        new
+                        {
+                            Id = 9,
                             CargaHorariaHoras = 64,
                             CategoriaId = 4,
-                            Descricao = "Classificação de resíduos, logística reversa e ações de eficiência energética com retorno mensurável.",
-                            ImagemUrl = "/assets/imagens/banner-ava.webp",
+                            Descricao = "Resíduo e energia desperdiçada são custo. O curso ensina a classificar e destinar resíduos corretamente e a montar um plano de eficiência energética com retorno mensurável.",
+                            ImagemUrl = "/assets/imagens/video-thumb.webp",
                             Modalidade = "Hibrido",
                             NomeBreve = "Gestão de Resíduos",
                             NomeBusca = "gestao de residuos e eficiencia energetica gestao de residuos",
                             NomeCompleto = "Gestão de Resíduos e Eficiência Energética",
                             PublicoAlvo = "Supervisores, técnicos de meio ambiente e membros de comissões internas.",
+                            Resumo = "Classificação de resíduos, logística reversa e ações de eficiência energética com retorno mensurável.",
                             Slug = "gestao-residuos-eficiencia-energetica",
                             Status = "Encerrado"
                         });
@@ -623,124 +768,159 @@ namespace CatalogoCursos.Api.Dados.Migrations
                             Id = 1,
                             CursoId = 1,
                             Ordem = 1,
-                            Titulo = "Números no chão de fábrica"
+                            Titulo = "Introdução"
                         },
                         new
                         {
                             Id = 2,
                             CursoId = 1,
                             Ordem = 2,
-                            Titulo = "Funções e sensores"
+                            Titulo = "Grandezas e unidades"
                         },
                         new
                         {
                             Id = 3,
-                            CursoId = 2,
-                            Ordem = 1,
-                            Titulo = "Fundamentos de estatística"
+                            CursoId = 1,
+                            Ordem = 3,
+                            Titulo = "Instrumentos de medição"
                         },
                         new
                         {
                             Id = 4,
-                            CursoId = 2,
-                            Ordem = 2,
-                            Titulo = "Controle estatístico de processo"
+                            CursoId = 1,
+                            Ordem = 4,
+                            Titulo = "Escalas e tolerâncias"
                         },
                         new
                         {
                             Id = 5,
                             CursoId = 2,
-                            Ordem = 3,
-                            Titulo = "Prática presencial"
+                            Ordem = 1,
+                            Titulo = "Formas no tecido"
                         },
                         new
                         {
                             Id = 6,
-                            CursoId = 3,
-                            Ordem = 1,
-                            Titulo = "Escrever para ser entendido"
+                            CursoId = 2,
+                            Ordem = 2,
+                            Titulo = "Modelagem plana"
                         },
                         new
                         {
                             Id = 7,
                             CursoId = 3,
+                            Ordem = 1,
+                            Titulo = "Fundamentos de estatística"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CursoId = 3,
+                            Ordem = 2,
+                            Titulo = "Controle estatístico de processo"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CursoId = 3,
+                            Ordem = 3,
+                            Titulo = "Prática presencial"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CursoId = 4,
+                            Ordem = 1,
+                            Titulo = "Movimento e força"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CursoId = 4,
+                            Ordem = 2,
+                            Titulo = "Energia e calor"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CursoId = 5,
+                            Ordem = 1,
+                            Titulo = "Reações na tinturaria"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CursoId = 5,
+                            Ordem = 2,
+                            Titulo = "Acabamento responsável"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CursoId = 6,
+                            Ordem = 1,
+                            Titulo = "Estrutura dos metais"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CursoId = 6,
+                            Ordem = 2,
+                            Titulo = "Propriedades e ensaios"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CursoId = 6,
+                            Ordem = 3,
+                            Titulo = "Laboratório"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CursoId = 7,
+                            Ordem = 1,
+                            Titulo = "Escrever para ser entendido"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CursoId = 7,
                             Ordem = 2,
                             Titulo = "Gêneros do trabalho"
                         },
                         new
                         {
-                            Id = 8,
-                            CursoId = 4,
-                            Ordem = 1,
-                            Titulo = "Estratégias de leitura"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CursoId = 4,
-                            Ordem = 2,
-                            Titulo = "Vocabulário técnico"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CursoId = 5,
-                            Ordem = 1,
-                            Titulo = "Estrutura da matéria"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CursoId = 5,
-                            Ordem = 2,
-                            Titulo = "Famílias de materiais"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CursoId = 6,
-                            Ordem = 1,
-                            Titulo = "Mecânica"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CursoId = 6,
-                            Ordem = 2,
-                            Titulo = "Energia"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CursoId = 7,
+                            Id = 19,
+                            CursoId = 8,
                             Ordem = 1,
                             Titulo = "Do linear ao circular"
                         },
                         new
                         {
-                            Id = 15,
-                            CursoId = 7,
+                            Id = 20,
+                            CursoId = 8,
                             Ordem = 2,
                             Titulo = "Na prática"
                         },
                         new
                         {
-                            Id = 16,
-                            CursoId = 8,
+                            Id = 21,
+                            CursoId = 9,
                             Ordem = 1,
                             Titulo = "Resíduos"
                         },
                         new
                         {
-                            Id = 17,
-                            CursoId = 8,
+                            Id = 22,
+                            CursoId = 9,
                             Ordem = 2,
                             Titulo = "Energia"
                         },
                         new
                         {
-                            Id = 18,
-                            CursoId = 8,
+                            Id = 23,
+                            CursoId = 9,
                             Ordem = 3,
                             Titulo = "Projeto final"
                         });

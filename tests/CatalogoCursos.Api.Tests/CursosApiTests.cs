@@ -38,13 +38,13 @@ public class CursosApiTests(ApiFactory factory)
     [InlineData("matematica")]   // sem acento acha "Matemática"
     [InlineData("MATEMÁTICA")]   // maiúscula
     [InlineData("  matemática ")] // espaço nas pontas
-    [InlineData("4.0")]          // pedaço do nome
+    [InlineData("precisao")]     // pedaço do nome
     public async Task Busca_por_nome_ignora_acento_caixa_e_espacos(string busca)
     {
         var lista = await Listar($"?busca={Uri.EscapeDataString(busca)}");
 
         var curso = Assert.Single(lista.Itens);
-        Assert.Equal("matematica-aplicada-industria-4-0", curso.Slug);
+        Assert.Equal("matematica-precisao-medidas-escalas-metalurgia", curso.Slug);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class CursosApiTests(ApiFactory factory)
     [Fact]
     public async Task Detalhe_traz_modulos_e_aulas_em_ordem()
     {
-        var detalhe = await _http.GetFromJsonAsync<CursoDetalheDto>("/api/cursos/estatistica-controle-qualidade");
+        var detalhe = await _http.GetFromJsonAsync<CursoDetalheDto>("/api/cursos/estatistica-controle-qualidade-producao");
 
         Assert.NotNull(detalhe);
         Assert.Equal("em-breve", detalhe.Curso.Status.Valor);
@@ -113,6 +113,45 @@ public class CursosApiTests(ApiFactory factory)
         Assert.NotEmpty(detalhe.Modulos);
         Assert.Equal(Enumerable.Range(1, detalhe.Modulos.Count), detalhe.Modulos.Select(m => m.Ordem));
         Assert.All(detalhe.Modulos, m => Assert.NotEmpty(m.Aulas));
+    }
+
+    [Fact]
+    public async Task Catalogo_traz_os_seis_cursos_do_figma()
+    {
+        var nomes = (await Listar()).Itens.Select(c => c.NomeCompleto).ToList();
+
+        Assert.Contains("Matemática para a Precisão: Medidas e Escalas na Metalurgia", nomes);
+        Assert.Contains("Geometria e Modelagem no Design Têxtil", nomes);
+        Assert.Contains("Estatística e Controle de Qualidade na Produção", nomes);
+        Assert.Contains("Física do Movimento e da Energia na Metalurgia", nomes);
+        Assert.Contains("Química e Sustentabilidade", nomes);
+        Assert.Contains("Ciência dos Materiais na Metalurgia", nomes);
+    }
+
+    [Fact]
+    public async Task Aula_traz_conteudo_e_vizinhas_atravessando_modulos()
+    {
+        const string curso = "/api/cursos/matematica-precisao-medidas-escalas-metalurgia";
+
+        var primeira = await _http.GetFromJsonAsync<AulaConteudoDto>($"{curso}/modulos/1/aulas/1");
+        Assert.NotNull(primeira);
+        Assert.Null(primeira.Anterior);
+        Assert.Equal(new AulaRefDto(1, 2, "Boas práticas"), primeira.Proxima);
+
+        // Última aula do módulo 1: a próxima é a primeira do módulo 2.
+        var fimDoModulo = await _http.GetFromJsonAsync<AulaConteudoDto>($"{curso}/modulos/1/aulas/3");
+        Assert.NotNull(fimDoModulo);
+        Assert.Equal((2, 1), (fimDoModulo.Proxima!.Modulo, fimDoModulo.Proxima.Aula));
+        Assert.False(string.IsNullOrWhiteSpace(fimDoModulo.Conteudo));
+    }
+
+    [Theory]
+    [InlineData("/api/cursos/matematica-precisao-medidas-escalas-metalurgia/modulos/1/aulas/99")]
+    [InlineData("/api/cursos/matematica-precisao-medidas-escalas-metalurgia/modulos/99/aulas/1")]
+    [InlineData("/api/cursos/curso-que-nao-existe/modulos/1/aulas/1")]
+    public async Task Aula_inexistente_responde_404(string url)
+    {
+        Assert.Equal(HttpStatusCode.NotFound, (await _http.GetAsync(url)).StatusCode);
     }
 
     [Fact]

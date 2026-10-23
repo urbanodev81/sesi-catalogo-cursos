@@ -91,7 +91,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 22 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 27 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
@@ -112,6 +112,7 @@ banco sem a aplicação, use o script [`database/catalogo.sql`](database/catalog
 |---|---|---|
 | GET | `/api/cursos` | Lista cursos. Query opcional: `busca`, `categoria`, `modalidade`, `status` (combináveis). Retorna `{ total, itens }` |
 | GET | `/api/cursos/{slug}` | Detalhe do curso, com módulos e aulas. `404` se não existir |
+| GET | `/api/cursos/{slug}/modulos/{modulo}/aulas/{aula}` | Conteúdo da aula (endereçada pela ordem, como na tela), com a anterior e a próxima do curso inteiro. `404` se não existir |
 | GET | `/api/filtros` | Valores válidos de categoria, modalidade e status (`valor` + `rotulo`) |
 | GET | `/health` | `200` se o banco responde, `503` se não |
 | GET | `/openapi/v1.json` | Documento OpenAPI |
@@ -129,19 +130,28 @@ Exemplo: `GET /api/cursos?busca=matematica&modalidade=ead`
 ```
 categorias (id, slug único, nome, icone)
     1 ── N
-cursos (id, slug único, nome_completo, nome_breve, descricao, categoria_id, modalidade, carga_horaria_horas,
+cursos (id, slug único, nome_completo, nome_breve, resumo, descricao, categoria_id, modalidade, carga_horaria_horas,
         publico_alvo, status, imagem_url, data_disponibilizacao?, nome_busca)
     1 ── N
 modulos (id, curso_id, ordem)          ── ordem única por curso
     1 ── N
-aulas (id, modulo_id, ordem, titulo, descricao)   ── ordem única por módulo
+aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única por módulo
 ```
 
 - `modalidade` (`Ead`, `Presencial`, `Hibrido`) e `status` (`InscricoesAbertas`, `EmBreve`, `Encerrado`)
   são gravados como texto: o banco fica legível e reordenar o enum no código não corrompe dados.
-- `data_disponibilizacao` só existe para curso "em breve" ("quando aplicável", como pede o edital).
-- Catálogo fictício: 8 cursos, 4 categorias, 3 modalidades e 3 status, com cargas horárias, módulos,
-  aulas e públicos-alvo diferentes.
+- `resumo` é o texto curto do card; `descricao` é o "Sobre o curso" da página de detalhe. O Figma mostra
+  os dois, com tamanhos diferentes.
+- `data_disponibilizacao` é o "Início do curso" do Figma; fica vazia em curso encerrado ("quando
+  aplicável", como pede o edital).
+- `conteudo` da aula: parágrafos separados por linha em branco, e linha com `## ` vira subtítulo. É texto
+  puro, renderizado pelo front sem `v-html`, para que nenhum conteúdo vire HTML executável.
+- Catálogo fictício: 9 cursos, 4 categorias, 3 modalidades e 3 status, com cargas horárias, módulos,
+  aulas e públicos-alvo diferentes. Os seis cursos do Figma (nome, categoria e resumo dos cards) estão
+  todos lá; os outros três cobrem Linguagens e Sustentabilidade, que o pacote de ícones prevê.
+- **Troca de seed com índice único:** a migration `CatalogoDoFigma` remove e recria os índices de ordem
+  dentro da própria transação, porque o EF atualiza o seed linha a linha e, no meio do caminho, duas aulas
+  ocupariam a mesma posição.
 
 ## Estratégia de responsividade
 
