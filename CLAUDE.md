@@ -22,7 +22,7 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 48 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 51 testes; sobem Postgres próprio (Testcontainers)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -41,7 +41,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 
 ## Estado (23/10/2026)
 
-- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 48 testes verdes.
+- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 51 testes verdes.
 - Front fiel ao Figma: home (`/`), listagem (`/cursos`, montada com peças do Figma — o protótipo não a tem),
   curso (`/cursos/:slug`) e aula (`/cursos/:slug/modulos/:m/aulas/:a`, sem casca, `meta.semCasca`).
   Progresso das aulas no localStorage atrás de `progresso/RepositorioProgresso` (trocar pela API se o login entrar).
@@ -62,5 +62,9 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   (bytea, 2 MB, tipo pelos bytes), colegas com "online" (POST `/api/conta/presenca` a cada minuto, janela
   de 2 min) e `/area-do-aluno/perfil`. Endpoints em `Contas/AlunoEndpoints.cs`; `TimeProvider` injetável
   (testes fixam 24/10/2026 em `ApiFactory.Relogio`). Migration `AreaDoAluno`.
+- Área do professor (23/10): `/area-do-professor` (mesma `AreaAlunoView`, endereço acertado pelo papel),
+  `components/professor/PainelProfessor.vue` com turmas e alunos em `<details>` (`.acordeao >` filhos
+  diretos), horários (`horarios_turma`) e materiais (`materiais`, 10 por turma) em `Contas/ProfessorEndpoints.cs`.
+  Regras de arquivo comuns em `Contas/Arquivos.cs`. CSP em `Seguranca.cs` (medida com o VLibras aberto).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.

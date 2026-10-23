@@ -9,8 +9,8 @@ requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navega
 guardado no navegador.
 
 Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
-`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração) e
-`/area-do-aluno/perfil` (perfil do aluno).
+`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração),
+`/area-do-aluno/perfil` (perfil do aluno) e `/area-do-professor`.
 
 **Login de demonstração** (também fora do requisito): senha **`sesi2026`** para todas as contas.
 
@@ -18,7 +18,7 @@ Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}`
 |---|---|---|
 | `aluno@exemplo.com` (Ana) | Aluno | "Meus cursos" com progresso, próximas avaliações, documentos (um entregue, três pendentes, com envio de arquivo), colegas da turma com quem está online, e o perfil |
 | `bruno@exemplo.com`, `carla@exemplo.com` | Aluno | Outros progressos, para o painel do professor ter o que mostrar. São os colegas da Ana: entre como Bruno em outro navegador e ele aparece **online** para ela |
-| `professor@exemplo.com` (Marina) | Professor | Progresso de cada aluno, por curso, só leitura |
+| `professor@exemplo.com` (Marina) | Professor | "Área do professor": cada turma num acordeão com os horários, os materiais (publicar e remover PDF, JPG ou PNG) e os alunos, cada um com o histórico de aulas concluídas e a situação dos documentos |
 
 Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
 
@@ -107,7 +107,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 48 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 51 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
@@ -133,11 +133,15 @@ banco sem a aplicação, use o script [`database/catalogo.sql`](database/catalog
 | POST | `/api/conta/entrar` | `{ email, senha }` → abre a sessão (cookie). `401` com a mesma mensagem para e-mail ou senha errados; `429` após 5 tentativas no minuto |
 | POST | `/api/conta/sair` | Encerra a sessão |
 | GET | `/api/conta` | Quem está logado; `401` se ninguém |
-| GET | `/api/conta/cursos` | *Aluno:* cursos matriculados, com aulas concluídas e a próxima aula |
+| GET | `/api/conta/cursos` | *Aluno:* cursos matriculados, com aulas concluídas, a próxima aula e os horários da turma |
 | GET | `/api/cursos/{slug}/progresso` | *Aluno:* aulas concluídas neste curso (`"1.2"`) e se está matriculado |
 | POST | `/api/cursos/{slug}/matricula` | *Aluno:* matricula (idempotente). `409` se as inscrições não estão abertas |
 | POST | `/api/cursos/{slug}/progresso` | *Aluno:* `{ modulo, aula }` → marca como concluída (idempotente). `409` sem matrícula |
-| GET | `/api/professor/turmas` | *Professor:* por curso, cada aluno com aulas concluídas e última atividade |
+| GET | `/api/professor/turmas` | *Professor:* por curso, os horários, os materiais e cada aluno com o histórico de aulas concluídas (com data) e quantos documentos entregou (não os arquivos) |
+| POST | `/api/professor/turmas/{slug}/materiais` | *Professor:* multipart `titulo` + `arquivo` → publica para a turma. PDF, JPG ou PNG de até 2 MB, 10 por turma (`409` acima disso) |
+| DELETE | `/api/professor/materiais/{id}` | *Professor:* remove um material |
+| GET | `/api/aluno/materiais` | *Aluno:* materiais dos cursos em que está matriculado |
+| GET | `/api/materiais/{id}/arquivo` | Baixa um material: professor, ou aluno matriculado no curso (para os outros, `404`) |
 | POST | `/api/conta/presenca` | *Com login:* sinal de presença (o front manda um por minuto com a aba visível) |
 | GET | `/api/aluno/avaliacoes` | *Aluno:* avaliações futuras dos cursos em que está matriculado, por data |
 | GET | `/api/aluno/documentos` | *Aluno:* documentos exigidos, com o arquivo já enviado (nome, tamanho, data) ou `null` |
@@ -185,6 +189,8 @@ documentos_exigidos (id, ordem, titulo, orientacao)
 documentos_enviados (usuario_id, documento_id, nome_arquivo, tipo_conteudo, tamanho, conteudo, em)
                                                  ── chave: (usuario, documento); enviar de novo substitui
 usuarios.ultimo_acesso                           ── último sinal de presença, base do "online"
+horarios_turma (id, curso_id, dia, inicio, fim, descricao)          ── encontros semanais da turma
+materiais (id, curso_id, titulo, nome_arquivo, tipo_conteudo, tamanho, conteudo, em)
 ```
 
 - `modalidade` (`Ead`, `Presencial`, `Hibrido`) e `status` (`InscricoesAbertas`, `EmBreve`, `Encerrado`)
@@ -361,8 +367,9 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
     Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
-  - **Avaliações, documentos, colegas e perfil na área do aluno.** A área do aluno inteira está fora do
-    protótipo (o login não é requisito). Os blocos novos usam o cartão, os selos e os ícones de traço que
+  - **Avaliações, documentos, colegas, materiais e perfil na área do aluno; área do professor.** As duas
+    áreas estão fora do protótipo (o login não é requisito). As turmas do professor e o histórico de cada
+    aluno usam o acordeão da página do curso, com os mesmos ícones + e − do Figma. Os blocos novos usam o cartão, os selos e os ícones de traço que
     a listagem e a página do curso já usam, sem cor ou componente novo.
   - **Painel de acessibilidade.** Não está no protótipo; usa as cores, o raio e os ícones de traço do
     próprio layout. O botão fica no canto inferior esquerdo, longe do "voltar ao topo".

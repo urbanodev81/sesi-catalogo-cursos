@@ -86,6 +86,15 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    manter o salto, que é o que a preferência pede. Escolhi animar porque é um deslocamento pedido pelo
    clique, e o painel dá o "Parar animações" para quem quiser o salto.
 
+9. **"Quando estiver logado como professor, mude para área do professor: abrir a lista do aluno para ver o
+   histórico, usar acordeão para abrir e fechar, horários da turma, como colocar material para os alunos
+   verem."** A IA propôs e fez: a mesma tela atende `/area-do-aluno` e `/area-do-professor` e acerta o
+   endereço pelo papel; turmas e alunos em acordeão (`<details>`, o mesmo do Figma); horários no seed;
+   materiais com envio validado pelos bytes, limite de 10 por turma, e download só para o professor e os
+   alunos matriculados.
+   **Decidido pela IA e revisado por mim:** o professor vê quantos documentos o aluno entregou, mas não
+   os arquivos pessoais dele. Os horários aparecem também para o aluno, nos cartões de "Meus cursos".
+
 ## Como o conteúdo foi validado
 
 - **Teste de interação** (Playwright, fora do projeto): busca, filtros combinados, limpar, lista vazia,
@@ -99,7 +108,7 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   falso recusado com a mensagem da API, envio de PDF atualizando a contagem de pendentes, perfil, axe e
   ausência de rolagem horizontal em 1440 e 390 px.
 
-- **Testes de integração** (`tests/`): 48 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 51 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
   3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos e o login (sessão, papéis, limite de tentativas, progresso).
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
@@ -178,3 +187,8 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     defeito só apareceu quando eu abri o site. A IA mediu a posição a cada 80 ms nos dois modos e achou a
     configuração do sistema. **Correção:** a subida é animada pelo próprio script (`requestAnimationFrame`,
     450 a 1300 ms conforme a distância), e o "Parar animações" do painel a torna instantânea.
+15. **Acordeão de dentro com o ícone do de fora.** Na área do professor, os alunos (acordeão dentro do
+    acordeão da turma) apareciam com o "−" de aberto mesmo fechados: a regra `.acordeao details[open]
+    summary` valia para qualquer `summary` dentro da turma aberta. O teste no navegador leu o ícone de cada
+    estado e pegou. **Correção:** as regras do acordeão passaram a valer só para os filhos diretos
+    (`.acordeao > details > summary`), e a página do curso foi conferida de novo.
