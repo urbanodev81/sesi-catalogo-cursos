@@ -35,7 +35,8 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy(nameof(Papel.Aluno), p => p.RequireRole(nameof(Papel.Aluno)))
     .AddPolicy(nameof(Papel.Professor), p => p.RequireRole(nameof(Papel.Professor)));
 
-// Tentativas de login: 5 por minuto por IP, contra quem tenta adivinhar senha.
+// Tentativas de login: 5 por minuto por IP, contra quem tenta adivinhar senha. O IP vem do proxy
+// (X-Forwarded-For) e pode ser forjado; por isso há também o limite por e-mail em ContasEndpoints.
 builder.Services.AddRateLimiter(o =>
 {
     o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;

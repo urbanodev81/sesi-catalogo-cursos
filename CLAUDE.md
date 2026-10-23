@@ -22,7 +22,7 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 51 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 53 testes; sobem Postgres próprio (Testcontainers)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -51,7 +51,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Publicação preparada: `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via `DATABASE_URL`;
   `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8.
 - Login de demonstração (aluno e professor) na `main` desde 23/10: cookie HttpOnly, PasswordHasher, 5 logins/min
-  por IP, contas do seed com senha `sesi2026` (`Dados/ContasDeDemonstracao.cs`).
+  por IP + 5 senhas erradas/min por e-mail (o IP vem do X-Forwarded-For e pode ser forjado), contas do seed com senha `sesi2026` (`Dados/ContasDeDemonstracao.cs`).
 - Publicado em 23/10: https://sesi-catalogo-cursos-yict.onrender.com (Render, Blueprint, conta GitHub urbanodev81;
   Neon us-east-1, string sem pooler). Deploy automático a cada push na `main`.
 - Barra de carregamento entre páginas (`ProgressoNavegacao`, 180 ms de carência) e "voltar ao topo"

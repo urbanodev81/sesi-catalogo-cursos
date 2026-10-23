@@ -131,7 +131,7 @@ banco sem a aplicação, use o script [`database/catalogo.sql`](database/catalog
 | GET | `/api/cursos/{slug}` | Detalhe do curso, com módulos e aulas. `404` se não existir |
 | GET | `/api/cursos/{slug}/modulos/{modulo}/aulas/{aula}` | Conteúdo da aula (endereçada pela ordem, como na tela), com a anterior e a próxima do curso inteiro. `404` se não existir |
 | GET | `/api/filtros` | Valores válidos de categoria, modalidade e status (`valor` + `rotulo`) |
-| POST | `/api/conta/entrar` | `{ email, senha }` → abre a sessão (cookie). `401` com a mesma mensagem para e-mail ou senha errados; `429` após 5 tentativas no minuto |
+| POST | `/api/conta/entrar` | `{ email, senha }` → abre a sessão (cookie). `401` com a mesma mensagem para e-mail ou senha errados; `429` após 5 tentativas no minuto do mesmo IP ou 5 senhas erradas no minuto para o mesmo e-mail (trocar de IP não dá cota nova) |
 | POST | `/api/conta/sair` | Encerra a sessão |
 | GET | `/api/conta` | Quem está logado; `401` se ninguém |
 | GET | `/api/conta/cursos` | *Aluno:* cursos matriculados, com aulas concluídas, a próxima aula e os horários da turma |

@@ -56,13 +56,36 @@ public class ContasApiTests(ApiFactory factory)
     [Fact]
     public async Task Sexta_tentativa_de_login_no_mesmo_minuto_e_bloqueada()
     {
+        // E-mails diferentes: assim só o limite por IP pode bloquear (e a conta da Ana segue livre
+        // para os outros testes).
         var http = NovoCliente();
         for (var i = 0; i < 5; i++)
-            await http.PostAsJsonAsync("/api/conta/entrar", new EntrarDto("aluno@exemplo.com", "errada"));
+            await http.PostAsJsonAsync("/api/conta/entrar", new EntrarDto($"ip{i}@exemplo.com", "errada"));
 
-        var sexta = await http.PostAsJsonAsync("/api/conta/entrar", new EntrarDto("aluno@exemplo.com", "sesi2026"));
+        var sexta = await http.PostAsJsonAsync("/api/conta/entrar", new EntrarDto("bruno@exemplo.com", "sesi2026"));
 
         Assert.Equal(HttpStatusCode.TooManyRequests, sexta.StatusCode);
+    }
+
+    [Fact]
+    public async Task Trocar_de_IP_nao_da_mais_tentativas_no_mesmo_email()
+    {
+        // Cada NovoCliente forja um X-Forwarded-For diferente: o limite por IP não pega, o por e-mail sim.
+        for (var i = 0; i < ContasEndpoints.ErrosPorMinuto; i++)
+            await NovoCliente().PostAsJsonAsync("/api/conta/entrar", new EntrarDto("alvo@exemplo.com", "errada"));
+
+        var sexta = await NovoCliente().PostAsJsonAsync("/api/conta/entrar", new EntrarDto("ALVO@exemplo.com", "errada"));
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, sexta.StatusCode);
+    }
+
+    [Fact]
+    public async Task Login_com_corpo_nulo_e_401_e_nao_500()
+    {
+        var resposta = await NovoCliente().PostAsync("/api/conta/entrar",
+            new StringContent("null", System.Text.Encoding.UTF8, "application/json"));
+
+        Assert.Equal(HttpStatusCode.Unauthorized, resposta.StatusCode);
     }
 
     [Theory]

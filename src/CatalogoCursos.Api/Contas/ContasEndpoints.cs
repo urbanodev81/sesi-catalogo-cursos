@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Threading.RateLimiting;
 using CatalogoCursos.Api.Cursos;
 using CatalogoCursos.Api.Dados;
 using CatalogoCursos.Api.Dominio;
@@ -27,6 +28,14 @@ public static class ContasEndpoints
     private static readonly PasswordHasher<Usuario> Hasher = new();
     private static readonly string HashDeEspera = Hasher.HashPassword(null!, Guid.NewGuid().ToString());
 
+    // Senhas erradas por e-mail: 5 por minuto. O limite por IP depende do IP que o proxy informa, e quem
+    // forja o X-Forwarded-For ganha cota nova a cada pedido; este não, porque a conta não muda.
+    // Vale também para e-mail inexistente, para o bloqueio não revelar quem tem cadastro.
+    public const int ErrosPorMinuto = 5;
+    private static readonly PartitionedRateLimiter<string> ErrosPorEmail = PartitionedRateLimiter.Create<string, string>(
+        email => RateLimitPartition.GetFixedWindowLimiter(email,
+            _ => new FixedWindowRateLimiterOptions { PermitLimit = ErrosPorMinuto, Window = TimeSpan.FromMinutes(1) }));
+
     public static void MapContas(this IEndpointRouteBuilder app)
     {
         var conta = app.MapGroup("/api/conta").WithTags("Conta");
@@ -45,16 +54,26 @@ public static class ContasEndpoints
     }
 
     private static async Task<Results<Ok<UsuarioDto>, ProblemHttpResult>> Entrar(
-        EntrarDto dados, CatalogoContext db, HttpContext http, TimeProvider relogio, CancellationToken ct)
+        EntrarDto? dados, CatalogoContext db, HttpContext http, TimeProvider relogio, CancellationToken ct)
     {
-        var email = dados.Email?.Trim().ToLowerInvariant() ?? "";
+        var email = dados?.Email?.Trim().ToLowerInvariant() ?? "";
+
+        // Permissão 0 só pergunta se ainda há cota; quem gasta a cota é a senha errada, lá embaixo.
+        using (var cota = ErrosPorEmail.AttemptAcquire(email, 0))
+            if (!cota.IsAcquired)
+                return TypedResults.Problem("Muitas tentativas seguidas. Espere um minuto e tente de novo.",
+                    statusCode: StatusCodes.Status429TooManyRequests);
+
         var usuario = await db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, ct);
 
         // Mesma resposta e mesmo custo para e-mail inexistente e senha errada: sem conta, a senha é
         // conferida contra um hash qualquer, para o tempo de resposta não revelar quem tem cadastro.
-        var confere = Hasher.VerifyHashedPassword(usuario!, usuario?.SenhaHash ?? HashDeEspera, dados.Senha ?? "");
+        var confere = Hasher.VerifyHashedPassword(usuario!, usuario?.SenhaHash ?? HashDeEspera, dados?.Senha ?? "");
         if (usuario is null || confere == PasswordVerificationResult.Failed)
+        {
+            ErrosPorEmail.AttemptAcquire(email).Dispose();
             return TypedResults.Problem("E-mail ou senha incorretos.", statusCode: StatusCodes.Status401Unauthorized);
+        }
 
         var identidade = new ClaimsIdentity(
             [
