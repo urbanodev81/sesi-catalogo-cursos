@@ -13,6 +13,7 @@ import {
   restaurarPadrao,
   sublinharLinks,
 } from './preferencias'
+import { usePainelFlutuante } from '../composables/usePainelFlutuante'
 
 // Painel de preferências de acessibilidade, com botão próprio no canto inferior esquerdo: quem precisa
 // de texto maior ou mais contraste tem de achar o recurso de cara, não dentro de um menu. Não substitui
@@ -22,6 +23,7 @@ import {
 const aberto = ref(false)
 const botao = ref<HTMLButtonElement>()
 const painel = ref<HTMLElement>()
+usePainelFlutuante('acessibilidade', aberto, botao, painel)
 const leituraAberta = ref(false)
 
 async function alternar() {

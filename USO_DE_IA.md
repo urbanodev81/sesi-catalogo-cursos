@@ -103,6 +103,11 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     selo "Em breve" — sem prometer uma resposta que o sistema não dá.
     **Erro pego pelo axe:** o topo do painel de ajuda nasceu como `<header>`, que dentro do `<body>` vira
     um segundo "banner" na árvore de acessibilidade. Trocado por `<div>`.
+    Depois, o endereço: `/area-do-aluno` continuava sendo a porta do professor. A IA ofereceu `/central`
+    (recomendado), `/admin` e `/entrar` + `/painel`. **Decidido por mim:** `/admin`, com `/admin/aluno` e
+    `/admin/professor`; a IA manteve os endereços antigos como redirecionamento.
+    **Pedido meu:** painéis abertos fecham sozinhos depois de um tempo parado. A IA escolheu 60 s e, por
+    conta própria, um painel por vez (na minha tela os dois abertos cobriam o conteúdo).
 
 ## Como o conteúdo foi validado
 

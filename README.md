@@ -9,8 +9,9 @@ requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navega
 guardado no navegador.
 
 Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
-`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração),
-`/area-do-aluno/perfil` (perfil do aluno) e `/area-do-professor`.
+`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/admin` (login de demonstração, porta única de alunos e professores),
+`/admin/aluno`, `/admin/aluno/perfil` e `/admin/professor`. Os endereços antigos (`/area-do-aluno`...)
+redirecionam para os novos.
 
 **Login de demonstração** (também fora do requisito): senha **`sesi2026`** para todas as contas.
 
@@ -387,6 +388,9 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     prontas (como entrar, onde enviar documentos, onde ficam os materiais e as dúvidas frequentes da
     página "Sobre"). O campo de texto aparece desligado com o selo "Em breve": o assistente com IA não
     existe ainda, e o painel não finge que existe. Esc fecha e devolve o foco ao botão.
+  - **Painéis dos cantos se fecham sozinhos.** Acessibilidade e Ajuda abrem um por vez (no celular os dois
+    juntos cobrem a tela) e fecham depois de 60 s sem movimento, toque, tecla ou rolagem. A conversa da
+    Ajuda continua lá ao reabrir; se o foco estava no painel, volta ao botão que o abriu.
   - **Cores das categorias Linguagens e Sustentabilidade.** O protótipo só mostra as etiquetas de
     Matemática (bege) e Ciências da Natureza (lilás). As outras duas seguem a mesma lógica, em tom claro
     de azul e de verde.

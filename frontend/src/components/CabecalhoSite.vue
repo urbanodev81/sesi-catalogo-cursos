@@ -58,7 +58,7 @@ function fecharComEsc(e: KeyboardEvent) {
           <li><LinkAncora ancora="sobre">Sobre</LinkAncora></li>
           <li>
             <!-- Um botão para aluno e professor: "Entrar" para o visitante, "Meu painel" para quem entrou. -->
-            <RouterLink :to="{ name: professor ? 'area-do-professor' : 'area-do-aluno' }" class="topo__aluno">
+            <RouterLink :to="{ name: !usuario ? 'entrar' : professor ? 'area-do-professor' : 'area-do-aluno' }" class="topo__aluno">
               {{ usuario ? 'Meu painel' : 'Entrar' }}
             </RouterLink>
           </li>

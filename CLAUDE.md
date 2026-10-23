@@ -60,13 +60,14 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   flutuantes recusados (USO_DE_IA nº 7). Seta da aula volta para a área do aluno quando há login.
 - Painel do aluno (23/10, pedido do Ricardo, fora do Figma): próximas avaliações, documentos com upload
   (bytea, 2 MB, tipo pelos bytes), colegas com "online" (POST `/api/conta/presenca` a cada minuto, janela
-  de 2 min) e `/area-do-aluno/perfil`. Endpoints em `Contas/AlunoEndpoints.cs`; `TimeProvider` injetável
+  de 2 min) e `/admin/aluno/perfil`. Endpoints em `Contas/AlunoEndpoints.cs`; `TimeProvider` injetável
   (testes fixam 24/10/2026 em `ApiFactory.Relogio`). Migration `AreaDoAluno`.
-- Área do professor (23/10): `/area-do-professor` (mesma `AreaAlunoView`, endereço acertado pelo papel),
+- Área do professor (23/10): `/admin/professor` (mesma `AreaAlunoView` de `/admin` e `/admin/aluno`, endereço acertado pelo papel; `/area-do-*` redirecionam),
   `components/professor/PainelProfessor.vue` com turmas e alunos em `<details>` (`.acordeao >` filhos
   diretos), horários (`horarios_turma`) e materiais (`materiais`, 10 por turma) em `Contas/ProfessorEndpoints.cs`.
   Regras de arquivo comuns em `Contas/Arquivos.cs`. CSP em `Seguranca.cs` (medida com o VLibras aberto).
 - Cabeçalho: "Entrar" (visitante) / "Meu painel" (com sessão). Botão "Ajuda" (`AjudaChat.vue`): respostas
   prontas de `AJUDA_PLATAFORMA` + `DUVIDAS_FREQUENTES`, campo de IA desligado com "Em breve".
+  Painéis dos cantos: um por vez, fecham após 60 s parados (`composables/usePainelFlutuante.ts`).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.

@@ -26,24 +26,35 @@ export const router = createRouter({
       meta: { titulo: 'Aula', semCasca: true },
     },
     {
-      path: '/area-do-aluno',
+      // Porta única de alunos e professores. A mesma tela mostra o login ao visitante e, depois de entrar,
+      // leva cada um ao seu painel pelo papel.
+      path: '/admin',
+      name: 'entrar',
+      component: () => import('./views/AreaAlunoView.vue'),
+      meta: { titulo: 'Entrar' },
+    },
+    {
+      path: '/admin/aluno',
       name: 'area-do-aluno',
       component: () => import('./views/AreaAlunoView.vue'),
       meta: { titulo: 'Área do aluno' },
     },
     {
-      // Mesma tela: o conteúdo muda com o papel de quem entrou, e a própria tela acerta o endereço.
-      path: '/area-do-professor',
+      path: '/admin/professor',
       name: 'area-do-professor',
       component: () => import('./views/AreaAlunoView.vue'),
       meta: { titulo: 'Área do professor' },
     },
     {
-      path: '/area-do-aluno/perfil',
+      path: '/admin/aluno/perfil',
       name: 'perfil',
       component: () => import('./views/PerfilView.vue'),
       meta: { titulo: 'Meu perfil' },
     },
+    // Endereços antigos (já publicados) continuam funcionando.
+    { path: '/area-do-aluno', redirect: { name: 'area-do-aluno' } },
+    { path: '/area-do-aluno/perfil', redirect: { name: 'perfil' } },
+    { path: '/area-do-professor', redirect: { name: 'area-do-professor' } },
     {
       path: '/:caminho(.*)*',
       name: 'nao-encontrado',

@@ -13,19 +13,20 @@ import { useSessao } from '../conta/sessao'
 
 // Login de demonstração (não é requisito do edital): o aluno vê os cursos, avaliações, documentos,
 // colegas e materiais; o professor vê as turmas (horários, materiais, histórico de cada aluno).
-// A mesma tela atende /area-do-aluno e /area-do-professor; depois do login, o endereço segue o papel.
-// Contas e senha publicadas no README.
+// A mesma tela atende /admin (login), /admin/aluno e /admin/professor; o endereço segue o papel de quem
+// entrou, e o visitante volta para /admin. Contas e senha publicadas no README.
 const { usuario, carregarSessao, entrar, sair } = useSessao()
 carregarSessao()
 
 const route = useRoute()
 const router = useRouter()
-const naAreaDoProfessor = computed(() => route.name === 'area-do-professor')
 watch(
-  () => usuario.value?.papel,
-  (papel) => {
-    if (papel === 'professor' && !naAreaDoProfessor.value) router.replace({ name: 'area-do-professor' })
-    if (papel === 'aluno' && naAreaDoProfessor.value) router.replace({ name: 'area-do-aluno' })
+  () => [usuario.value?.papel ?? usuario.value, route.name],
+  () => {
+    const u = usuario.value
+    if (u === undefined) return // a sessão ainda não respondeu
+    const destino = u === null ? 'entrar' : u.papel === 'professor' ? 'area-do-professor' : 'area-do-aluno'
+    if (route.name !== destino) router.replace({ name: destino })
   },
   { immediate: true },
 )

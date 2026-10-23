@@ -2,6 +2,7 @@
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { AJUDA_PLATAFORMA, CONTATO, DUVIDAS_FREQUENTES } from '../conteudo/institucional'
 import IconeLinha from './IconeLinha.vue'
+import { usePainelFlutuante } from '../composables/usePainelFlutuante'
 
 // Painel de ajuda no canto inferior direito. Hoje responde às dúvidas frequentes (texto fixo, do site)
 // em formato de conversa; o campo para escrever fica desabilitado, com o aviso de que o assistente
@@ -13,6 +14,7 @@ const aberto = ref(false)
 const conversa = ref<Mensagem[]>([])
 const botao = ref<HTMLButtonElement>()
 const painel = ref<HTMLElement>()
+usePainelFlutuante('ajuda', aberto, botao, painel)
 const historico = ref<HTMLElement>()
 
 async function alternar() {
