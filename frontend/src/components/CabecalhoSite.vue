@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { useSessao } from '../conta/sessao'
 import LinkAncora from './LinkAncora.vue'
 
 const route = useRoute()
+const { usuario } = useSessao()
+const professor = computed(() => usuario.value?.papel === 'professor')
 const menuAberto = ref(false)
 const rolou = ref(false)
 
@@ -53,7 +56,11 @@ function fecharComEsc(e: KeyboardEvent) {
           <li><RouterLink to="/">Início</RouterLink></li>
           <li><RouterLink :to="{ name: 'catalogo' }">Cursos</RouterLink></li>
           <li><LinkAncora ancora="sobre">Sobre</LinkAncora></li>
-          <li><RouterLink :to="{ name: 'area-do-aluno' }" class="topo__aluno">Área do aluno</RouterLink></li>
+          <li>
+            <RouterLink :to="{ name: professor ? 'area-do-professor' : 'area-do-aluno' }" class="topo__aluno">
+              {{ professor ? 'Área do professor' : 'Área do aluno' }}
+            </RouterLink>
+          </li>
         </ul>
       </nav>
     </div>

@@ -15,7 +15,9 @@ const router = useRouter()
 const { usuario } = useSessao()
 const voltar = computed(() =>
   usuario.value
-    ? { para: { name: 'area-do-aluno' }, rotulo: 'Voltar para a área do aluno' }
+    ? usuario.value.papel === 'professor'
+      ? { para: { name: 'area-do-professor' }, rotulo: 'Voltar para a área do professor' }
+      : { para: { name: 'area-do-aluno' }, rotulo: 'Voltar para a área do aluno' }
     : { para: { name: 'curso', params: { slug: props.slug } }, rotulo: 'Voltar para a página do curso' },
 )
 

@@ -1,17 +1,34 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
-import { RouterLink } from 'vue-router'
-import { ErroApi, obterMeusCursos, obterTurmas } from '../api/cliente'
-import type { MeuCurso, Turma } from '../api/tipos'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { ErroApi, obterMeusCursos } from '../api/cliente'
+import type { MeuCurso } from '../api/tipos'
 import ColegasTurma from '../components/aluno/ColegasTurma.vue'
 import DocumentosPendentes from '../components/aluno/DocumentosPendentes.vue'
+import MateriaisTurma from '../components/aluno/MateriaisTurma.vue'
 import ProximasAvaliacoes from '../components/aluno/ProximasAvaliacoes.vue'
+import PainelProfessor from '../components/professor/PainelProfessor.vue'
+import IconeLinha from '../components/IconeLinha.vue'
 import { useSessao } from '../conta/sessao'
 
-// Login de demonstração (não é requisito do edital): o aluno vê os cursos que está fazendo e o
-// professor acompanha o progresso das turmas, só leitura. Contas e senha publicadas no README.
+// Login de demonstração (não é requisito do edital): o aluno vê os cursos, avaliações, documentos,
+// colegas e materiais; o professor vê as turmas (horários, materiais, histórico de cada aluno).
+// A mesma tela atende /area-do-aluno e /area-do-professor; depois do login, o endereço segue o papel.
+// Contas e senha publicadas no README.
 const { usuario, carregarSessao, entrar, sair } = useSessao()
 carregarSessao()
+
+const route = useRoute()
+const router = useRouter()
+const naAreaDoProfessor = computed(() => route.name === 'area-do-professor')
+watch(
+  () => usuario.value?.papel,
+  (papel) => {
+    if (papel === 'professor' && !naAreaDoProfessor.value) router.replace({ name: 'area-do-professor' })
+    if (papel === 'aluno' && naAreaDoProfessor.value) router.replace({ name: 'area-do-aluno' })
+  },
+  { immediate: true },
+)
 
 const CONTAS_DEMO = [
   { email: 'aluno@exemplo.com', papel: 'Aluno' },
@@ -53,21 +70,18 @@ async function aoSair() {
 
 // ---------- Dados do painel ----------
 const meusCursos = shallowRef<MeuCurso[]>([])
-const turmas = shallowRef<Turma[]>([])
 const estado = ref<'carregando' | 'pronto' | 'erro'>('carregando')
 const erro = ref('')
 
 let controle: AbortController | undefined
 async function carregarPainel() {
   controle?.abort()
-  const papel = usuario.value?.papel
-  if (!papel) return
+  if (usuario.value?.papel !== 'aluno') return // o painel do professor carrega sozinho
   controle = new AbortController()
   const sinal = controle.signal
   estado.value = 'carregando'
   try {
-    if (papel === 'aluno') meusCursos.value = await obterMeusCursos(sinal)
-    else turmas.value = await obterTurmas(sinal)
+    meusCursos.value = await obterMeusCursos(sinal)
     estado.value = 'pronto'
   } catch (e) {
     if (sinal.aborted) return
@@ -80,16 +94,14 @@ onBeforeUnmount(() => controle?.abort())
 
 const primeiroNome = computed(() => usuario.value?.nome.split(' ')[0] ?? '')
 const pct = (feitas: number, total: number) => (total ? Math.round((feitas / total) * 100) : 0)
-const formatarData = (iso: string) =>
-  new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
 </script>
 
 <template>
   <section class="pagina-hero" aria-labelledby="titulo-area">
     <div class="container pagina-hero__linha">
       <div>
-        <h1 id="titulo-area">{{ usuario ? `Olá, ${primeiroNome}` : 'Área do aluno' }}</h1>
-        <p v-if="usuario?.papel === 'professor'">Acompanhe o progresso dos alunos em cada curso.</p>
+        <h1 id="titulo-area">{{ usuario ? `Olá, ${primeiroNome}` : naAreaDoProfessor ? 'Área do professor' : 'Área do aluno' }}</h1>
+        <p v-if="usuario?.papel === 'professor'">Suas turmas: horários, materiais e o histórico de cada aluno.</p>
         <p v-else-if="usuario">Continue de onde parou.</p>
         <p v-else>Entre para acompanhar o seu progresso nos cursos.</p>
       </div>
@@ -135,6 +147,9 @@ const formatarData = (iso: string) =>
       </aside>
     </div>
 
+    <!-- ---------- Professor: turmas ---------- -->
+    <PainelProfessor v-else-if="usuario.papel === 'professor'" />
+
     <p v-else-if="estado === 'carregando'" role="status">Carregando…</p>
 
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">
@@ -143,7 +158,7 @@ const formatarData = (iso: string) =>
     </div>
 
     <!-- ---------- Aluno: meus cursos ---------- -->
-    <template v-else-if="usuario.papel === 'aluno'">
+    <template v-else>
     <section aria-labelledby="titulo-meus">
       <h2 id="titulo-meus" class="secao__titulo">Meus cursos</h2>
       <div v-if="meusCursos.length === 0" class="aviso">
@@ -174,6 +189,11 @@ const formatarData = (iso: string) =>
             </div>
             <span>{{ m.concluidas }} de {{ m.totalAulas }} aulas</span>
           </div>
+          <ul v-if="m.horarios.length" class="meu-curso__horarios" :aria-label="`Horários de ${m.curso.nomeBreve}`">
+            <li v-for="h in m.horarios" :key="h.dia + h.inicio">
+              <IconeLinha nome="relogio" /> {{ h.dia }}, {{ h.inicio }} às {{ h.fim }}
+            </li>
+          </ul>
           <RouterLink
             v-if="m.proxima"
             :to="{ name: 'aula', params: { slug: m.curso.slug, modulo: m.proxima.modulo, aula: m.proxima.aula } }"
@@ -191,48 +211,9 @@ const formatarData = (iso: string) =>
       <ProximasAvaliacoes />
       <DocumentosPendentes />
       <ColegasTurma />
+      <MateriaisTurma />
     </div>
     </template>
 
-    <!-- ---------- Professor: turmas ---------- -->
-    <section v-else aria-labelledby="titulo-turmas">
-      <h2 id="titulo-turmas" class="secao__titulo">Acompanhamento das turmas</h2>
-      <p v-if="turmas.length === 0" class="aviso">Nenhum aluno matriculado ainda.</p>
-      <div v-for="t in turmas" :key="t.slug" class="turma">
-        <h3 :id="`turma-${t.slug}`" class="turma__titulo">
-          <RouterLink :to="{ name: 'curso', params: { slug: t.slug } }">{{ t.nome }}</RouterLink>
-          <small>{{ t.alunos.length }} {{ t.alunos.length === 1 ? 'aluno' : 'alunos' }} · {{ t.totalAulas }} aulas</small>
-        </h3>
-        <!-- Tabela larga no celular rola dentro da própria caixa, não a página. -->
-        <div class="turma__rolagem" role="region" :aria-labelledby="`turma-${t.slug}`" tabindex="0">
-          <table>
-            <caption class="visualmente-oculto">Progresso dos alunos em {{ t.nome }}</caption>
-            <thead>
-              <tr>
-                <th scope="col">Aluno</th>
-                <th scope="col">Aulas concluídas</th>
-                <th scope="col">Progresso</th>
-                <th scope="col">Última atividade</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="a in t.alunos" :key="a.nome">
-                <th scope="row">{{ a.nome }}</th>
-                <td>{{ a.concluidas }} de {{ t.totalAulas }}</td>
-                <td>
-                  <span class="turma__pct">
-                    <span class="barra-progresso barra-progresso--clara" aria-hidden="true">
-                      <span :style="{ width: `${pct(a.concluidas, t.totalAulas)}%` }" />
-                    </span>
-                    {{ pct(a.concluidas, t.totalAulas) }}%
-                  </span>
-                </td>
-                <td>{{ a.ultimaAtividade ? formatarData(a.ultimaAtividade) : 'Ainda não começou' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
   </div>
 </template>

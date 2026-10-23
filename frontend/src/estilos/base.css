@@ -968,10 +968,11 @@ h3 {
   margin-top: 0;
 }
 
-.acordeao details {
+/* Só os filhos diretos: um acordeão dentro de outro (área do professor) não herda o +/− do de fora. */
+.acordeao > details {
   border-bottom: 1px solid var(--borda);
 }
-.acordeao summary {
+.acordeao > details > summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -983,23 +984,23 @@ h3 {
   cursor: pointer;
   list-style: none;
 }
-.acordeao summary::-webkit-details-marker {
+.acordeao > details > summary::-webkit-details-marker {
   display: none;
 }
-.acordeao summary::after {
+.acordeao > details > summary::after {
   content: '';
   flex: none;
   width: 24px;
   height: 24px;
   background: url('/assets/icones/add_2.svg') center / contain no-repeat;
 }
-.acordeao details[open] summary::after {
+.acordeao > details[open] > summary::after {
   background-image: url('/assets/icones/remove.svg');
 }
-.acordeao details > :not(summary) {
+.acordeao > details > :not(summary) {
   margin-top: 0;
 }
-.acordeao details[open] {
+.acordeao > details[open] {
   padding-bottom: 1.25rem;
 }
 .acordeao__resumo {
@@ -1597,11 +1598,201 @@ h3 {
   .painel-aluno {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  /* Documentos ocupam a coluna da direita inteira; avaliações e colegas empilham na esquerda. */
-  .painel-aluno > :nth-child(2) {
-    grid-column: 2;
-    grid-row: 1 / span 2;
+}
+.meu-curso__horarios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.meu-curso__horarios li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.meu-curso__horarios .icone-linha {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Área do professor ---------- */
+.turmas-prof {
+  margin-top: 1rem;
+}
+.turmas-prof__resumo {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+.turma-prof {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+  padding-top: 0.5rem;
+}
+@media (min-width: 900px) {
+  .turma-prof {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   }
+  .turma-prof__bloco--largo {
+    grid-column: 1 / -1;
+  }
+}
+.turma-prof__bloco {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding: 1.25rem;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: #fff;
+}
+.turma-prof__bloco p {
+  margin: 0;
+}
+.turma-prof__titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.0625rem;
+}
+.turma-prof__titulo .icone-linha {
+  color: var(--vermelho);
+}
+.horarios,
+.materiais {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.horarios li {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 0 1rem;
+  padding-block: 0.625rem;
+  border-top: 1px solid var(--borda);
+}
+.horarios li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.horarios__descricao {
+  grid-column: 2;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.materiais li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-block: 0.75rem;
+  border-top: 1px solid var(--borda);
+}
+.materiais li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.materiais a {
+  font-weight: 600;
+  color: var(--texto);
+  overflow-wrap: anywhere;
+}
+.materiais small {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+.material-novo {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--raio);
+  background: var(--fundo-suave);
+}
+.material-novo__titulo {
+  font-weight: 700;
+}
+.material-novo .botao {
+  justify-self: start;
+}
+.material-novo input[type='file'] {
+  font: inherit;
+  font-size: 0.875rem;
+  max-width: 100%;
+}
+.alunos-prof details {
+  border-top: 1px solid var(--borda);
+}
+.alunos-prof summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  min-height: 52px;
+  padding: 0.5rem 2.25rem 0.5rem 0;
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+.alunos-prof summary::-webkit-details-marker {
+  display: none;
+}
+.alunos-prof summary::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: url('/assets/icones/add_2.svg') center / contain no-repeat;
+}
+.alunos-prof details[open] summary::after {
+  background-image: url('/assets/icones/remove.svg');
+}
+.alunos-prof__nome {
+  flex: 1 1 10rem;
+  font-weight: 700;
+}
+.alunos-prof__progresso {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--texto-suave);
+}
+.alunos-prof__progresso .barra-progresso {
+  width: clamp(60px, 10vw, 120px);
+}
+.alunos-prof__historico {
+  padding: 0 0 1rem;
+}
+.alunos-prof__ultima {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.alunos-prof__historico ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+}
+.alunos-prof__historico a {
+  color: var(--texto);
+  font-weight: 600;
+}
+.alunos-prof__historico li span {
+  color: var(--texto-suave);
+  margin-left: 0.375rem;
 }
 .painel-bloco {
   align-content: start;

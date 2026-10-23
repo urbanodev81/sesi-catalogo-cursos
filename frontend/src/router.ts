@@ -32,6 +32,13 @@ export const router = createRouter({
       meta: { titulo: 'Área do aluno' },
     },
     {
+      // Mesma tela: o conteúdo muda com o papel de quem entrou, e a própria tela acerta o endereço.
+      path: '/area-do-professor',
+      name: 'area-do-professor',
+      component: () => import('./views/AreaAlunoView.vue'),
+      meta: { titulo: 'Área do professor' },
+    },
+    {
       path: '/area-do-aluno/perfil',
       name: 'perfil',
       component: () => import('./views/PerfilView.vue'),

@@ -108,12 +108,42 @@ export interface MeuCurso {
   concluidas: number
   /** Primeira aula ainda não concluída; null quando terminou o curso. */
   proxima: AulaMarcada | null
+  horarios: Horario[]
+}
+
+/** Encontro semanal da turma, já formatado ("Terça-feira", "19:00"). */
+export interface Horario {
+  dia: string
+  inicio: string
+  fim: string
+  descricao: string
+}
+
+export interface Material {
+  id: number
+  titulo: string
+  nomeArquivo: string
+  tamanho: number
+  em: string
+  cursoSlug: string
+  cursoNome: string
+}
+
+export interface AulaFeita {
+  modulo: number
+  aula: number
+  titulo: string
+  em: string
 }
 
 export interface AlunoProgresso {
   nome: string
   concluidas: number
   ultimaAtividade: string | null
+  /** Aulas concluídas, da mais recente para a mais antiga. */
+  historico: AulaFeita[]
+  documentosEntregues: number
+  documentosExigidos: number
 }
 
 export interface Turma {
@@ -121,6 +151,8 @@ export interface Turma {
   nome: string
   totalAulas: number
   alunos: AlunoProgresso[]
+  horarios: Horario[]
+  materiais: Material[]
 }
 
 // ---------- Painel do aluno ----------

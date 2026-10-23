@@ -9,6 +9,7 @@ import type {
   Envio,
   Filtros,
   ListaCursos,
+  Material,
   MeuCurso,
   Perfil,
   Progresso,
@@ -147,4 +148,17 @@ export const enviarDocumento = (documento: number, arquivo: File) => {
   const corpo = new FormData()
   corpo.append('arquivo', arquivo)
   return obter<Envio>(`/api/aluno/documentos/${documento}`, undefined, { method: 'POST', body: corpo })
+}
+
+// ---------- Materiais das turmas ----------
+
+export const obterMateriais = (sinal?: AbortSignal) => obter<Material[]>('/api/aluno/materiais', sinal)
+export const urlDoMaterial = (id: number) => `/api/materiais/${id}/arquivo`
+export const removerMaterial = (id: number) => obter<void>(`/api/professor/materiais/${id}`, undefined, { method: 'DELETE' })
+
+export const publicarMaterial = (turma: string, titulo: string, arquivo: File) => {
+  const corpo = new FormData()
+  corpo.append('titulo', titulo)
+  corpo.append('arquivo', arquivo)
+  return obter<Material>(`/api/professor/turmas/${encodeURIComponent(turma)}/materiais`, undefined, { method: 'POST', body: corpo })
 }
