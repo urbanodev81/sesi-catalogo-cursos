@@ -12,9 +12,7 @@ namespace CatalogoCursos.Api.Tests;
 /// </summary>
 public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
-        .WithImage("postgres:16-alpine")
-        .Build();
+    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:16-alpine").Build();
 
     /// <summary>Relógio da API nos testes: fixo em 24/10/2026, e os testes de presença o adiantam.</summary>
     public RelogioDeTeste Relogio { get; } = new(new DateTimeOffset(2026, 10, 24, 12, 0, 0, TimeSpan.Zero));
