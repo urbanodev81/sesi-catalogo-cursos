@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { nextTick, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
+import BotaoTopo from './components/BotaoTopo.vue'
 import CabecalhoSite from './components/CabecalhoSite.vue'
+import ProgressoNavegacao from './components/ProgressoNavegacao.vue'
 import RodapeSite from './components/RodapeSite.vue'
 import { carregarSessao } from './conta/sessao'
 
@@ -26,6 +28,7 @@ useRouter()
 </script>
 
 <template>
+  <ProgressoNavegacao />
   <a class="pular" href="#conteudo">Pular para o conteúdo</a>
   <!-- A tela de aula é a do ambiente de estudo (Figma): sem o cabeçalho e o rodapé do site. -->
   <CabecalhoSite v-if="!route.meta.semCasca" />
@@ -33,4 +36,5 @@ useRouter()
     <RouterView />
   </main>
   <RodapeSite v-if="!route.meta.semCasca" />
+  <BotaoTopo />
 </template>

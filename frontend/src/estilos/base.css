@@ -1662,6 +1662,58 @@ h3 {
   padding: 10px;
 }
 
+/* ---------- Barra de navegação e "voltar ao topo" ---------- */
+.progresso-navegacao {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.progresso-navegacao--ativa {
+  opacity: 1;
+}
+.progresso-navegacao span {
+  display: block;
+  height: 100%;
+  background: var(--vermelho);
+  transition: width 0.25s ease-out;
+}
+.botao-topo {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 6;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--vermelho);
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  cursor: pointer;
+}
+.botao-topo:hover {
+  background: var(--vermelho-escuro);
+}
+/* Na página do curso, a barra de matrícula ocupa o pé da tela: o botão sobe e fica acima dela. */
+body:has(.barra-matricula) .botao-topo {
+  bottom: 8.5rem;
+}
+.aparecer-enter-active,
+.aparecer-leave-active {
+  transition: opacity 0.2s ease;
+}
+.aparecer-enter-from,
+.aparecer-leave-to {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

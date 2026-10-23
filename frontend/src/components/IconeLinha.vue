@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Ícones de traço das linhas de informação (início, certificação...). O pacote do SESI não
 // traz esses ícones pequenos, então são desenhados aqui no mesmo estilo: traço de 2px, 24×24.
-defineProps<{ nome: 'calendario' | 'medalha' | 'relogio' | 'tela' | 'pessoas' | 'busca' | 'voltar' }>()
+defineProps<{ nome: 'calendario' | 'medalha' | 'relogio' | 'tela' | 'pessoas' | 'busca' | 'subir' | 'voltar' }>()
 </script>
 
 <template>
@@ -29,6 +29,9 @@ defineProps<{ nome: 'calendario' | 'medalha' | 'relogio' | 'tela' | 'pessoas' | 
     <template v-else-if="nome === 'busca'">
       <circle cx="10.5" cy="10.5" r="6.5" />
       <path d="m15.5 15.5 5 5" />
+    </template>
+    <template v-else-if="nome === 'subir'">
+      <path d="M12 20V4M6 10l6-6 6 6" />
     </template>
     <template v-else>
       <path d="M20 12H4M10 6l-6 6 6 6" />
