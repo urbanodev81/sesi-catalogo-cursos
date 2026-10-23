@@ -1,13 +1,30 @@
 import type { ConsultaCursos, CursoDetalhe, Filtros, ListaCursos } from './tipos'
 
-/** Erro com mensagem já pronta para a tela; `naoEncontrado` separa 404 de falha. */
+/**
+ * Erro com mensagem já pronta para a tela. `naoEncontrado` separa 404 de falha;
+ * `invalido` marca 400 (filtro que não existe): tentar de novo não resolve, limpar resolve.
+ */
 export class ErroApi extends Error {
   readonly naoEncontrado: boolean
+  readonly invalido: boolean
 
-  constructor(message: string, naoEncontrado = false) {
+  constructor(message: string, naoEncontrado = false, invalido = false) {
     super(message)
     this.naoEncontrado = naoEncontrado
+    this.invalido = invalido
   }
+}
+
+/** Primeira mensagem do ValidationProblem da API (ex.: "Categoria 'xpto' não existe."). */
+async function mensagemDeValidacao(resposta: Response) {
+  try {
+    const corpo = (await resposta.json()) as { errors?: Record<string, string[]> }
+    const primeira = Object.values(corpo.errors ?? {}).flat()[0]
+    if (primeira) return `${primeira} Limpe os filtros para ver todos os cursos.`
+  } catch {
+    /* corpo fora do formato: cai na mensagem genérica */
+  }
+  return 'A busca tem um filtro inválido. Limpe os filtros para ver todos os cursos.'
 }
 
 const TEMPO_LIMITE_MS = 60_000 // a hospedagem gratuita "acorda" em até ~50 s
@@ -29,6 +46,7 @@ async function obter<T>(caminho: string, sinal?: AbortSignal): Promise<T> {
   }
 
   if (resposta.status === 404) throw new ErroApi('Conteúdo não encontrado.', true)
+  if (resposta.status === 400) throw new ErroApi(await mensagemDeValidacao(resposta), false, true)
   if (!resposta.ok) throw new ErroApi('Não foi possível carregar os cursos agora. Tente novamente.')
   return (await resposta.json()) as T
 }

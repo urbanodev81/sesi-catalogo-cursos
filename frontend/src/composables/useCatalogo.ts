@@ -31,6 +31,7 @@ export function useCatalogo() {
   const total = ref(0)
   const estado = ref<Estado>('carregando')
   const erro = ref('')
+  const erroInvalido = ref(false)
   const filtros = shallowRef<Filtros>({ categorias: [], modalidades: [], status: [] })
 
   const temFiltro = computed(() => Object.values(consulta.value).some(Boolean))
@@ -49,6 +50,7 @@ export function useCatalogo() {
     } catch (e) {
       if (sinal.aborted) return
       erro.value = e instanceof ErroApi ? e.message : 'Ocorreu um erro inesperado.'
+      erroInvalido.value = e instanceof ErroApi && e.invalido
       estado.value = 'erro'
     }
   }
@@ -99,5 +101,5 @@ export function useCatalogo() {
     clearTimeout(espera)
   })
 
-  return { busca, consulta, cursos, total, estado, erro, filtros, temFiltro, definir, limpar, recarregar: carregar }
+  return { busca, consulta, cursos, total, estado, erro, erroInvalido, filtros, temFiltro, definir, limpar, recarregar: carregar }
 }

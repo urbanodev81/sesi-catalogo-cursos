@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import CursoCard from '../components/CursoCard.vue'
+import CursoCardDestaque from '../components/CursoCardDestaque.vue'
 import { useCatalogo } from '../composables/useCatalogo'
 
-const { busca, consulta, cursos, total, estado, erro, filtros, temFiltro, definir, limpar, recarregar } = useCatalogo()
+const { busca, consulta, cursos, total, estado, erro, erroInvalido, filtros, temFiltro, definir, limpar, recarregar } = useCatalogo()
 
 const resumo = computed(() => {
   if (estado.value === 'carregando') return 'Carregando cursos…'
@@ -17,10 +17,11 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
 </script>
 
 <template>
-  <section class="hero" aria-labelledby="titulo-catalogo">
+  <!-- O protótipo não tem esta página: o hero é o da home em versão curta, e os cards são os de "Principais cursos". -->
+  <section class="pagina-hero" aria-labelledby="titulo-catalogo">
     <div class="container">
-      <h1 id="titulo-catalogo">Catálogo de cursos</h1>
-      <p>Encontre o curso certo para o seu desenvolvimento no ambiente virtual de aprendizagem.</p>
+      <h1 id="titulo-catalogo">Cursos</h1>
+      <p>Encontre o curso certo para o seu desenvolvimento na indústria.</p>
     </div>
   </section>
 
@@ -28,7 +29,14 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
     <form class="filtros" role="search" aria-label="Buscar e filtrar cursos" @submit.prevent>
       <div class="campo campo--busca">
         <label for="busca">Buscar pelo nome</label>
-        <input id="busca" v-model="busca" type="search" placeholder="Ex.: matemática" autocomplete="off" maxlength="100" />
+        <!-- Campo em pílula com lupa, como a busca da tela de aula do Figma. -->
+        <div class="busca">
+          <input id="busca" v-model="busca" type="search" placeholder="Ex.: matemática" autocomplete="off" maxlength="100" />
+          <svg class="busca__lupa" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
       </div>
 
       <div class="campo">
@@ -55,19 +63,20 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
         </select>
       </div>
 
-      <button type="button" class="botao botao--secundario" :disabled="!temFiltro" @click="limpar">Limpar filtros</button>
+      <button type="button" class="botao botao--contorno" :disabled="!temFiltro" @click="limpar">Limpar filtros</button>
     </form>
 
     <!-- Região viva: o leitor de tela anuncia a contagem a cada busca ou filtro. -->
     <p class="resultado" role="status" aria-live="polite">{{ resumo }}</p>
 
-    <div v-if="estado === 'carregando'" class="grade" aria-hidden="true">
-      <div v-for="n in 6" :key="n" class="card card--esqueleto" />
-    </div>
+    <ul v-if="estado === 'carregando'" class="grade" aria-hidden="true">
+      <li v-for="n in 6" :key="n" class="destaque destaque--esqueleto" />
+    </ul>
 
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">
       <p>{{ erro }}</p>
-      <button type="button" class="botao" @click="recarregar">Tentar novamente</button>
+      <button v-if="erroInvalido" type="button" class="botao" @click="limpar">Limpar filtros</button>
+      <button v-else type="button" class="botao" @click="recarregar">Tentar novamente</button>
     </div>
 
     <div v-else-if="total === 0" class="aviso">
@@ -76,7 +85,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
     </div>
 
     <ul v-else class="grade" aria-label="Cursos">
-      <li v-for="c in cursos" :key="c.id"><CursoCard :curso="c" /></li>
+      <li v-for="c in cursos" :key="c.id"><CursoCardDestaque :curso="c" :nivel="2" ficha /></li>
     </ul>
   </div>
 </template>
