@@ -396,6 +396,8 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     guia de cookies da ANPD isso não pede consentimento, pede transparência. Por isso o aviso é
     informativo ("Entendi" + link), sem "aceitar/recusar", que seria um botão para recusar nada. A
     página diz também que o VLibras é carregado de `vlibras.gov.br`.
+    O aviso aparece no alto, abaixo do cabeçalho, como cartão claro: o pé da tela já é da barra de
+    matrícula e dos botões flutuantes.
   - **Painéis dos cantos se fecham sozinhos.** Acessibilidade e Ajuda abrem um por vez (no celular os dois
     juntos cobrem a tela) e fecham depois de 60 s sem movimento, toque, tecla ou rolagem. A conversa da
     Ajuda continua lá ao reabrir; se o foco estava no painel, volta ao botão que o abriu.

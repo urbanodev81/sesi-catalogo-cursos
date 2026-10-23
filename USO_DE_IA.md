@@ -115,6 +115,8 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     informativo + página de privacidade em vez do banner "aceitar/recusar". Como o pedido da barra estava
     ambíguo, perguntou o que mudar.
     **Decidido por mim:** aviso informativo e barra sempre presa no pé da tela.
+    **Erro da IA, pego por mim:** o aviso nasceu no pé da tela, preto, empilhado sobre a barra de matrícula
+    (também preta). Foi para o alto, como cartão claro abaixo do cabeçalho.
 
 ## Como o conteúdo foi validado
 

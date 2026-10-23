@@ -69,7 +69,8 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Cabeçalho: "Entrar" (visitante) / "Meu painel" (com sessão). Botão "Ajuda" (`AjudaChat.vue`): respostas
   prontas de `AJUDA_PLATAFORMA` + `DUVIDAS_FREQUENTES`, campo de IA desligado com "Em breve".
   Painéis dos cantos: um por vez, fecham após 60 s parados (`composables/usePainelFlutuante.ts`).
-- Privacidade: `/privacidade` + `AvisoPrivacidade.vue` (informativo, "Entendi", chave `sesi-aviso-privacidade`).
+- Privacidade: `/privacidade` + `AvisoPrivacidade.vue` (informativo, "Entendi", chave `sesi-aviso-privacidade`;
+  fica no alto, abaixo do cabeçalho, para não disputar o pé da tela).
   Barra de matrícula `position: fixed` (sempre presa); rodapé com 7rem embaixo na página do curso.
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.

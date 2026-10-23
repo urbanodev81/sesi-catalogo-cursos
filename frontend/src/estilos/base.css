@@ -2641,20 +2641,23 @@ html.dock-vlibras [vw-access-button] {
   background: var(--fundo-suave);
 }
 .aviso-privacidade {
+  /* No alto, logo abaixo do cabeçalho: o pé da tela já é da barra de matrícula e dos botões
+     flutuantes. Fica abaixo do cabeçalho (z-index 5) para o menu do celular abrir por cima. */
   position: fixed;
-  z-index: 30;
+  z-index: 4;
   left: 50%;
-  bottom: 1rem;
+  top: calc(var(--altura-topo) + 0.75rem);
   translate: -50% 0;
   width: min(640px, 100% - 2rem);
   display: flex;
   align-items: center;
   gap: 1rem 1.5rem;
   padding: 1rem 1rem 1rem 1.5rem;
+  border: 1px solid var(--borda);
   border-radius: 12px;
-  background: var(--texto);
-  color: #fff;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  background: #fff;
+  color: var(--texto);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
 }
 .aviso-privacidade p {
   margin: 0;
@@ -2667,12 +2670,9 @@ html.dock-vlibras [vw-access-button] {
   flex: none;
 }
 .aviso-privacidade a {
-  color: #fff;
+  color: var(--texto);
   text-decoration: underline;
   padding-block: 0.75rem; /* alvo de toque de 44 px */
-}
-.aviso-privacidade :focus-visible {
-  outline-color: #fff;
 }
 @media (max-width: 639px) {
   .aviso-privacidade {
@@ -2682,7 +2682,4 @@ html.dock-vlibras [vw-access-button] {
   .aviso-privacidade__acoes {
     justify-content: space-between;
   }
-}
-body:has(.barra-matricula) .aviso-privacidade {
-  bottom: 6rem;
 }

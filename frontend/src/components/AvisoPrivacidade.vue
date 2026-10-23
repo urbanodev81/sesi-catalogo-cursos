@@ -34,7 +34,7 @@ function entendi() {
     </p>
     <div class="aviso-privacidade__acoes">
       <RouterLink :to="{ name: 'privacidade' }">Privacidade</RouterLink>
-      <button type="button" class="botao botao--claro" @click="entendi">Entendi</button>
+      <button type="button" class="botao" @click="entendi">Entendi</button>
     </div>
   </section>
 </template>
