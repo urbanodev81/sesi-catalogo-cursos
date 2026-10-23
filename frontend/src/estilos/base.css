@@ -2175,10 +2175,11 @@ h3 {
   background: var(--vermelho);
   transition: width 0.25s ease-out;
 }
+/* O "voltar ao topo" fica acima do botão de ajuda, no mesmo canto. */
 .botao-topo {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 4.75rem;
   z-index: 6;
   width: 48px;
   height: 48px;
@@ -2196,8 +2197,14 @@ h3 {
   background: var(--vermelho-escuro);
 }
 /* Na página do curso, a barra de matrícula ocupa o pé da tela: os botões flutuantes sobem e ficam acima dela. */
-body:has(.barra-matricula) :is(.botao-topo, .a11y-botao) {
+body:has(.barra-matricula) :is(.ajuda-botao, .a11y-botao) {
   bottom: 8.5rem;
+}
+body:has(.barra-matricula) .botao-topo {
+  bottom: 12.25rem;
+}
+body:has(.barra-matricula) .ajuda {
+  bottom: 12.5rem;
 }
 body:has(.barra-matricula) .a11y-painel {
   bottom: 12.5rem;
@@ -2209,6 +2216,148 @@ body:has(.barra-matricula) .a11y-painel {
 .aparecer-enter-from,
 .aparecer-leave-to {
   opacity: 0;
+}
+
+/* ---------- Ajuda (dúvidas frequentes; assistente com IA em breve) ---------- */
+.ajuda-botao {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 6;
+  min-height: 48px;
+  padding: 0 1.125rem 0 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--texto);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  cursor: pointer;
+}
+.ajuda-botao:hover,
+.ajuda-botao[aria-expanded='true'] {
+  background: var(--vermelho);
+}
+.ajuda {
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  z-index: 7;
+  width: min(23rem, 100vw - 2rem);
+  max-height: calc(100vh - 7rem);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--fundo);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.2);
+  overflow: hidden;
+}
+.ajuda__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  background: var(--vermelho);
+  color: #fff;
+}
+.ajuda__topo h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.ajuda__topo .a11y-painel__icone {
+  color: #fff !important;
+}
+.ajuda__topo .a11y-painel__icone:hover {
+  background: rgb(255 255 255 / 0.15);
+}
+.ajuda__topo :focus-visible {
+  outline-color: #fff;
+}
+.ajuda__conversa {
+  flex: 1;
+  min-height: 6rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--fundo-suave);
+}
+.ajuda__balao {
+  max-width: 85%;
+  margin: 0;
+  padding: 0.625rem 0.875rem;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+}
+.ajuda__balao--sesi {
+  align-self: flex-start;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-bottom-left-radius: 4px;
+}
+.ajuda__balao--voce {
+  align-self: flex-end;
+  background: var(--texto);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.ajuda__balao a {
+  color: var(--vermelho-escuro);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.ajuda__perguntas {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-height: 11rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--borda);
+}
+.ajuda__pergunta {
+  min-height: 44px;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--vermelho);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--vermelho-escuro);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.ajuda__pergunta:hover {
+  background: #fff4f3;
+}
+.ajuda__ia {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--borda);
+}
+.ajuda__ia input {
+  font: inherit;
+  min-height: 44px;
+  padding: 0 0.875rem;
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  background: var(--fundo-suave);
+  cursor: not-allowed;
+}
+.ajuda__ia p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
 }
 
 /* ---------- Painel de acessibilidade ---------- */

@@ -89,6 +89,22 @@ export const AULAS_E_AVALIACOES = [
   'Ao fim de cada módulo há uma atividade avaliativa. Para receber o certificado é preciso concluir todas as aulas e atingir 70% de aproveitamento nas atividades.',
 ]
 
+// Painel de ajuda (botão "Ajuda"): as dúvidas do curso mais as de uso da plataforma.
+export const AJUDA_PLATAFORMA = [
+  {
+    pergunta: 'Como entro na minha conta?',
+    resposta: 'Use o botão "Entrar", no alto da página, com o e-mail e a senha da sua matrícula. Professores entram pelo mesmo botão.',
+  },
+  {
+    pergunta: 'Onde envio meus documentos?',
+    resposta: 'Depois de entrar, em "Meu painel", no bloco Documentos. Aceitamos PDF, JPG ou PNG de até 2 MB.',
+  },
+  {
+    pergunta: 'Onde ficam os materiais das aulas?',
+    resposta: 'Os materiais que o professor publica aparecem em "Meu painel", no bloco Materiais das turmas.',
+  },
+]
+
 export const DUVIDAS_FREQUENTES = [
   {
     pergunta: 'Preciso pagar pelo curso?',

@@ -66,5 +66,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   `components/professor/PainelProfessor.vue` com turmas e alunos em `<details>` (`.acordeao >` filhos
   diretos), horários (`horarios_turma`) e materiais (`materiais`, 10 por turma) em `Contas/ProfessorEndpoints.cs`.
   Regras de arquivo comuns em `Contas/Arquivos.cs`. CSP em `Seguranca.cs` (medida com o VLibras aberto).
+- Cabeçalho: "Entrar" (visitante) / "Meu painel" (com sessão). Botão "Ajuda" (`AjudaChat.vue`): respostas
+  prontas de `AJUDA_PLATAFORMA` + `DUVIDAS_FREQUENTES`, campo de IA desligado com "Em breve".
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.

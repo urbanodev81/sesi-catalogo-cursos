@@ -2,6 +2,7 @@
 import { nextTick, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import PainelAcessibilidade from './acessibilidade/PainelAcessibilidade.vue'
+import AjudaChat from './components/AjudaChat.vue'
 import BotaoTopo from './components/BotaoTopo.vue'
 import CabecalhoSite from './components/CabecalhoSite.vue'
 import ProgressoNavegacao from './components/ProgressoNavegacao.vue'
@@ -40,5 +41,6 @@ useRouter()
   </main>
   <RodapeSite v-if="!route.meta.semCasca" />
   <BotaoTopo />
+  <AjudaChat />
   <PainelAcessibilidade />
 </template>

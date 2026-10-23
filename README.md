@@ -379,7 +379,14 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     aparece se a troca passar de 180 ms. O botão usa o vermelho e o raio do próprio layout e, na página
     do curso, fica acima da barra de matrícula. Barra e não tela de carregamento por cima do conteúdo:
     um overlay esconde o que ainda está legível e pisca quando a página chega rápido.
-  - **"Área do aluno"** leva a uma página provisória, porque o login não faz parte do requisito.
+  - **"Entrar" / "Meu painel" no lugar de "Área do aluno".** Com o professor entrando pela mesma porta, o
+    rótulo do Figma deixou de servir aos dois. Não achei nome oficial do SESI-SP para a área de quem
+    leciona, então o botão usa o rótulo neutro: "Entrar" para visitante e "Meu painel" com sessão, que
+    leva à área certa pelo papel. Mesmo botão contornado do Figma.
+  - **Botão "Ajuda" (canto inferior direito).** Não está no protótipo. Abre uma conversa com respostas
+    prontas (como entrar, onde enviar documentos, onde ficam os materiais e as dúvidas frequentes da
+    página "Sobre"). O campo de texto aparece desligado com o selo "Em breve": o assistente com IA não
+    existe ainda, e o painel não finge que existe. Esc fecha e devolve o foco ao botão.
   - **Cores das categorias Linguagens e Sustentabilidade.** O protótipo só mostra as etiquetas de
     Matemática (bege) e Ciências da Natureza (lilás). As outras duas seguem a mesma lógica, em tom claro
     de azul e de verde.

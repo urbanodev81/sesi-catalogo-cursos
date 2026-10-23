@@ -95,6 +95,15 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    **Decidido pela IA e revisado por mim:** o professor vê quantos documentos o aluno entregou, mas não
    os arquivos pessoais dele. Os horários aparecem também para o aluno, nos cartões de "Meus cursos".
 
+10. **"Com professor e aluno, o botão não pode ser 'Área do aluno'. Veja se o SESI tem nome especial para
+    a área de admin; senão, vamos criar. E um chat de ajuda com IA, mesmo sem ter ainda, com um 'em breve'."**
+    A IA pesquisou e não achou nome oficial do SESI-SP para a área do professor (o SENAI-SP usa "Sou
+    Aluno"; o Conecta SESI é outra plataforma) e propôs o rótulo neutro "Entrar" / "Meu painel".
+    **Decidido por mim:** "Meu painel" e o chat com respostas prontas, com o campo de IA desligado e o
+    selo "Em breve" — sem prometer uma resposta que o sistema não dá.
+    **Erro pego pelo axe:** o topo do painel de ajuda nasceu como `<header>`, que dentro do `<body>` vira
+    um segundo "banner" na árvore de acessibilidade. Trocado por `<div>`.
+
 ## Como o conteúdo foi validado
 
 - **Teste de interação** (Playwright, fora do projeto): busca, filtros combinados, limpar, lista vazia,

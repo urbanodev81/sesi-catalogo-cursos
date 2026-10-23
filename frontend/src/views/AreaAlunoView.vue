@@ -100,10 +100,10 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
   <section class="pagina-hero" aria-labelledby="titulo-area">
     <div class="container pagina-hero__linha">
       <div>
-        <h1 id="titulo-area">{{ usuario ? `Olá, ${primeiroNome}` : naAreaDoProfessor ? 'Área do professor' : 'Área do aluno' }}</h1>
+        <h1 id="titulo-area">{{ usuario ? `Olá, ${primeiroNome}` : 'Entrar' }}</h1>
         <p v-if="usuario?.papel === 'professor'">Suas turmas: horários, materiais e o histórico de cada aluno.</p>
         <p v-else-if="usuario">Continue de onde parou.</p>
-        <p v-else>Entre para acompanhar o seu progresso nos cursos.</p>
+        <p v-else>Alunos e professores entram por aqui para ver os cursos ou as turmas.</p>
       </div>
       <div v-if="usuario" class="pagina-hero__acoes">
         <RouterLink v-if="usuario.papel === 'aluno'" :to="{ name: 'perfil' }" class="botao botao--claro">Meu perfil</RouterLink>
