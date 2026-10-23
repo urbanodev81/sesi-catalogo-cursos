@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import CursoCardDestaque from '../components/CursoCardDestaque.vue'
+import IconeLinha from '../components/IconeLinha.vue'
 import { useCatalogo } from '../composables/useCatalogo'
 
 const { busca, consulta, cursos, total, estado, erro, erroInvalido, filtros, temFiltro, definir, limpar, recarregar } = useCatalogo()
@@ -32,10 +33,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
         <!-- Campo em pílula com lupa, como a busca da tela de aula do Figma. -->
         <div class="busca">
           <input id="busca" v-model="busca" type="search" placeholder="Ex.: matemática" autocomplete="off" maxlength="100" />
-          <svg class="busca__lupa" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2" />
-            <path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
+          <IconeLinha nome="busca" class="busca__lupa" />
         </div>
       </div>
 

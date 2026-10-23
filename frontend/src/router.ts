@@ -19,6 +19,13 @@ export const router = createRouter({
       meta: { titulo: 'Detalhes do curso' },
     },
     {
+      path: '/cursos/:slug/modulos/:modulo(\\d+)/aulas/:aula(\\d+)',
+      name: 'aula',
+      component: () => import('./views/AulaView.vue'),
+      props: (r) => ({ slug: r.params.slug, modulo: Number(r.params.modulo), aula: Number(r.params.aula) }),
+      meta: { titulo: 'Aula', semCasca: true },
+    },
+    {
       path: '/area-do-aluno',
       name: 'area-do-aluno',
       component: () => import('./views/AreaAlunoView.vue'),

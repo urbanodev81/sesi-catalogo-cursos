@@ -764,26 +764,6 @@ h3 {
   }
 }
 
-.selo {
-  font-weight: 600;
-}
-.selo--inscricoes-abertas {
-  background: #dff3e6;
-  color: var(--verde);
-}
-.selo--em-breve {
-  background: var(--bege);
-  color: #5c3a00;
-}
-.selo--encerrado {
-  background: #e4e4e7;
-  color: var(--texto-suave);
-}
-dd .selo {
-  padding: 0.125rem 0.5rem;
-  border-radius: 999px;
-}
-
 .aviso {
   padding: 2rem;
   border-radius: var(--raio);
@@ -802,75 +782,641 @@ dd .selo {
   color: var(--vermelho-escuro);
 }
 
-.detalhe {
-  padding-block: 1.5rem 4rem;
-  max-width: 900px;
+/* ---------- Página do curso ---------- */
+.detalhe-estado {
+  padding-block: 3rem 5rem;
 }
 .trilha {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
   font-size: 0.875rem;
+  color: var(--texto-suave);
 }
 .trilha a {
-  color: var(--vermelho);
+  color: var(--vermelho-escuro);
   display: inline-flex;
   align-items: center;
   min-height: 44px;
 }
-.curso__imagem {
+.curso-hero {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  padding-block: 1.5rem clamp(3rem, 6vw, 4.5rem);
+}
+@media (min-width: 900px) {
+  .curso-hero {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+  }
+}
+.curso-hero__etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.etiqueta.etiqueta--solta {
+  position: static;
+}
+.curso-hero h1 {
+  font-size: clamp(1.875rem, 3.6vw, 2.625rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.curso-hero__ficha {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 2rem;
+}
+.curso-hero__ficha div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+.curso-hero__ficha dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.curso-hero__ficha dd {
+  margin: 0;
+  font-weight: 700;
+}
+.curso-hero__aviso {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--vermelho);
+  background: var(--fundo-suave);
+}
+.curso-hero__aviso a {
+  color: var(--vermelho-escuro);
+  font-weight: 600;
+}
+.curso-hero__midia {
+  position: relative;
+}
+.curso-hero__midia img {
+  width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--raio);
-  margin-bottom: 1.5rem;
-  width: 100%;
 }
-.curso h1 {
-  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
-  margin-top: 0.5rem;
+/* Botão de play do Figma: círculo branco translúcido com triângulo, feito em CSS. */
+.curso-hero__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.85);
+  transition: transform 0.15s ease;
 }
-.curso__descricao {
-  font-size: 1.125rem;
-  color: var(--texto-suave);
+.curso-hero__play::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  translate: -50% -50%;
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+  border-color: transparent transparent transparent var(--texto);
 }
-.curso__ficha {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-  margin: 2rem 0;
-  padding: 1.5rem;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio);
+.curso-hero__play:hover {
+  transform: scale(1.06);
 }
-.curso__ficha dt {
-  font-size: 0.8125rem;
-  color: var(--texto-suave);
+.curso-hero__play:focus-visible {
+  outline-color: #fff;
+  box-shadow: 0 0 0 6px var(--vermelho);
 }
-.curso__ficha dd {
+
+.botao.botao--escuro {
+  background: var(--texto);
+  border-color: var(--texto);
+  color: #fff;
+}
+.botao.botao--escuro img {
+  filter: invert(1);
+}
+.botao.botao--escuro:hover {
+  background: #2c2c30;
+  border-color: #2c2c30;
+}
+
+.selo {
+  display: inline-block;
   margin: 0;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
   font-weight: 600;
+}
+.selo--inscricoes-abertas {
+  background: #dff3e6;
+  color: var(--verde);
+}
+.selo--em-breve {
+  background: var(--bege);
+  color: #5c3a00;
+}
+.selo--encerrado {
+  background: #e4e4e7;
+  color: var(--texto-suave);
+}
+
+@media (min-width: 900px) {
+  .diferenciais.diferenciais--quatro.diferenciais--quatro {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+.diferenciais.diferenciais--quatro {
+  margin-top: 0;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.curso-sobre {
+  display: grid;
+  gap: 2.5rem;
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+}
+@media (min-width: 900px) {
+  .curso-sobre {
+    grid-template-columns: 1fr 1.9fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+.curso-sobre__texto {
+  font-size: 1.0625rem;
+}
+.curso-sobre__subtitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin: 1.5rem 0 0.25rem;
+}
+.curso-sobre p {
+  margin-top: 0;
+}
+
+.acordeao details {
+  border-bottom: 1px solid var(--borda);
+}
+.acordeao summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 60px;
+  padding-block: 0.75rem;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.acordeao summary::-webkit-details-marker {
+  display: none;
+}
+.acordeao summary::after {
+  content: '';
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background: url('/assets/icones/add_2.svg') center / contain no-repeat;
+}
+.acordeao details[open] summary::after {
+  background-image: url('/assets/icones/remove.svg');
+}
+.acordeao details > :not(summary) {
+  margin-top: 0;
+}
+.acordeao details[open] {
+  padding-bottom: 1.25rem;
+}
+.acordeao__resumo {
+  color: var(--texto-suave);
 }
 .modulos,
-.aulas {
-  padding: 0;
+.modulos__aulas {
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.modulos {
   display: grid;
-  gap: 0.75rem;
+  gap: 1.25rem;
 }
-.modulos details {
-  border: 1px solid var(--borda);
-  border-radius: var(--raio);
-  padding: 1rem;
+.modulos__aulas {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--bege);
 }
-.modulos summary {
-  font-weight: 600;
-  cursor: pointer;
-  min-height: 24px;
+.modulos__aulas li {
+  display: grid;
 }
-.aulas {
-  margin-top: 1rem;
+.modulos__aulas small {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
 }
-.aulas p {
+.duvidas {
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+.duvidas dt {
+  font-weight: 700;
+}
+.duvidas dd {
   margin: 0.25rem 0 0;
   color: var(--texto-suave);
+}
+
+.faixa-bege {
+  background: var(--bege);
+}
+.depoimentos--bege .depoimento {
+  background: #fff;
+  color: var(--texto);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.08);
+}
+.depoimentos--bege .depoimento__autor {
+  color: var(--texto-suave);
+}
+.depoimentos--bege .depoimento__autor strong {
+  color: var(--texto);
+}
+.depoimentos--bege .depoimento__nota img {
+  filter: brightness(0);
+}
+
+.fale {
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+  text-align: center;
+}
+.fale .secao__titulo {
+  margin-bottom: 1.5rem;
+}
+
+/*
+ * Fica no pé da tela enquanto a página do curso rola e para no fim dela, antes do rodapé.
+ * Altura zero no fluxo (o conteúdo sobe com translate): no fim, a barra pousa sobre a faixa
+ * "Fale com a gente", que ganha espaço extra embaixo para não ter nada escondido.
+ */
+.barra-matricula {
+  position: sticky;
+  bottom: 1rem;
+  z-index: 4;
+  height: 0;
+  pointer-events: none; /* só a barra recebe clique, não a área em volta */
+}
+.barra-matricula__conteudo {
+  translate: 0 calc(-100% - 1.5rem);
+}
+.curso:has(.barra-matricula) .fale {
+  padding-bottom: calc(clamp(3rem, 6vw, 4.5rem) + 5rem);
+}
+.barra-matricula__conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+  border-radius: 12px;
+  background: var(--texto);
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  pointer-events: auto;
+}
+.barra-matricula__conteudo :focus-visible {
+  outline-color: #fff;
+}
+.barra-matricula__nome {
+  margin: 0;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barra-matricula__conteudo .botao {
+  flex: none;
+  white-space: nowrap;
+}
+.barra-matricula__breve {
+  display: none;
+}
+@media (max-width: 639px) {
+  .barra-matricula__conteudo {
+    padding-left: 1rem;
+  }
+  .barra-matricula__completo {
+    display: none;
+  }
+  .barra-matricula__breve {
+    display: inline;
+  }
+}
+
+/* ---------- Tela de aula ---------- */
+.aula-pagina {
+  display: grid;
+  min-height: 100vh;
+}
+@media (min-width: 900px) {
+  .aula-pagina {
+    grid-template-columns: 280px 1fr;
+  }
+}
+.aula-lateral {
+  border-right: 1px solid var(--borda);
+  background: #fff;
+}
+@media (min-width: 900px) {
+  .aula-lateral {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+.aula-lateral__topo,
+.aula-lateral__curso,
+.aula-lateral__progresso {
+  background: #0c0c0d;
+  color: #fff;
+}
+.aula-lateral__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  background: #1c1c1e;
+}
+.aula-lateral :focus-visible {
+  outline-offset: -3px;
+}
+.aula-lateral__topo :focus-visible {
+  outline-color: #fff;
+}
+.aula-lateral__voltar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #fff;
+}
+.aula-lateral__menu {
+  display: none;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #fff;
+  background: none;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: var(--raio);
+  min-height: 44px;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+.aula-lateral__curso {
+  padding: 1.25rem 1rem 1rem;
+}
+.aula-lateral__sobretitulo {
+  margin: 0 0 0.5rem;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #c9c9cc;
+}
+.aula-lateral__nome {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.aula-lateral__progresso {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-top: 1px solid #2c2c30;
+  font-size: 0.75rem;
+}
+.barra-progresso {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: #4a4a4f;
+  overflow: hidden;
+}
+.barra-progresso span {
+  display: block;
+  height: 100%;
+  background: #fff;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+.aula-lateral__painel {
+  padding-top: 1rem;
+}
+.aula-lateral__busca {
+  margin: 0 1rem 0.75rem;
+}
+.aula-lateral__busca input {
+  font: inherit;
+  font-size: 0.875rem;
+  min-height: 44px;
+  padding: 0.25rem 2.5rem 0.25rem 1rem;
+  border: 1px solid #8a8a8f;
+  background: #fff;
+}
+.aula-lateral__vazio {
+  margin: 0 1rem;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+.aula-modulos,
+.aula-modulos__aulas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.aula-modulos > li {
+  border-bottom: 1px solid var(--borda);
+}
+.aula-modulos__titulo {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: left;
+  color: var(--texto);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.aula-modulos__titulo:hover {
+  background: var(--fundo-suave);
+}
+.aula-modulos__aulas {
+  padding-bottom: 0.5rem;
+}
+.aula-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0.25rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--texto);
+  text-decoration: none;
+}
+.aula-item:hover {
+  background: var(--fundo-suave);
+}
+.aula-item[aria-current='page'] {
+  font-weight: 700;
+  background: #fdf1e2;
+}
+/* Status como no Figma: círculo vazio (a fazer), play (aula atual), círculo cheio com ✓ (concluída). */
+.aula-item__status {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--texto);
+  border-radius: 50%;
+}
+.aula-item[aria-current='page'] .aula-item__status::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  translate: -50% -50%;
+  border-style: solid;
+  border-width: 3.5px 0 3.5px 6px;
+  border-color: transparent transparent transparent var(--texto);
+}
+.aula-item--concluida .aula-item__status {
+  background: var(--texto);
+}
+.aula-item--concluida .aula-item__status::before,
+.aula-item--concluida[aria-current='page'] .aula-item__status::before {
+  content: '';
+  position: absolute;
+  left: 4.5px;
+  top: 1.5px;
+  width: 4px;
+  height: 8px;
+  translate: none;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+}
+@media (max-width: 899px) {
+  .aula-lateral {
+    border-right: 0;
+    border-bottom: 1px solid var(--borda);
+  }
+  .aula-lateral__menu {
+    display: inline-flex;
+    align-items: center;
+  }
+  .aula-lateral__painel {
+    display: none;
+  }
+  .aula-lateral__painel--aberto {
+    display: block;
+  }
+}
+
+.aula-conteudo {
+  width: min(864px, 100% - 2rem);
+  margin-inline: auto;
+  padding-block: 2.5rem 4rem;
+  font-size: 1.0625rem;
+}
+.aula-conteudo__banner {
+  width: 100%;
+  aspect-ratio: 6 / 1;
+  object-fit: cover;
+  border-radius: var(--raio);
+  margin-bottom: 2rem;
+}
+.aula-conteudo__onde {
+  margin: 0 0 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto-suave);
+}
+.aula-conteudo h1 {
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  margin-bottom: 1rem;
+}
+.aula-conteudo h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  margin-top: 2.25rem;
+}
+.aula-conteudo p {
+  margin: 0 0 1.25rem;
+}
+.aula-conteudo__acoes {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--borda);
+}
+.aula-conteudo__feita {
+  font-weight: 600;
+  color: var(--verde);
+}
+.aula-conteudo__navegacao {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 640px) {
+  .aula-conteudo__navegacao {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.aula-vizinha {
+  display: grid;
+  gap: 0.125rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  color: var(--texto);
+  font-weight: 600;
+  text-decoration: none;
+}
+.aula-vizinha:hover {
+  border-color: var(--texto);
+}
+.aula-vizinha small {
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+.aula-vizinha--proxima {
+  grid-column: -2;
+  text-align: right;
 }
 
 /* ---------- Rodapé ---------- */

@@ -1,4 +1,4 @@
-import type { ConsultaCursos, CursoDetalhe, Filtros, ListaCursos } from './tipos'
+import type { AulaConteudo, ConsultaCursos, CursoDetalhe, Filtros, ListaCursos } from './tipos'
 
 /**
  * Erro com mensagem já pronta para a tela. `naoEncontrado` separa 404 de falha;
@@ -64,3 +64,6 @@ export const obterCurso = (slug: string, sinal?: AbortSignal) =>
   obter<CursoDetalhe>(`/api/cursos/${encodeURIComponent(slug)}`, sinal)
 
 export const obterFiltros = (sinal?: AbortSignal) => obter<Filtros>('/api/filtros', sinal)
+
+export const obterAula = (slug: string, modulo: number, aula: number, sinal?: AbortSignal) =>
+  obter<AulaConteudo>(`/api/cursos/${encodeURIComponent(slug)}/modulos/${modulo}/aulas/${aula}`, sinal)

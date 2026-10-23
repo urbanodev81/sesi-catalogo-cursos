@@ -21,21 +21,28 @@ export const NUMEROS = [
   { valor: '2.5M+', rotulo: 'Horas de capacitação' },
 ]
 
+// A home mostra os três primeiros com ícone vermelho; a página do curso, os quatro com ícone bege.
+// O ícone é o nome base do arquivo: o pacote tem "-red.svg" e "-bege.svg" (o 4º, só bege).
 export const DIFERENCIAIS = [
   {
-    icone: '01-certificacao-red.svg',
+    icone: '01-certificacao',
     titulo: 'Certificação SESI',
     texto: 'Cursos com a melhor certificação do mercado industrial reconhecidos pelo SESI.',
   },
   {
-    icone: '02-professores-red.svg',
+    icone: '02-professores',
     titulo: 'Professores especialistas',
     texto: 'Contamos com professores reconhecidos por sua excelência no mercado.',
   },
   {
-    icone: '03-suporte-red.svg',
+    icone: '03-suporte',
     titulo: 'Suporte contínuo',
     texto: 'Você não está sozinho! Acompanhamento online durante todo o curso.',
+  },
+  {
+    icone: '04-flexibilidade',
+    titulo: 'Flexibilidade',
+    texto: 'Turmas presenciais e online com horários que se adaptam à sua rotina.',
   },
 ]
 
@@ -74,3 +81,25 @@ export const DEPOIMENTOS = [
 ]
 
 export const CONTATO = { email: 'contato@sesindustria.com.br', endereco: 'Av. Paulista, 1313' }
+
+// Acordeão da página do curso. O Figma só mostra os títulos fechados; o texto é nosso,
+// genérico de propósito (vale para qualquer curso) e coerente com o que o catálogo informa.
+export const AULAS_E_AVALIACOES = [
+  'As aulas ficam no ambiente virtual de aprendizagem e podem ser feitas no seu ritmo, no computador ou no celular. Cada aula marca o seu progresso automaticamente.',
+  'Ao fim de cada módulo há uma atividade avaliativa. Para receber o certificado é preciso concluir todas as aulas e atingir 70% de aproveitamento nas atividades.',
+]
+
+export const DUVIDAS_FREQUENTES = [
+  {
+    pergunta: 'Preciso pagar pelo curso?',
+    resposta: 'Não. Os cursos do catálogo são gratuitos para trabalhadores da indústria e seus dependentes.',
+  },
+  {
+    pergunta: 'O certificado tem validade?',
+    resposta: 'Sim. O certificado é emitido pelo SESI, com a carga horária do curso, e pode ser usado em todo o território nacional.',
+  },
+  {
+    pergunta: 'Posso fazer mais de um curso ao mesmo tempo?',
+    resposta: 'Pode. Recomendamos no máximo dois cursos simultâneos para manter o ritmo de estudo.',
+  },
+]

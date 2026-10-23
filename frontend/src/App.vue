@@ -20,9 +20,10 @@ watch(
 
 <template>
   <a class="pular" href="#conteudo">Pular para o conteúdo</a>
-  <CabecalhoSite />
+  <!-- A tela de aula é a do ambiente de estudo (Figma): sem o cabeçalho e o rodapé do site. -->
+  <CabecalhoSite v-if="!route.meta.semCasca" />
   <main id="conteudo" tabindex="-1">
     <RouterView />
   </main>
-  <RodapeSite />
+  <RodapeSite v-if="!route.meta.semCasca" />
 </template>
