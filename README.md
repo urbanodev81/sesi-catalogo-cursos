@@ -146,9 +146,9 @@ aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única 
   aplicável", como pede o edital).
 - `conteudo` da aula: parágrafos separados por linha em branco, e linha com `## ` vira subtítulo. É texto
   puro, renderizado pelo front sem `v-html`, para que nenhum conteúdo vire HTML executável.
-- Catálogo fictício: 9 cursos, 4 categorias, 3 modalidades e 3 status, com cargas horárias, módulos,
+- Catálogo fictício: 12 cursos, 4 categorias, 3 modalidades e 3 status, com cargas horárias, módulos,
   aulas e públicos-alvo diferentes. Os seis cursos do Figma (nome, categoria e resumo dos cards) estão
-  todos lá; os outros três cobrem Linguagens e Sustentabilidade, que o pacote de ícones prevê.
+  todos lá; os outros seis cobrem Linguagens e Sustentabilidade, que o pacote de ícones prevê.
 - **Troca de seed com índice único:** a migration `CatalogoDoFigma` remove e recria os índices de ordem
   dentro da própria transação, porque o EF atualiza o seed linha a linha e, no meio do caminho, duas aulas
   ocupariam a mesma posição.

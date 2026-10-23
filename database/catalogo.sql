@@ -1107,3 +1107,122 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002957_CursosLinguagensEAgua') THEN
+    INSERT INTO cursos ("Id", "CargaHorariaHoras", "CategoriaId", "DataDisponibilizacao", "Descricao", "ImagemUrl", "Modalidade", "NomeBreve", "NomeBusca", "NomeCompleto", "PublicoAlvo", "Resumo", "Slug", "Status")
+    VALUES (10, 30, 2, DATE '2026-09-14', 'Boa parte dos manuais, catálogos e painéis de máquinas chega em inglês. O curso ensina estratégias de leitura e o vocabulário técnico para entender esses textos sem depender de tradução.', '/assets/imagens/hero-image.webp', 'Ead', 'Inglês Instrumental', 'ingles instrumental para manuais tecnicos ingles instrumental', 'Inglês Instrumental para Manuais Técnicos', 'Operadores e técnicos que consultam documentação de equipamentos importados.', 'Leitura de manuais, catálogos e telas de máquinas em inglês, com foco no vocabulário da produção.', 'ingles-instrumental-manuais-tecnicos', 'InscricoesAbertas');
+    INSERT INTO cursos ("Id", "CargaHorariaHoras", "CategoriaId", "DataDisponibilizacao", "Descricao", "ImagemUrl", "Modalidade", "NomeBreve", "NomeBusca", "NomeCompleto", "PublicoAlvo", "Resumo", "Slug", "Status")
+    VALUES (11, 16, 2, DATE '2026-10-05', 'Normas técnicas definem como medir, fabricar e inspecionar. O curso mostra a estrutura de uma norma, a diferença entre requisito e recomendação e como transformar o texto em procedimento.', '/assets/imagens/banner-ava.webp', 'Ead', 'Normas Técnicas', 'leitura e interpretacao de normas tecnicas normas tecnicas', 'Leitura e Interpretação de Normas Técnicas', 'Técnicos de qualidade, inspetores e líderes de produção.', 'Como uma norma é organizada, o que é requisito e o que é recomendação, e como aplicá-la no posto de trabalho.', 'leitura-interpretacao-normas-tecnicas', 'InscricoesAbertas');
+    INSERT INTO cursos ("Id", "CargaHorariaHoras", "CategoriaId", "DataDisponibilizacao", "Descricao", "ImagemUrl", "Modalidade", "NomeBreve", "NomeBusca", "NomeCompleto", "PublicoAlvo", "Resumo", "Slug", "Status")
+    VALUES (12, 24, 4, DATE '2026-12-07', 'Água é insumo e efluente é custo. O curso cobre o balanço hídrico da fábrica, as oportunidades de reúso e as etapas de tratamento exigidas antes do descarte.', '/assets/imagens/video-thumb.webp', 'Presencial', 'Água e Efluentes', 'agua e efluentes na industria agua e efluentes', 'Água e Efluentes na Indústria', 'Técnicos de meio ambiente, operadores de utilidades e supervisores de produção.', 'Uso racional da água, reúso e tratamento de efluentes para reduzir custo e atender à legislação.', 'agua-efluentes-industria', 'InscricoesAbertas');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002957_CursosLinguagensEAgua') THEN
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (24, 10, 1, 'Estratégias de leitura');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (25, 10, 2, 'O manual da máquina');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (26, 11, 1, 'A estrutura da norma');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (27, 11, 2, 'Da norma ao procedimento');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (28, 12, 1, 'Uso da água');
+    INSERT INTO modulos ("Id", "CursoId", "Ordem", "Titulo")
+    VALUES (29, 12, 2, 'Tratamento de efluentes');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002957_CursosLinguagensEAgua') THEN
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (44, 'Skimming é passar os olhos para entender do que o texto trata; scanning é procurar uma informação específica, como um valor de torque.
+
+    No manual, os dois começam pelo sumário, pelos títulos e pelas tabelas.', 'Achar a ideia geral e a informação exata sem ler tudo.', 24, 1, 'Skimming e scanning');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (45, 'Cognatos como "temperature" e "pressure" aceleram a leitura.
+
+    ## Atenção
+
+    Falsos cognatos enganam: "actually" é "na verdade", e "pretend" é "fingir", não "pretender".', 'Palavras parecidas que ajudam e as que enganam.', 24, 2, 'Cognatos e falsos cognatos');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (46, 'Os avisos seguem uma escala: "notice" informa, "caution" alerta para risco leve, "warning" para risco grave e "danger" para risco iminente.
+
+    Reconhecer a palavra-chave basta para saber o quanto parar e reler.', 'Warning, caution e danger: o que cada nível exige.', 25, 1, 'Avisos de segurança');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (47, 'Instruções usam o imperativo: "remove", "tighten", "check". A ordem dos passos é a ordem da execução.
+
+    Palavras como "before", "after" e "until" mudam essa ordem e merecem atenção.', 'Verbos no imperativo e a ordem das etapas.', 25, 2, 'Instruções passo a passo');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (48, 'O escopo diz a que produtos e processos a norma se aplica; ler essa seção primeiro evita aplicar a norma errada.
+
+    As definições fixam o sentido de cada termo dentro daquele documento.', 'As primeiras seções dizem onde a norma vale.', 26, 1, 'Escopo, referências e definições');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (49, 'Na linguagem normativa, "deve" indica requisito: sem ele, não há conformidade. "Convém" indica recomendação, e "pode" indica permissão.
+
+    Confundir os verbos gera auditoria reprovada ou trabalho desnecessário.', '"Deve" obriga; "convém" orienta.', 26, 2, 'Requisito e recomendação');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (50, 'Cada requisito aplicável vira um passo verificável do procedimento, com responsável e registro.
+
+    ## Exercício
+
+    Escolha um requisito de inspeção e escreva o passo correspondente em uma frase.', 'Escrever o procedimento que cumpre a norma.', 27, 1, 'Transformar requisito em passo');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (51, 'O balanço hídrico compara a água captada com a consumida em cada processo e a descartada.
+
+    A diferença aponta vazamentos e usos que ninguém mede.', 'Quanto entra, quanto sai e onde se perde.', 28, 1, 'Balanço hídrico');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (52, 'Água de enxágue final pode lavar pisos; condensado pode voltar à caldeira.
+
+    O critério é a qualidade exigida pelo uso seguinte, não a origem da água.', 'Onde a água de um processo serve a outro.', 28, 2, 'Reúso');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (53, 'O tratamento preliminar retira sólidos grosseiros; o primário, material sedimentável; o secundário, matéria orgânica por ação biológica.
+
+    O terciário remove o que sobra quando a legislação ou o reúso exigem.', 'Preliminar, primário, secundário e terciário.', 29, 1, 'Etapas do tratamento');
+    INSERT INTO aulas ("Id", "Conteudo", "Descricao", "ModuloId", "Ordem", "Titulo")
+    VALUES (54, 'A turma acompanha a coleta de amostras e a leitura dos indicadores da estação.
+
+    O relatório final compara os resultados com os limites de lançamento.', 'Acompanhamento da operação de uma estação de tratamento.', 29, 2, 'Visita à estação');
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002957_CursosLinguagensEAgua') THEN
+    PERFORM setval(
+        pg_get_serial_sequence('cursos', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM cursos) + 1,
+            nextval(pg_get_serial_sequence('cursos', 'Id'))),
+        false);
+    PERFORM setval(
+        pg_get_serial_sequence('modulos', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM modulos) + 1,
+            nextval(pg_get_serial_sequence('modulos', 'Id'))),
+        false);
+    PERFORM setval(
+        pg_get_serial_sequence('aulas', 'Id'),
+        GREATEST(
+            (SELECT MAX("Id") FROM aulas) + 1,
+            nextval(pg_get_serial_sequence('aulas', 'Id'))),
+        false);
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20261023002957_CursosLinguagensEAgua') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20261023002957_CursosLinguagensEAgua', '10.0.13');
+    END IF;
+END $EF$;
+COMMIT;
+

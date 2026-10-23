@@ -7,9 +7,10 @@ namespace CatalogoCursos.Api.Dados;
 /// Catálogo fictício, semeado pela migration (HasData): o script SQL gerado por
 /// <c>dotnet ef migrations script</c> sai com schema e dados, e o banco nasce
 /// igual em qualquer máquina. Ids fixos e sequenciais — HasData exige.
-/// Os seis primeiros cursos (nome, categoria, resumo) são os do Figma; os três
-/// últimos completam as categorias de Linguagens e Sustentabilidade, que o
-/// pacote de ícones prevê e o edital exige (mínimo de três).
+/// Os seis primeiros cursos (nome, categoria, resumo) são os do Figma; os demais
+/// completam as categorias de Linguagens e Sustentabilidade, que o pacote de
+/// ícones prevê. Os dois de inglês e normas já começaram (EAD com inscrição
+/// contínua): servem de "cursando" para o aluno de demonstração.
 /// </summary>
 public static class DadosIniciais
 {
@@ -235,6 +236,64 @@ public static class DadosIniciais
                 new("Projeto final", [
                     new("Visita técnica", "Levantamento em campo e apresentação do plano.",
                         "A turma visita uma unidade industrial, levanta resíduos e consumos e monta um plano de melhoria.\n\nA apresentação final é feita para a equipe da própria unidade visitada."),
+                ]),
+            ]),
+        new("ingles-instrumental-manuais-tecnicos",
+            "Inglês Instrumental para Manuais Técnicos", "Inglês Instrumental",
+            "Leitura de manuais, catálogos e telas de máquinas em inglês, com foco no vocabulário da produção.",
+            "Boa parte dos manuais, catálogos e painéis de máquinas chega em inglês. O curso ensina estratégias de leitura e o vocabulário técnico para entender esses textos sem depender de tradução.",
+            2, Modalidade.Ead, 30, "Operadores e técnicos que consultam documentação de equipamentos importados.",
+            StatusCurso.InscricoesAbertas, "hero-image.webp", new DateOnly(2026, 9, 14),
+            [
+                new("Estratégias de leitura", [
+                    new("Skimming e scanning", "Achar a ideia geral e a informação exata sem ler tudo.",
+                        "Skimming é passar os olhos para entender do que o texto trata; scanning é procurar uma informação específica, como um valor de torque.\n\nNo manual, os dois começam pelo sumário, pelos títulos e pelas tabelas."),
+                    new("Cognatos e falsos cognatos", "Palavras parecidas que ajudam e as que enganam.",
+                        "Cognatos como \"temperature\" e \"pressure\" aceleram a leitura.\n\n## Atenção\n\nFalsos cognatos enganam: \"actually\" é \"na verdade\", e \"pretend\" é \"fingir\", não \"pretender\"."),
+                ]),
+                new("O manual da máquina", [
+                    new("Avisos de segurança", "Warning, caution e danger: o que cada nível exige.",
+                        "Os avisos seguem uma escala: \"notice\" informa, \"caution\" alerta para risco leve, \"warning\" para risco grave e \"danger\" para risco iminente.\n\nReconhecer a palavra-chave basta para saber o quanto parar e reler."),
+                    new("Instruções passo a passo", "Verbos no imperativo e a ordem das etapas.",
+                        "Instruções usam o imperativo: \"remove\", \"tighten\", \"check\". A ordem dos passos é a ordem da execução.\n\nPalavras como \"before\", \"after\" e \"until\" mudam essa ordem e merecem atenção."),
+                ]),
+            ]),
+        new("leitura-interpretacao-normas-tecnicas",
+            "Leitura e Interpretação de Normas Técnicas", "Normas Técnicas",
+            "Como uma norma é organizada, o que é requisito e o que é recomendação, e como aplicá-la no posto de trabalho.",
+            "Normas técnicas definem como medir, fabricar e inspecionar. O curso mostra a estrutura de uma norma, a diferença entre requisito e recomendação e como transformar o texto em procedimento.",
+            2, Modalidade.Ead, 16, "Técnicos de qualidade, inspetores e líderes de produção.",
+            StatusCurso.InscricoesAbertas, "banner-ava.webp", new DateOnly(2026, 10, 5),
+            [
+                new("A estrutura da norma", [
+                    new("Escopo, referências e definições", "As primeiras seções dizem onde a norma vale.",
+                        "O escopo diz a que produtos e processos a norma se aplica; ler essa seção primeiro evita aplicar a norma errada.\n\nAs definições fixam o sentido de cada termo dentro daquele documento."),
+                    new("Requisito e recomendação", "\"Deve\" obriga; \"convém\" orienta.",
+                        "Na linguagem normativa, \"deve\" indica requisito: sem ele, não há conformidade. \"Convém\" indica recomendação, e \"pode\" indica permissão.\n\nConfundir os verbos gera auditoria reprovada ou trabalho desnecessário."),
+                ]),
+                new("Da norma ao procedimento", [
+                    new("Transformar requisito em passo", "Escrever o procedimento que cumpre a norma.",
+                        "Cada requisito aplicável vira um passo verificável do procedimento, com responsável e registro.\n\n## Exercício\n\nEscolha um requisito de inspeção e escreva o passo correspondente em uma frase."),
+                ]),
+            ]),
+        new("agua-efluentes-industria",
+            "Água e Efluentes na Indústria", "Água e Efluentes",
+            "Uso racional da água, reúso e tratamento de efluentes para reduzir custo e atender à legislação.",
+            "Água é insumo e efluente é custo. O curso cobre o balanço hídrico da fábrica, as oportunidades de reúso e as etapas de tratamento exigidas antes do descarte.",
+            4, Modalidade.Presencial, 24, "Técnicos de meio ambiente, operadores de utilidades e supervisores de produção.",
+            StatusCurso.InscricoesAbertas, "video-thumb.webp", new DateOnly(2026, 12, 7),
+            [
+                new("Uso da água", [
+                    new("Balanço hídrico", "Quanto entra, quanto sai e onde se perde.",
+                        "O balanço hídrico compara a água captada com a consumida em cada processo e a descartada.\n\nA diferença aponta vazamentos e usos que ninguém mede."),
+                    new("Reúso", "Onde a água de um processo serve a outro.",
+                        "Água de enxágue final pode lavar pisos; condensado pode voltar à caldeira.\n\nO critério é a qualidade exigida pelo uso seguinte, não a origem da água."),
+                ]),
+                new("Tratamento de efluentes", [
+                    new("Etapas do tratamento", "Preliminar, primário, secundário e terciário.",
+                        "O tratamento preliminar retira sólidos grosseiros; o primário, material sedimentável; o secundário, matéria orgânica por ação biológica.\n\nO terciário remove o que sobra quando a legislação ou o reúso exigem."),
+                    new("Visita à estação", "Acompanhamento da operação de uma estação de tratamento.",
+                        "A turma acompanha a coleta de amostras e a leitura dos indicadores da estação.\n\nO relatório final compara os resultados com os limites de lançamento."),
                 ]),
             ]),
     ];

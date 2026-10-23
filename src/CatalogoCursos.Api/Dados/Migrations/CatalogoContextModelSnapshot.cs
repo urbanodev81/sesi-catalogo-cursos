@@ -443,6 +443,105 @@ namespace CatalogoCursos.Api.Dados.Migrations
                             ModuloId = 23,
                             Ordem = 1,
                             Titulo = "Visita técnica"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Conteudo = "Skimming é passar os olhos para entender do que o texto trata; scanning é procurar uma informação específica, como um valor de torque.\n\nNo manual, os dois começam pelo sumário, pelos títulos e pelas tabelas.",
+                            Descricao = "Achar a ideia geral e a informação exata sem ler tudo.",
+                            ModuloId = 24,
+                            Ordem = 1,
+                            Titulo = "Skimming e scanning"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Conteudo = "Cognatos como \"temperature\" e \"pressure\" aceleram a leitura.\n\n## Atenção\n\nFalsos cognatos enganam: \"actually\" é \"na verdade\", e \"pretend\" é \"fingir\", não \"pretender\".",
+                            Descricao = "Palavras parecidas que ajudam e as que enganam.",
+                            ModuloId = 24,
+                            Ordem = 2,
+                            Titulo = "Cognatos e falsos cognatos"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Conteudo = "Os avisos seguem uma escala: \"notice\" informa, \"caution\" alerta para risco leve, \"warning\" para risco grave e \"danger\" para risco iminente.\n\nReconhecer a palavra-chave basta para saber o quanto parar e reler.",
+                            Descricao = "Warning, caution e danger: o que cada nível exige.",
+                            ModuloId = 25,
+                            Ordem = 1,
+                            Titulo = "Avisos de segurança"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Conteudo = "Instruções usam o imperativo: \"remove\", \"tighten\", \"check\". A ordem dos passos é a ordem da execução.\n\nPalavras como \"before\", \"after\" e \"until\" mudam essa ordem e merecem atenção.",
+                            Descricao = "Verbos no imperativo e a ordem das etapas.",
+                            ModuloId = 25,
+                            Ordem = 2,
+                            Titulo = "Instruções passo a passo"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Conteudo = "O escopo diz a que produtos e processos a norma se aplica; ler essa seção primeiro evita aplicar a norma errada.\n\nAs definições fixam o sentido de cada termo dentro daquele documento.",
+                            Descricao = "As primeiras seções dizem onde a norma vale.",
+                            ModuloId = 26,
+                            Ordem = 1,
+                            Titulo = "Escopo, referências e definições"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Conteudo = "Na linguagem normativa, \"deve\" indica requisito: sem ele, não há conformidade. \"Convém\" indica recomendação, e \"pode\" indica permissão.\n\nConfundir os verbos gera auditoria reprovada ou trabalho desnecessário.",
+                            Descricao = "\"Deve\" obriga; \"convém\" orienta.",
+                            ModuloId = 26,
+                            Ordem = 2,
+                            Titulo = "Requisito e recomendação"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Conteudo = "Cada requisito aplicável vira um passo verificável do procedimento, com responsável e registro.\n\n## Exercício\n\nEscolha um requisito de inspeção e escreva o passo correspondente em uma frase.",
+                            Descricao = "Escrever o procedimento que cumpre a norma.",
+                            ModuloId = 27,
+                            Ordem = 1,
+                            Titulo = "Transformar requisito em passo"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Conteudo = "O balanço hídrico compara a água captada com a consumida em cada processo e a descartada.\n\nA diferença aponta vazamentos e usos que ninguém mede.",
+                            Descricao = "Quanto entra, quanto sai e onde se perde.",
+                            ModuloId = 28,
+                            Ordem = 1,
+                            Titulo = "Balanço hídrico"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Conteudo = "Água de enxágue final pode lavar pisos; condensado pode voltar à caldeira.\n\nO critério é a qualidade exigida pelo uso seguinte, não a origem da água.",
+                            Descricao = "Onde a água de um processo serve a outro.",
+                            ModuloId = 28,
+                            Ordem = 2,
+                            Titulo = "Reúso"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Conteudo = "O tratamento preliminar retira sólidos grosseiros; o primário, material sedimentável; o secundário, matéria orgânica por ação biológica.\n\nO terciário remove o que sobra quando a legislação ou o reúso exigem.",
+                            Descricao = "Preliminar, primário, secundário e terciário.",
+                            ModuloId = 29,
+                            Ordem = 1,
+                            Titulo = "Etapas do tratamento"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Conteudo = "A turma acompanha a coleta de amostras e a leitura dos indicadores da estação.\n\nO relatório final compara os resultados com os limites de lançamento.",
+                            Descricao = "Acompanhamento da operação de uma estação de tratamento.",
+                            ModuloId = 29,
+                            Ordem = 2,
+                            Titulo = "Visita à estação"
                         });
                 });
 
@@ -733,6 +832,57 @@ namespace CatalogoCursos.Api.Dados.Migrations
                             Resumo = "Classificação de resíduos, logística reversa e ações de eficiência energética com retorno mensurável.",
                             Slug = "gestao-residuos-eficiencia-energetica",
                             Status = "Encerrado"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CargaHorariaHoras = 30,
+                            CategoriaId = 2,
+                            DataDisponibilizacao = new DateOnly(2026, 9, 14),
+                            Descricao = "Boa parte dos manuais, catálogos e painéis de máquinas chega em inglês. O curso ensina estratégias de leitura e o vocabulário técnico para entender esses textos sem depender de tradução.",
+                            ImagemUrl = "/assets/imagens/hero-image.webp",
+                            Modalidade = "Ead",
+                            NomeBreve = "Inglês Instrumental",
+                            NomeBusca = "ingles instrumental para manuais tecnicos ingles instrumental",
+                            NomeCompleto = "Inglês Instrumental para Manuais Técnicos",
+                            PublicoAlvo = "Operadores e técnicos que consultam documentação de equipamentos importados.",
+                            Resumo = "Leitura de manuais, catálogos e telas de máquinas em inglês, com foco no vocabulário da produção.",
+                            Slug = "ingles-instrumental-manuais-tecnicos",
+                            Status = "InscricoesAbertas"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CargaHorariaHoras = 16,
+                            CategoriaId = 2,
+                            DataDisponibilizacao = new DateOnly(2026, 10, 5),
+                            Descricao = "Normas técnicas definem como medir, fabricar e inspecionar. O curso mostra a estrutura de uma norma, a diferença entre requisito e recomendação e como transformar o texto em procedimento.",
+                            ImagemUrl = "/assets/imagens/banner-ava.webp",
+                            Modalidade = "Ead",
+                            NomeBreve = "Normas Técnicas",
+                            NomeBusca = "leitura e interpretacao de normas tecnicas normas tecnicas",
+                            NomeCompleto = "Leitura e Interpretação de Normas Técnicas",
+                            PublicoAlvo = "Técnicos de qualidade, inspetores e líderes de produção.",
+                            Resumo = "Como uma norma é organizada, o que é requisito e o que é recomendação, e como aplicá-la no posto de trabalho.",
+                            Slug = "leitura-interpretacao-normas-tecnicas",
+                            Status = "InscricoesAbertas"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CargaHorariaHoras = 24,
+                            CategoriaId = 4,
+                            DataDisponibilizacao = new DateOnly(2026, 12, 7),
+                            Descricao = "Água é insumo e efluente é custo. O curso cobre o balanço hídrico da fábrica, as oportunidades de reúso e as etapas de tratamento exigidas antes do descarte.",
+                            ImagemUrl = "/assets/imagens/video-thumb.webp",
+                            Modalidade = "Presencial",
+                            NomeBreve = "Água e Efluentes",
+                            NomeBusca = "agua e efluentes na industria agua e efluentes",
+                            NomeCompleto = "Água e Efluentes na Indústria",
+                            PublicoAlvo = "Técnicos de meio ambiente, operadores de utilidades e supervisores de produção.",
+                            Resumo = "Uso racional da água, reúso e tratamento de efluentes para reduzir custo e atender à legislação.",
+                            Slug = "agua-efluentes-industria",
+                            Status = "InscricoesAbertas"
                         });
                 });
 
@@ -923,6 +1073,48 @@ namespace CatalogoCursos.Api.Dados.Migrations
                             CursoId = 9,
                             Ordem = 3,
                             Titulo = "Projeto final"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CursoId = 10,
+                            Ordem = 1,
+                            Titulo = "Estratégias de leitura"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CursoId = 10,
+                            Ordem = 2,
+                            Titulo = "O manual da máquina"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CursoId = 11,
+                            Ordem = 1,
+                            Titulo = "A estrutura da norma"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CursoId = 11,
+                            Ordem = 2,
+                            Titulo = "Da norma ao procedimento"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CursoId = 12,
+                            Ordem = 1,
+                            Titulo = "Uso da água"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CursoId = 12,
+                            Ordem = 2,
+                            Titulo = "Tratamento de efluentes"
                         });
                 });
 
