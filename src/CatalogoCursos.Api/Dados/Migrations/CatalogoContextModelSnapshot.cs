@@ -1150,6 +1150,132 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.HorarioTurma", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.Property<int>("Dia")
+                        .HasColumnType("integer");
+
+                    b.Property<TimeOnly>("Fim")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<TimeOnly>("Inicio")
+                        .HasColumnType("time without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CursoId");
+
+                    b.ToTable("horarios_turma", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CursoId = 10,
+                            Descricao = "Aula ao vivo, no ambiente virtual",
+                            Dia = 2,
+                            Fim = new TimeOnly(21, 0, 0),
+                            Inicio = new TimeOnly(19, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CursoId = 10,
+                            Descricao = "Aula ao vivo, no ambiente virtual",
+                            Dia = 4,
+                            Fim = new TimeOnly(21, 0, 0),
+                            Inicio = new TimeOnly(19, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CursoId = 11,
+                            Descricao = "Aula ao vivo, no ambiente virtual",
+                            Dia = 1,
+                            Fim = new TimeOnly(21, 0, 0),
+                            Inicio = new TimeOnly(19, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CursoId = 11,
+                            Descricao = "Plantão de dúvidas, por videochamada",
+                            Dia = 6,
+                            Fim = new TimeOnly(11, 0, 0),
+                            Inicio = new TimeOnly(9, 0, 0)
+                        });
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("Conteudo")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("Em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NomeArquivo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Tamanho")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TipoConteudo")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CursoId", "Em");
+
+                    b.ToTable("materiais", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Conteudo = new byte[] { 37, 80, 68, 70, 45, 49, 46, 52, 10, 49, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 67, 97, 116, 97, 108, 111, 103, 47, 80, 97, 103, 101, 115, 32, 50, 32, 48, 32, 82, 62, 62, 101, 110, 100, 111, 98, 106, 10, 50, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 80, 97, 103, 101, 115, 47, 75, 105, 100, 115, 91, 51, 32, 48, 32, 82, 93, 47, 67, 111, 117, 110, 116, 32, 49, 62, 62, 101, 110, 100, 111, 98, 106, 10, 51, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 80, 97, 103, 101, 47, 80, 97, 114, 101, 110, 116, 32, 50, 32, 48, 32, 82, 47, 77, 101, 100, 105, 97, 66, 111, 120, 91, 48, 32, 48, 32, 53, 57, 53, 32, 56, 52, 50, 93, 62, 62, 101, 110, 100, 111, 98, 106, 10, 116, 114, 97, 105, 108, 101, 114, 60, 60, 47, 82, 111, 111, 116, 32, 49, 32, 48, 32, 82, 62, 62, 10, 37, 37, 69, 79, 70, 10 },
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            NomeArquivo = "guia-modulo-1.pdf",
+                            Tamanho = 193,
+                            TipoConteudo = "application/pdf",
+                            Titulo = "Guia de estudo do módulo 1"
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>
                 {
                     b.Property<int>("UsuarioId")
@@ -1574,6 +1700,26 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .IsRequired();
 
                     b.Navigation("Documento");
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.HorarioTurma", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.Curso", null)
+                        .WithMany()
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Material", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.Curso", "Curso")
+                        .WithMany()
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curso");
                 });
 
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>

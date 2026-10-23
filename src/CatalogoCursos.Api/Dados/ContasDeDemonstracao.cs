@@ -64,6 +64,20 @@ public static class ContasDeDemonstracao
             new DocumentoExigido { Id = 4, Ordem = 4, Titulo = "Declaração de vínculo com a indústria",
                 Orientacao = "Emitida pela empresa onde trabalha, com data dos últimos 90 dias." });
 
+        // Os dois cursos com turma são EAD: os horários são encontros ao vivo e plantão, online.
+        mb.Entity<HorarioTurma>().HasData(
+            Horario(1, Ingles, DayOfWeek.Tuesday, 19, 21, "Aula ao vivo, no ambiente virtual"),
+            Horario(2, Ingles, DayOfWeek.Thursday, 19, 21, "Aula ao vivo, no ambiente virtual"),
+            Horario(3, Normas, DayOfWeek.Monday, 19, 21, "Aula ao vivo, no ambiente virtual"),
+            Horario(4, Normas, DayOfWeek.Saturday, 9, 11, "Plantão de dúvidas, por videochamada"));
+
+        mb.Entity<Material>().HasData(new
+        {
+            Id = 1, CursoId = DadosIniciais.IdCurso(Normas), Titulo = "Guia de estudo do módulo 1",
+            NomeArquivo = "guia-modulo-1.pdf", TipoConteudo = "application/pdf", Tamanho = PdfDeExemplo.Length,
+            Conteudo = PdfDeExemplo, Em = Inicio.AddDays(2),
+        });
+
         // A Ana já entregou a identidade; os outros três aparecem como pendentes.
         mb.Entity<DocumentoEnviado>().HasData(new
         {
@@ -76,6 +90,9 @@ public static class ContasDeDemonstracao
     private static readonly byte[] PdfDeExemplo = System.Text.Encoding.ASCII.GetBytes(
         "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n" +
         "3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF\n");
+
+    private static object Horario(int id, string slug, DayOfWeek dia, int de, int ate, string descricao) =>
+        new { Id = id, CursoId = DadosIniciais.IdCurso(slug), Dia = dia, Inicio = new TimeOnly(de, 0), Fim = new TimeOnly(ate, 0), Descricao = descricao };
 
     private static object Avaliacao(int id, string slug, string titulo, TipoAvaliacao tipo, int ano, int mes, int dia) =>
         new { Id = id, CursoId = DadosIniciais.IdCurso(slug), Titulo = titulo, Tipo = tipo,

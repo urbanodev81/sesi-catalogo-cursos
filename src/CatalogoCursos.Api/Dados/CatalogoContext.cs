@@ -13,6 +13,8 @@ public class CatalogoContext(DbContextOptions<CatalogoContext> options) : DbCont
     public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
     public DbSet<DocumentoExigido> DocumentosExigidos => Set<DocumentoExigido>();
     public DbSet<DocumentoEnviado> DocumentosEnviados => Set<DocumentoEnviado>();
+    public DbSet<HorarioTurma> Horarios => Set<HorarioTurma>();
+    public DbSet<Material> Materiais => Set<Material>();
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
@@ -108,6 +110,23 @@ public class CatalogoContext(DbContextOptions<CatalogoContext> options) : DbCont
             e.Property(x => x.TipoConteudo).HasMaxLength(60);
             e.HasOne<Usuario>().WithMany().HasForeignKey(x => x.UsuarioId);
             e.HasOne(x => x.Documento).WithMany().HasForeignKey(x => x.DocumentoId);
+        });
+
+        mb.Entity<HorarioTurma>(e =>
+        {
+            e.ToTable("horarios_turma");
+            e.Property(x => x.Descricao).HasMaxLength(120);
+            e.HasOne<Curso>().WithMany().HasForeignKey(x => x.CursoId);
+        });
+
+        mb.Entity<Material>(e =>
+        {
+            e.ToTable("materiais");
+            e.Property(x => x.Titulo).HasMaxLength(120);
+            e.Property(x => x.NomeArquivo).HasMaxLength(200);
+            e.Property(x => x.TipoConteudo).HasMaxLength(60);
+            e.HasIndex(x => new { x.CursoId, x.Em });
+            e.HasOne(x => x.Curso).WithMany().HasForeignKey(x => x.CursoId);
         });
 
         DadosIniciais.Aplicar(mb);

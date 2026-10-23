@@ -87,6 +87,7 @@ app.MapOpenApi();
 app.MapCursos();
 app.MapContas();
 app.MapAluno();
+app.MapProfessor();
 app.MapGet("/health", async (CatalogoContext db, CancellationToken ct) =>
     await db.Database.CanConnectAsync(ct)
         ? Results.Ok(new { status = "ok" })

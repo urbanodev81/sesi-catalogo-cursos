@@ -62,7 +62,7 @@ public class AlunoApiTests(ApiFactory factory)
         Assert.Equal(HttpStatusCode.UnprocessableEntity, falso.StatusCode);
         Assert.Contains("PDF, JPG ou PNG", await falso.Content.ReadAsStringAsync());
 
-        var grande = new byte[AlunoEndpoints.TamanhoMaximo + 1];
+        var grande = new byte[Arquivos.TamanhoMaximo + 1];
         "%PDF-"u8.CopyTo(grande);
         Assert.Equal(HttpStatusCode.UnprocessableEntity,
             (await bruno.PostAsync("/api/aluno/documentos/3", Arquivo(grande, "grande.pdf"))).StatusCode);

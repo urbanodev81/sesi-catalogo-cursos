@@ -45,3 +45,32 @@ public class DocumentoEnviado
     public required byte[] Conteudo { get; set; }
     public DateTimeOffset Em { get; set; }
 }
+
+/// <summary>Encontro fixo da turma na semana (aula ao vivo, plantão de dúvidas).</summary>
+public class HorarioTurma
+{
+    public int Id { get; set; }
+    public int CursoId { get; set; }
+    public DayOfWeek Dia { get; set; }
+    public TimeOnly Inicio { get; set; }
+    public TimeOnly Fim { get; set; }
+    /// <summary>O que é e onde acontece, ex.: "Aula ao vivo, no ambiente virtual".</summary>
+    public required string Descricao { get; set; }
+}
+
+/// <summary>
+/// Arquivo que o professor publica para a turma de um curso. Guardado no banco pelo mesmo motivo do
+/// <see cref="DocumentoEnviado"/>; o volume é limitado (2 MB por arquivo, 10 por turma).
+/// </summary>
+public class Material
+{
+    public int Id { get; set; }
+    public int CursoId { get; set; }
+    public Curso Curso { get; set; } = null!;
+    public required string Titulo { get; set; }
+    public required string NomeArquivo { get; set; }
+    public required string TipoConteudo { get; set; }
+    public int Tamanho { get; set; }
+    public required byte[] Conteudo { get; set; }
+    public DateTimeOffset Em { get; set; }
+}

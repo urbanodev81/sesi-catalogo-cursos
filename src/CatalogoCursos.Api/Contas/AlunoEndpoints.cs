@@ -22,8 +22,6 @@ public record PerfilDto(
 /// </summary>
 public static class AlunoEndpoints
 {
-    public const int TamanhoMaximo = 2 * 1024 * 1024;
-
     /// <summary>Sem sinal de presença há mais que isto, o colega aparece offline (o front manda um por minuto).</summary>
     public static readonly TimeSpan JanelaOnline = TimeSpan.FromMinutes(2);
 
@@ -39,7 +37,7 @@ public static class AlunoEndpoints
             // Antiforgery: o cookie é SameSite=Lax, então outro site não consegue mandar este POST com a
             // sessão; o token do ASP.NET seria uma segunda trava para o mesmo problema.
             .DisableAntiforgery()
-            .WithMetadata(new RequestSizeLimitAttribute(TamanhoMaximo + 64 * 1024))
+            .WithMetadata(new RequestSizeLimitAttribute(Arquivos.TamanhoMaximo + 64 * 1024))
             .WithSummary("Envia (ou substitui) o arquivo de um documento: PDF, JPG ou PNG de até 2 MB");
         aluno.MapGet("/documentos/{id:int}/arquivo", Baixar).WithSummary("Baixa o arquivo que o próprio aluno enviou");
         aluno.MapGet("/colegas", Colegas).WithSummary("Colegas com curso em comum, e quem está online");
@@ -90,55 +88,35 @@ public static class AlunoEndpoints
         return TypedResults.Ok(exigidos.Select(d => new DocumentoDto(d.Id, d.Titulo, d.Orientacao, envios.GetValueOrDefault(d.Id))).ToList());
     }
 
-    private static readonly byte[] AssinaturaPng = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
-    private static readonly byte[] AssinaturaJpeg = [0xFF, 0xD8, 0xFF];
-
-    /// <summary>Tipo pelo começo do arquivo: a extensão e o Content-Type são escolhas de quem envia.</summary>
-    private static string? TipoReal(ReadOnlySpan<byte> inicio) =>
-        inicio.StartsWith("%PDF-"u8) ? "application/pdf"
-        : inicio.StartsWith(AssinaturaPng) ? "image/png"
-        : inicio.StartsWith(AssinaturaJpeg) ? "image/jpeg"
-        : null;
-
     private static async Task<Results<Ok<EnvioDto>, NotFound, ProblemHttpResult>> Enviar(
         int id, IFormFile? arquivo, ClaimsPrincipal user, CatalogoContext db, TimeProvider relogio, CancellationToken ct)
     {
         if (!await db.DocumentosExigidos.AnyAsync(d => d.Id == id, ct))
             return TypedResults.NotFound();
-        if (arquivo is null || arquivo.Length == 0)
-            return Invalido("Escolha um arquivo para enviar.");
-        if (arquivo.Length > TamanhoMaximo)
-            return Invalido("O arquivo passa de 2 MB. Envie uma versão menor.");
-
-        using var memoria = new MemoryStream((int)arquivo.Length);
-        await arquivo.CopyToAsync(memoria, ct);
-        var conteudo = memoria.ToArray();
-        var tipo = TipoReal(conteudo);
-        if (tipo is null)
-            return Invalido("Envie o documento em PDF, JPG ou PNG.");
+        var (conteudo, tipo, erro) = await Arquivos.Ler(arquivo, ct);
+        if (erro is not null)
+            return Invalido(erro);
 
         var usuario = IdDe(user);
-        var nome = Path.GetFileName(arquivo.FileName).Trim();
-        if (nome.Length is 0 or > 200)
-            nome = tipo == "application/pdf" ? "documento.pdf" : tipo == "image/png" ? "documento.png" : "documento.jpg";
+        var nome = Arquivos.NomeSeguro(arquivo!.FileName, tipo!);
 
         var envio = await db.DocumentosEnviados.FindAsync([usuario, id], ct);
         if (envio is null)
             db.DocumentosEnviados.Add(envio = new DocumentoEnviado
             {
-                UsuarioId = usuario, DocumentoId = id, NomeArquivo = nome, TipoConteudo = tipo, Conteudo = conteudo,
+                UsuarioId = usuario, DocumentoId = id, NomeArquivo = nome, TipoConteudo = tipo!, Conteudo = conteudo!,
             });
         envio.NomeArquivo = nome;
-        envio.TipoConteudo = tipo;
-        envio.Conteudo = conteudo;
-        envio.Tamanho = conteudo.Length;
+        envio.TipoConteudo = tipo!;
+        envio.Conteudo = conteudo!;
+        envio.Tamanho = conteudo!.Length;
         envio.Em = relogio.GetUtcNow();
         await db.SaveChangesAsync(ct);
 
         return TypedResults.Ok(new EnvioDto(envio.NomeArquivo, envio.Tamanho, envio.Em));
     }
 
-    private static ProblemHttpResult Invalido(string mensagem) =>
+    internal static ProblemHttpResult Invalido(string mensagem) =>
         TypedResults.Problem(mensagem, statusCode: StatusCodes.Status422UnprocessableEntity);
 
     private static async Task<Results<FileContentHttpResult, NotFound>> Baixar(int id, ClaimsPrincipal user, CatalogoContext db, CancellationToken ct)
