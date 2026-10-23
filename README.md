@@ -9,14 +9,15 @@ requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navega
 guardado no navegador.
 
 Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
-`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração).
+`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração) e
+`/area-do-aluno/perfil` (perfil do aluno).
 
 **Login de demonstração** (também fora do requisito): senha **`sesi2026`** para todas as contas.
 
 | Conta | Papel | O que vê |
 |---|---|---|
-| `aluno@exemplo.com` (Ana) | Aluno | "Meus cursos": já cursa os dois cursos em andamento, com progresso; o progresso das aulas fica no banco |
-| `bruno@exemplo.com`, `carla@exemplo.com` | Aluno | Outros progressos, para o painel do professor ter o que mostrar |
+| `aluno@exemplo.com` (Ana) | Aluno | "Meus cursos" com progresso, próximas avaliações, documentos (um entregue, três pendentes, com envio de arquivo), colegas da turma com quem está online, e o perfil |
+| `bruno@exemplo.com`, `carla@exemplo.com` | Aluno | Outros progressos, para o painel do professor ter o que mostrar. São os colegas da Ana: entre como Bruno em outro navegador e ele aparece **online** para ela |
 | `professor@exemplo.com` (Marina) | Professor | Progresso de cada aluno, por curso, só leitura |
 
 Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
@@ -106,7 +107,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 38 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 46 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
@@ -137,6 +138,13 @@ banco sem a aplicação, use o script [`database/catalogo.sql`](database/catalog
 | POST | `/api/cursos/{slug}/matricula` | *Aluno:* matricula (idempotente). `409` se as inscrições não estão abertas |
 | POST | `/api/cursos/{slug}/progresso` | *Aluno:* `{ modulo, aula }` → marca como concluída (idempotente). `409` sem matrícula |
 | GET | `/api/professor/turmas` | *Professor:* por curso, cada aluno com aulas concluídas e última atividade |
+| POST | `/api/conta/presenca` | *Com login:* sinal de presença (o front manda um por minuto com a aba visível) |
+| GET | `/api/aluno/avaliacoes` | *Aluno:* avaliações futuras dos cursos em que está matriculado, por data |
+| GET | `/api/aluno/documentos` | *Aluno:* documentos exigidos, com o arquivo já enviado (nome, tamanho, data) ou `null` |
+| POST | `/api/aluno/documentos/{id}` | *Aluno:* multipart `arquivo` → envia ou substitui. PDF, JPG ou PNG de até 2 MB, conferido pelos primeiros bytes; `422` com o motivo se não passar |
+| GET | `/api/aluno/documentos/{id}/arquivo` | *Aluno:* baixa o arquivo que **ele mesmo** enviou (o dono vem da sessão, não da URL); `404` se não houver |
+| GET | `/api/aluno/colegas` | *Aluno:* quem tem curso em comum, com os cursos e se está online (sinal nos últimos 2 minutos). Sem e-mail |
+| GET | `/api/aluno/perfil` | *Aluno:* nome, e-mail, aluno desde, cursos, aulas concluídas, documentos pendentes e próxima avaliação |
 | GET | `/health` | `200` se o banco responde, `503` se não |
 | GET | `/openapi/v1.json` | Documento OpenAPI |
 
@@ -165,6 +173,12 @@ aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única 
 usuarios (id, email único, nome, senha_hash, papel)
 matriculas (usuario_id, curso_id, em)            ── chave: (usuario, curso)
 aulas_concluidas (usuario_id, aula_id, em)       ── chave: (usuario, aula)
+
+avaliacoes (id, curso_id, titulo, tipo, em)                         ── índice (curso, em)
+documentos_exigidos (id, ordem, titulo, orientacao)
+documentos_enviados (usuario_id, documento_id, nome_arquivo, tipo_conteudo, tamanho, conteudo, em)
+                                                 ── chave: (usuario, documento); enviar de novo substitui
+usuarios.ultimo_acesso                           ── último sinal de presença, base do "online"
 ```
 
 - `modalidade` (`Ead`, `Presencial`, `Hibrido`) e `status` (`InscricoesAbertas`, `EmBreve`, `Encerrado`)
@@ -182,6 +196,13 @@ aulas_concluidas (usuario_id, aula_id, em)       ── chave: (usuario, aula)
   (concluídas ÷ aulas do curso), então nunca fica desatualizado se o curso ganhar uma aula.
 - **Senhas:** só o hash do `PasswordHasher` do ASP.NET Core (PBKDF2 com sal). Os hashes das contas de
   demonstração foram gerados uma vez e gravados no seed, porque o `HasData` precisa de valor fixo.
+- **Arquivos no próprio PostgreSQL (`bytea`):** o disco da hospedagem gratuita é apagado a cada
+  reinício, e o volume é limitado por construção: só existem as contas do seed, com 4 documentos de no
+  máximo 2 MB cada. Num sistema real, o arquivo iria para um armazenamento de objetos (S3 ou similar) e o
+  banco guardaria só a referência.
+- **"Agora" injetável:** os endpoints do aluno leem a hora de um `TimeProvider`. Nos testes, o relógio fica
+  fixo em 24/10/2026 e é adiantado para provar que o colega sai do "online", sem depender da data em que
+  o teste roda.
 - **Troca de seed com índice único:** a migration `CatalogoDoFigma` remove e recria os índices de ordem
   dentro da própria transação, porque o EF atualiza o seed linha a linha e, no meio do caminho, duas aulas
   ocupariam a mesma posição.
@@ -287,6 +308,10 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
 
 ## Limitações conhecidas
 
+- **Painel do aluno de demonstração:** as datas das avaliações são do seed (outubro a dezembro de 2026)
+  e vão sumindo da lista conforme passam. O "online" é por sinal a cada minuto (polling), não por
+  WebSocket: até 2 minutos de atraso para alguém aparecer ou sair. O perfil é só leitura, porque não há
+  cadastro.
 - **Hospedagem gratuita "dorme" sem uso:** a primeira visita pode levar cerca de 50 segundos. O front
   espera até 60 s; se passar disso, mostra a mensagem de demora e o botão "Tentar novamente". O edital
   aceita indisponibilidade temporária porque há instruções para rodar localmente (acima).
@@ -330,6 +355,9 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
     Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
+  - **Avaliações, documentos, colegas e perfil na área do aluno.** A área do aluno inteira está fora do
+    protótipo (o login não é requisito). Os blocos novos usam o cartão, os selos e os ícones de traço que
+    a listagem e a página do curso já usam, sem cor ou componente novo.
   - **Painel de acessibilidade.** Não está no protótipo; usa as cores, o raio e os ícones de traço do
     próprio layout. O botão fica no canto inferior esquerdo, longe do "voltar ao topo".
   - **Barra de carregamento entre páginas e botão "voltar ao topo".** Não estão no protótipo. As páginas

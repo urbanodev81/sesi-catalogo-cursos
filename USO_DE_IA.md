@@ -78,6 +78,10 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    **Aproveitado:** a seta da aula volta para a área do aluno quando há login, e para o curso quando
    não há (quem chegou pelo "Matricule-se"). O painel de acessibilidade com VLibras, portado de outro
    projeto meu, reescrito sem Tailwind e sem biblioteca de ícones.
+   **Decidido por mim:** os quatro extras da área do aluno (próximas avaliações, documentos pendentes com
+   envio de arquivo, colegas da turma online e perfil), mesmo com o alerta da IA de que nada disso está no
+   Figma e de que o "online" e o envio de arquivo pedem infraestrutura. A IA fez o online por sinal a cada
+   minuto (sem WebSocket) e guardou os arquivos no banco, e documentou as duas escolhas como limitação.
    **Decidido por mim:** a subida animada mesmo com movimento reduzido no sistema. A IA recomendou
    manter o salto, que é o que a preferência pede. Escolhi animar porque é um deslocamento pedido pelo
    clique, e o painel dá o "Parar animações" para quem quiser o salto.
@@ -91,8 +95,11 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   no conteúdo, e na página do curso não cobre a barra de matrícula enquanto ela está fixa no pé da tela.
   Painel de acessibilidade: foco ao abrir, Esc devolvendo o foco, fonte e filtro aplicados e mantidos
   depois de recarregar, "Restaurar padrão", VLibras acionável pelo painel com o botão nativo escondido.
+  Painel do aluno com dois navegadores (Ana e Bruno): Bruno aparece online para a Ana, envio de arquivo
+  falso recusado com a mensagem da API, envio de PDF atualizando a contagem de pendentes, perfil, axe e
+  ausência de rolagem horizontal em 1440 e 390 px.
 
-- **Testes de integração** (`tests/`): 38 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 46 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
   3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos e o login (sessão, papéis, limite de tentativas, progresso).
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
