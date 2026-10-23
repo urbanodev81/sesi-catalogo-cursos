@@ -324,8 +324,21 @@ h3 {
   display: none;
 }
 .trilho > li {
-  flex: 0 0 min(80vw, 272px);
+  /* Celular: um card inteiro e só uma fresta do próximo (20 px, menos que o recuo de 24 px do texto do
+     card): mostra a foto e avisa que a lista rola, sem título e resumo cortados no meio da palavra.
+     100% = largura do trilho sem o recuo. */
+  flex: 0 0 calc(100% - 1.25rem);
   scroll-snap-align: start;
+}
+@media (min-width: 640px) {
+  .trilho > li {
+    flex-basis: calc((100% - 2.25rem) / 2);
+  }
+}
+@media (min-width: 1024px) {
+  .trilho > li {
+    flex-basis: 272px; /* largura do card no Figma */
+  }
 }
 .trilho:focus-visible {
   outline-offset: -3px;
