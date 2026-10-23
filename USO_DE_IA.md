@@ -71,7 +71,16 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    **Descartado:** o modo escuro, que seria uma segunda paleta fora do Figma; o botão flutuante de redes
    sociais, que repetiria o rodapé do protótipo sem nenhum destino real; o botão de "descer", que a
    rolagem do navegador já resolve. **Decidido por mim:** o painel de acessibilidade com VLibras ficou
-   de fora, mesmo recomendado pela IA.
+   de fora, mesmo recomendado pela IA (e entrou na rodada seguinte).
+8. **Revisão rodando o projeto local:** "a seta da aula não pode voltar para a página do curso, saiu da
+   área do aluno; o botão de subir não sobe fluindo, só salta; cadê a acessibilidade?". A IA mediu a
+   rolagem no navegador e achou a causa (erro nº 14 abaixo).
+   **Aproveitado:** a seta da aula volta para a área do aluno quando há login, e para o curso quando
+   não há (quem chegou pelo "Matricule-se"). O painel de acessibilidade com VLibras, portado de outro
+   projeto meu, reescrito sem Tailwind e sem biblioteca de ícones.
+   **Decidido por mim:** a subida animada mesmo com movimento reduzido no sistema. A IA recomendou
+   manter o salto, que é o que a preferência pede. Escolhi animar porque é um deslocamento pedido pelo
+   clique, e o painel dá o "Parar animações" para quem quiser o salto.
 
 ## Como o conteúdo foi validado
 
@@ -79,7 +88,9 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   filtro inválido, abrir o curso, matricular-se, concluir aula, progresso após recarregar, busca de aula,
   painel da aula no celular, acordeão por teclado, ordem de Tab. Barra de carregamento e "voltar ao topo"
   em 1440 e 390 px: a barra aparece com a tela atrasada e some ao chegar, o botão leva ao topo com o foco
-  no conteúdo, e na página do curso não cobre a barra de matrícula em nenhuma posição de rolagem.
+  no conteúdo, e na página do curso não cobre a barra de matrícula enquanto ela está fixa no pé da tela.
+  Painel de acessibilidade: foco ao abrir, Esc devolvendo o foco, fonte e filtro aplicados e mantidos
+  depois de recarregar, "Restaurar padrão", VLibras acionável pelo painel com o botão nativo escondido.
 
 - **Testes de integração** (`tests/`): 38 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
@@ -154,3 +165,9 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     assinatura, o método casa com `RequestDelegate`, e o ASP.NET descarta o `204` retornado. Não quebra nada
     visível; quem avisou foi o analisador do build (`ASP0016`). **Correção:** registrar como `Delegate`, com
     um comentário explicando o porquê.
+14. **Rolagem "suave" que saltava.** O "voltar ao topo" usava `scrollTo({ behavior: 'smooth' })`. No meu
+    Windows, com "Efeitos de animação" desligado, o Chrome responde `prefers-reduced-motion: reduce` e
+    ignora o smooth nativo; no teste automatizado, com a configuração padrão, a rolagem era suave, então o
+    defeito só apareceu quando eu abri o site. A IA mediu a posição a cada 80 ms nos dois modos e achou a
+    configuração do sistema. **Correção:** a subida é animada pelo próprio script (`requestAnimationFrame`,
+    450 a 1300 ms conforme a distância), e o "Parar animações" do painel a torna instantânea.

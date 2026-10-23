@@ -225,9 +225,18 @@ Implementado:
 - Card clicável inteiro, mas com nome acessível só no título (o link cobre o card por `::after`).
 - Foco visível em tudo, alvos de toque com pelo menos 44 px e `prefers-reduced-motion` respeitado.
 - "Voltar ao topo" (aparece depois de rolar 600 px): tem nome acessível e leva o foco ao conteúdo
-  principal, para o foco do teclado não sumir junto com o botão. A rolagem é suave, salvo com movimento
-  reduzido. A barra de carregamento entre páginas é `aria-hidden`, porque a troca já é anunciada pelo
-  título da aba e pelo foco.
+  principal, para o foco do teclado não sumir junto com o botão. A subida é animada pelo próprio script,
+  porque o Chrome desliga a rolagem suave nativa quando o sistema pede movimento reduzido, e o clique
+  virava um salto. É um deslocamento que a pessoa pediu ao clicar; as transições automáticas continuam
+  desligadas nesse caso, e o "Parar animações" do painel abaixo torna a subida instantânea. A barra de
+  carregamento entre páginas é `aria-hidden`, porque a troca já é anunciada pelo título da aba e pelo foco.
+- **Painel de acessibilidade** (botão no canto inferior esquerdo, em todas as telas): parar animações,
+  tamanho do texto em três níveis, contraste para mais ou para menos, escala de cinza, sublinhar links,
+  espaçamento de texto (os valores do critério WCAG 1.4.12), cursor grande, guia de leitura e tradução para
+  Libras pelo **VLibras**, o tradutor do governo federal. As escolhas ficam salvas no navegador. O painel
+  não corrige nada da página, que passa na auditoria sem ele. Ele oferece ajustes que o navegador não dá
+  num clique. É um diálogo não modal: abre com o foco no primeiro controle, e Esc fecha e devolve o foco
+  ao botão. O item de Libras só aparece se o plugin do governo carregar; se não carregar, nada quebra.
 - Imagens decorativas com `alt=""`; links que abrem em nova aba avisam no texto.
 
 **Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
@@ -241,7 +250,9 @@ Achados e correções:
 - Abrir uma página direto pelo link (não a home) já levava o foco ao conteúdo, e o "Pular para o
   conteúdo" ficava para trás: a primeira resolução da rota contava como troca de página. Corrigido.
 
-Resultado: zero violações e nenhum alvo abaixo de 44 px.
+Resultado: zero violações no nosso código e nenhum alvo abaixo de 44 px. Com o VLibras ligado, o axe
+aponta uma regra de boa prática (`region`, conteúdo fora de um marco da página) nos elementos que o plugin
+do governo injeta no `<body>`. Não é critério WCAG, e o código é de terceiros.
 
 ## Processo de publicação
 
@@ -319,6 +330,8 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
     Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
+  - **Painel de acessibilidade.** Não está no protótipo; usa as cores, o raio e os ícones de traço do
+    próprio layout. O botão fica no canto inferior esquerdo, longe do "voltar ao topo".
   - **Barra de carregamento entre páginas e botão "voltar ao topo".** Não estão no protótipo. As páginas
     fora da home são baixadas sob demanda, e no primeiro acesso a cada uma (pior no plano gratuito)
     nada indicava que o clique tinha funcionado. A barra é uma linha de 3 px no vermelho do Figma e só

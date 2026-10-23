@@ -55,5 +55,8 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Publicado em 23/10: https://sesi-catalogo-cursos-yict.onrender.com (Render, Blueprint, conta GitHub urbanodev81;
   Neon us-east-1, string sem pooler). Deploy automático a cada push na `main`.
 - Barra de carregamento entre páginas (`ProgressoNavegacao`, 180 ms de carência) e "voltar ao topo"
-  (`BotaoTopo`) desde 23/10. Modo escuro, redes flutuantes e painel de a11y avaliados e recusados (USO_DE_IA nº 7).
+  (`BotaoTopo`, rolagem animada por rAF mesmo com reduce — decisão do Ricardo) desde 23/10. Painel de
+  acessibilidade + VLibras em `frontend/src/acessibilidade/` (storage `sesi-a11y-`). Modo escuro e redes
+  flutuantes recusados (USO_DE_IA nº 7). Seta da aula volta para a área do aluno quando há login.
+- Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.
