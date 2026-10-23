@@ -109,6 +109,13 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     **Pedido meu:** painéis abertos fecham sozinhos depois de um tempo parado. A IA escolheu 60 s e, por
     conta própria, um painel por vez (na minha tela os dois abertos cobriam o conteúdo).
 
+11. **"Esse não é um tipo de site que precisa da mensagem que salva cookie? Mude a barra de matricule-se."**
+    A IA levantou o que o site grava (cookie de sessão, preferências no `localStorage`, nenhum rastreamento)
+    e o único terceiro (VLibras), e explicou que isso pede transparência, não consentimento. Propôs aviso
+    informativo + página de privacidade em vez do banner "aceitar/recusar". Como o pedido da barra estava
+    ambíguo, perguntou o que mudar.
+    **Decidido por mim:** aviso informativo e barra sempre presa no pé da tela.
+
 ## Como o conteúdo foi validado
 
 - **Teste de interação** (Playwright, fora do projeto): busca, filtros combinados, limpar, lista vazia,

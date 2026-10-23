@@ -3,6 +3,7 @@ import { nextTick, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import PainelAcessibilidade from './acessibilidade/PainelAcessibilidade.vue'
 import AjudaChat from './components/AjudaChat.vue'
+import AvisoPrivacidade from './components/AvisoPrivacidade.vue'
 import BotaoTopo from './components/BotaoTopo.vue'
 import CabecalhoSite from './components/CabecalhoSite.vue'
 import ProgressoNavegacao from './components/ProgressoNavegacao.vue'
@@ -43,4 +44,5 @@ useRouter()
   <BotaoTopo />
   <AjudaChat />
   <PainelAcessibilidade />
+  <AvisoPrivacidade />
 </template>

@@ -197,7 +197,7 @@ const totalAulas = computed(() => detalhe.value?.modulos.reduce((soma, m) => som
       </div>
     </section>
 
-    <!-- Barra do Figma: fica presa no pé da tela enquanto a página do curso rola e para antes do rodapé (sticky). -->
+    <!-- Barra do Figma: sempre presa no pé da tela, do topo ao rodapé da página do curso. -->
     <div v-if="abertas" class="barra-matricula">
       <div class="container barra-matricula__conteudo">
         <p class="barra-matricula__nome">

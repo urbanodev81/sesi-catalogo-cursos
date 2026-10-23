@@ -1070,22 +1070,18 @@ h3 {
 }
 
 /*
- * Fica no pé da tela enquanto a página do curso rola e para no fim dela, antes do rodapé.
- * Altura zero no fluxo (o conteúdo sobe com translate): no fim, a barra pousa sobre a faixa
- * "Fale com a gente", que ganha espaço extra embaixo para não ter nada escondido.
+ * Sempre presa no pé da tela (decisão do Ricardo): não "pousa" no fim da página, então nunca encosta
+ * nos botões flutuantes. O rodapé ganha espaço embaixo para o último link não ficar sob a barra.
  */
 .barra-matricula {
-  position: sticky;
+  position: fixed;
+  inset-inline: 0;
   bottom: 1rem;
   z-index: 4;
-  height: 0;
-  pointer-events: none; /* só a barra recebe clique, não a área em volta */
+  pointer-events: none; /* só a barra recebe clique, não a faixa em volta */
 }
-.barra-matricula__conteudo {
-  translate: 0 calc(-100% - 1.5rem);
-}
-.curso:has(.barra-matricula) .fale {
-  padding-bottom: calc(clamp(3rem, 6vw, 4.5rem) + 5rem);
+body:has(.barra-matricula) .rodape {
+  padding-bottom: 7rem;
 }
 .barra-matricula__conteudo {
   display: flex;
@@ -2625,4 +2621,68 @@ html.dock-vlibras [vw-access-button] {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* ---------- Página de privacidade e aviso ---------- */
+.privacidade {
+  max-width: 760px;
+  padding-block: 3rem 4rem;
+}
+.privacidade h2 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+}
+.privacidade li + li {
+  margin-top: 0.5rem;
+}
+.privacidade__nota {
+  padding: 0.75rem 1rem;
+  border-radius: var(--raio);
+  background: var(--fundo-suave);
+}
+.aviso-privacidade {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: 1rem;
+  translate: -50% 0;
+  width: min(640px, 100% - 2rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 12px;
+  background: var(--texto);
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+.aviso-privacidade p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+.aviso-privacidade__acoes {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: none;
+}
+.aviso-privacidade a {
+  color: #fff;
+  text-decoration: underline;
+  padding-block: 0.75rem; /* alvo de toque de 44 px */
+}
+.aviso-privacidade :focus-visible {
+  outline-color: #fff;
+}
+@media (max-width: 639px) {
+  .aviso-privacidade {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .aviso-privacidade__acoes {
+    justify-content: space-between;
+  }
+}
+body:has(.barra-matricula) .aviso-privacidade {
+  bottom: 6rem;
 }

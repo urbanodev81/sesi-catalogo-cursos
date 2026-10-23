@@ -364,8 +364,8 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     cards reaproveitam essas três. Cada card do protótipo tem uma foto própria.
   - **Sem botão de play na chamada final da home.** O protótipo mostra um vídeo, mas nenhum vídeo foi
     fornecido, e ali não há aula para onde levar. Um play que não toca nada seria uma promessa falsa.
-  - **Rodapé só com links que levam a algum lugar.** Blog, Termos de Uso, Política de Privacidade e
-    Trabalhe Conosco não têm página e saíram. "Certificação" leva aos diferenciais da home, e "Fale
+  - **Rodapé só com links que levam a algum lugar.** Blog, Termos de Uso e Trabalhe
+    Conosco não têm página e saíram; "Política de Privacidade" ficou e leva a `/privacidade`. "Certificação" leva aos diferenciais da home, e "Fale
     conosco" e "Central de ajuda" abrem um e-mail. Os "Cursos populares" do protótipo (Excel, Gestão do
     Tempo etc.) não existem no catálogo, então a coluna lista os seis cursos em destaque.
   - **Avaliações, documentos, colegas, materiais e perfil na área do aluno; área do professor.** As duas
@@ -388,6 +388,14 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     prontas (como entrar, onde enviar documentos, onde ficam os materiais e as dúvidas frequentes da
     página "Sobre"). O campo de texto aparece desligado com o selo "Em breve": o assistente com IA não
     existe ainda, e o painel não finge que existe. Esc fecha e devolve o foco ao botão.
+  - **Barra de matrícula sempre presa.** No protótipo ela acompanha a rolagem; aqui não para mais no fim
+    da página (antes "pousava" acima do rodapé e, nesse instante, encostava nos botões flutuantes). O
+    rodapé ganhou espaço embaixo para nada ficar escondido sob ela.
+  - **Aviso de privacidade e página `/privacidade`.** Não estão no protótipo. O site só guarda o cookie de
+    sessão (depois do login) e preferências no navegador, sem análise nem publicidade: pela LGPD e pelo
+    guia de cookies da ANPD isso não pede consentimento, pede transparência. Por isso o aviso é
+    informativo ("Entendi" + link), sem "aceitar/recusar", que seria um botão para recusar nada. A
+    página diz também que o VLibras é carregado de `vlibras.gov.br`.
   - **Painéis dos cantos se fecham sozinhos.** Acessibilidade e Ajuda abrem um por vez (no celular os dois
     juntos cobrem a tela) e fecham depois de 60 s sem movimento, toque, tecla ou rolagem. A conversa da
     Ajuda continua lá ao reabrir; se o foco estava no painel, volta ao botão que o abriu.

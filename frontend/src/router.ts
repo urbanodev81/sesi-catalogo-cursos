@@ -56,6 +56,12 @@ export const router = createRouter({
     { path: '/area-do-aluno/perfil', redirect: { name: 'perfil' } },
     { path: '/area-do-professor', redirect: { name: 'area-do-professor' } },
     {
+      path: '/privacidade',
+      name: 'privacidade',
+      component: () => import('./views/PrivacidadeView.vue'),
+      meta: { titulo: 'Política de Privacidade' },
+    },
+    {
       path: '/:caminho(.*)*',
       name: 'nao-encontrado',
       component: () => import('./views/NaoEncontradoView.vue'),

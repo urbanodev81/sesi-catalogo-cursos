@@ -3,8 +3,8 @@ import { RouterLink } from 'vue-router'
 import { CONTATO, CURSOS_DESTAQUE } from '../conteudo/institucional'
 import LinkAncora from './LinkAncora.vue'
 
-// Do rodapé do Figma ficam só os links que levam a algum lugar: Blog, Termos de Uso,
-// Política de Privacidade e Trabalhe Conosco não têm página (diferença listada no README).
+// Do rodapé do Figma ficam só os links que levam a algum lugar: Blog, Termos de Uso e
+// Trabalhe Conosco não têm página (diferença listada no README).
 </script>
 
 <template>
@@ -42,6 +42,7 @@ import LinkAncora from './LinkAncora.vue'
         <ul>
           <li><a :href="`mailto:${CONTATO.email}`">Fale conosco</a></li>
           <li><a :href="`mailto:${CONTATO.email}?subject=Central de ajuda`">Central de ajuda</a></li>
+          <li><RouterLink :to="{ name: 'privacidade' }">Política de Privacidade</RouterLink></li>
         </ul>
       </nav>
     </div>
