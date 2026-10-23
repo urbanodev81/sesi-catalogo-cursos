@@ -11,7 +11,17 @@ requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navega
 guardado no navegador.
 
 Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
-`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula).
+`/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/area-do-aluno` (login de demonstração).
+
+**Login de demonstração** (também fora do requisito): senha **`sesi2026`** para todas as contas.
+
+| Conta | Papel | O que vê |
+|---|---|---|
+| `aluno@exemplo.com` (Ana) | Aluno | "Meus cursos": já cursa os dois cursos em andamento, com progresso; o progresso das aulas fica no banco |
+| `bruno@exemplo.com`, `carla@exemplo.com` | Aluno | Outros progressos, para o painel do professor ter o que mostrar |
+| `professor@exemplo.com` (Marina) | Professor | Progresso de cada aluno, por curso, só leitura |
+
+Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
 
 - **Aplicação publicada:** *(a completar)*
 - **Requisito original:** [`docs/DESAFIO.md`](docs/DESAFIO.md)
@@ -120,11 +130,21 @@ banco sem a aplicação, use o script [`database/catalogo.sql`](database/catalog
 | GET | `/api/cursos/{slug}` | Detalhe do curso, com módulos e aulas. `404` se não existir |
 | GET | `/api/cursos/{slug}/modulos/{modulo}/aulas/{aula}` | Conteúdo da aula (endereçada pela ordem, como na tela), com a anterior e a próxima do curso inteiro. `404` se não existir |
 | GET | `/api/filtros` | Valores válidos de categoria, modalidade e status (`valor` + `rotulo`) |
+| POST | `/api/conta/entrar` | `{ email, senha }` → abre a sessão (cookie). `401` com a mesma mensagem para e-mail ou senha errados; `429` após 5 tentativas no minuto |
+| POST | `/api/conta/sair` | Encerra a sessão |
+| GET | `/api/conta` | Quem está logado; `401` se ninguém |
+| GET | `/api/conta/cursos` | *Aluno:* cursos matriculados, com aulas concluídas e a próxima aula |
+| GET | `/api/cursos/{slug}/progresso` | *Aluno:* aulas concluídas neste curso (`"1.2"`) e se está matriculado |
+| POST | `/api/cursos/{slug}/matricula` | *Aluno:* matricula (idempotente). `409` se as inscrições não estão abertas |
+| POST | `/api/cursos/{slug}/progresso` | *Aluno:* `{ modulo, aula }` → marca como concluída (idempotente). `409` sem matrícula |
+| GET | `/api/professor/turmas` | *Professor:* por curso, cada aluno com aulas concluídas e última atividade |
 | GET | `/health` | `200` se o banco responde, `503` se não |
 | GET | `/openapi/v1.json` | Documento OpenAPI |
 
 Regras:
 - A busca ignora acento, maiúscula e espaços nas pontas, e procura no nome completo e no nome breve.
+- Rotas de aluno e de professor respondem `401` sem login e `403` com o papel errado (nunca redirecionam:
+  quem decide o que mostrar é o front).
 - Valor de filtro desconhecido responde `400` (ProblemDetails) dizendo qual campo, em vez de uma lista
   vazia silenciosa.
 - A ordem é inscrições abertas → em breve → encerrado e, dentro de cada status, por nome.
@@ -142,6 +162,10 @@ cursos (id, slug único, nome_completo, nome_breve, resumo, descricao, categoria
 modulos (id, curso_id, ordem)          ── ordem única por curso
     1 ── N
 aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única por módulo
+
+usuarios (id, email único, nome, senha_hash, papel)
+matriculas (usuario_id, curso_id, em)            ── chave: (usuario, curso)
+aulas_concluidas (usuario_id, aula_id, em)       ── chave: (usuario, aula)
 ```
 
 - `modalidade` (`Ead`, `Presencial`, `Hibrido`) e `status` (`InscricoesAbertas`, `EmBreve`, `Encerrado`)
@@ -155,6 +179,10 @@ aulas (id, modulo_id, ordem, titulo, descricao, conteudo)   ── ordem única 
 - Catálogo fictício: 12 cursos, 4 categorias, 3 modalidades e 3 status, com cargas horárias, módulos,
   aulas e públicos-alvo diferentes. Os seis cursos do Figma (nome, categoria e resumo dos cards) estão
   todos lá; os outros seis cobrem Linguagens e Sustentabilidade, que o pacote de ícones prevê.
+- **Progresso sem percentual gravado:** cada aula concluída é uma linha. O percentual é calculado na hora
+  (concluídas ÷ aulas do curso), então nunca fica desatualizado se o curso ganhar uma aula.
+- **Senhas:** só o hash do `PasswordHasher` do ASP.NET Core (PBKDF2 com sal). Os hashes das contas de
+  demonstração foram gerados uma vez e gravados no seed, porque o `HasData` precisa de valor fixo.
 - **Troca de seed com índice único:** a migration `CatalogoDoFigma` remove e recria os índices de ordem
   dentro da própria transação, porque o EF atualiza o seed linha a linha e, no meio do caminho, duas aulas
   ocupariam a mesma posição.
@@ -188,6 +216,9 @@ Implementado:
 - Tela de aula: progresso em `role="progressbar"` com texto ("11% concluído, 1 de 9 aulas"), aula atual
   com `aria-current="page"`, aula concluída anunciada como "(concluída)", módulos com `aria-expanded`.
 - Botão de play e seta de voltar só com ícone têm nome acessível em texto oculto.
+- Login: campos com `autocomplete` (`username`, `current-password`) para o gerenciador de senhas, erro em
+  `role="alert"` e foco no conteúdo depois de entrar ou sair. A tabela do professor tem `caption` e
+  cabeçalhos de linha e coluna, e no celular rola dentro da própria caixa, sem alargar a página.
 - Todo campo tem `label` visível; a contagem de resultados fica em `role="status"` e o leitor de tela a
   anuncia a cada busca ou filtro; erro em `role="alert"`.
 - Link "Pular para o conteúdo"; ao trocar de página, o foco vai para o conteúdo principal e o título da
@@ -249,9 +280,11 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
   (`/api/cursos`) não precisaria mudar.
 - **Sem paginação:** o catálogo fictício é pequeno e a lista volta inteira. Com centenas de cursos, a API
   ganharia `pagina` e `tamanho`, e o total já está separado dos itens para isso.
-- **Progresso das aulas só no navegador:** sem login (o edital não pede), o progresso fica no
-  `localStorage` e não acompanha o aluno em outro aparelho. Ele está atrás da interface
-  `RepositorioProgresso`, então guardar na API é trocar a implementação, não as telas.
+- **Login só de demonstração:** não há cadastro, troca de senha nem recuperação; as contas vêm do seed.
+  O professor vê todos os cursos (não há vínculo professor ↔ turma).
+- **Sessão perdida quando a hospedagem reinicia:** as chaves que assinam o cookie ficam na memória do
+  contêiner, e o plano gratuito reinicia o serviço quando ele "dorme". Basta entrar de novo. A correção
+  seria guardar as chaves no banco (`PersistKeysToDbContext`).
 - **Testes automatizados só no back-end.** O front é verificado por compilação estrita (`vue-tsc`) e
   pela auditoria de acessibilidade descrita acima, não por testes de componente.
 - **Somente leitura:** não há cadastro, edição nem exclusão de cursos, como o edital dispensa; os dados

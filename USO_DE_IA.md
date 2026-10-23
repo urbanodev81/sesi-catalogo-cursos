@@ -58,6 +58,8 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
    design novo. A listagem foi montada com o hero, os cards e o campo de busca que o protótipo já tem.
    **Aproveitado:** o progresso das aulas atrás de uma interface (`RepositorioProgresso`), guardado no
    navegador por enquanto. O login, se entrar, troca só a implementação.
+   **Decidido por mim:** login de aluno e de professor, mas só depois de tudo o que o edital exige. A IA
+   o fez numa branch separada (`login`), para eu decidir se entra na entrega.
    **Decidido por mim:** "Matricule-se" leva à primeira aula, que é o fluxo do protótipo. Num sistema
    real, levaria à matrícula no Moodle.
 
@@ -131,3 +133,12 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     novamente". Tentar de novo dá o mesmo 400, para sempre. O teste de interação mostrou o problema.
     **Correção:** o cliente lê a mensagem do campo que a API já devolvia ("Categoria 'xpto' não
     existe.") e a tela oferece "Limpar filtros" no lugar de "Tentar novamente".
+12. **Consulta que o EF não traduz.** Para listar os cursos do aluno, a IA escreveu
+    `Matriculas.Where(...).Select(m => m.Curso).Include(c => c.Modulos)...` com consulta dividida
+    (`AsSplitQuery`). Compilou, mas a rota respondia 500. O teste de integração "aluno de demonstração já
+    está cursando os dois cursos" pegou o erro antes de qualquer tela. **Correção:** partir de `Cursos`,
+    com `Where(c => Matriculas.Any(...))`, que é também a forma mais simples de ler.
+13. **Resposta que se perderia em silêncio.** O endpoint de sair recebia só o `HttpContext`. Com essa
+    assinatura, o método casa com `RequestDelegate`, e o ASP.NET descarta o `204` retornado. Não quebra nada
+    visível; quem avisou foi o analisador do build (`ASP0016`). **Correção:** registrar como `Delegate`, com
+    um comentário explicando o porquê.
