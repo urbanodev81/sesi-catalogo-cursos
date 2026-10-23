@@ -1,7 +1,5 @@
 # Catálogo de cursos — SESI Indústria
 
-> **Pendente:** a publicação (URL abaixo). O resto descreve o código como ele está.
-
 ## Objetivo da aplicação
 
 Aplicação web para o Centro de Tecnologias e Educação Digital (CTED) apresentar o catálogo de cursos do
@@ -23,7 +21,8 @@ Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}`
 
 Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
 
-- **Aplicação publicada:** *(a completar)*
+- **Aplicação publicada:** <https://sesi-catalogo-cursos-yict.onrender.com> (plano gratuito: a primeira
+  visita depois de um tempo parado pode levar cerca de 50 segundos)
 - **Requisito original:** [`docs/DESAFIO.md`](docs/DESAFIO.md)
 
 ## Tecnologias utilizadas
@@ -247,7 +246,7 @@ Dois serviços gratuitos, sem custo para o SESI-SP:
 | Peça | Onde | Por quê |
 |---|---|---|
 | Aplicação (API + front) | Render, plano gratuito, deploy pelo `Dockerfile` | A mesma imagem do `docker compose` local: o que roda aqui é o que roda lá |
-| Banco | Neon, PostgreSQL 16 gratuito, região AWS us-east-1 | O PostgreSQL gratuito do Render expira em 30 dias; o do Neon não |
+| Banco | Neon, PostgreSQL gratuito, região AWS us-east-1 | O PostgreSQL gratuito do Render expira em 30 dias; o do Neon não |
 
 A configuração do Render está versionada em [`render.yaml`](render.yaml) (Blueprint): serviço web na
 Virgínia (mesma região do banco), checagem de saúde em `/health` e deploy automático a cada push na `main`.
@@ -255,8 +254,9 @@ A única configuração fora do repositório é a `DATABASE_URL`, que é segredo
 
 Passo a passo, partindo do zero:
 
-1. **Neon:** criar o projeto (PostgreSQL 16, região *AWS US East 1*) e copiar a *connection string*
-   (`postgresql://...?sslmode=require`).
+1. **Neon:** criar o projeto (região *AWS US East 1*, a mesma do Render) e, em *Connect*, copiar a
+   *connection string* com o *connection pooling* desligado (`postgresql://...?sslmode=require`, sem
+   `-pooler` no host): o EF trava as migrations com um lock de sessão, que o pooler por transação não mantém.
 2. **Render:** *New → Blueprint*, apontar para este repositório; o Render lê o `render.yaml` e pede a
    `DATABASE_URL`: colar a do Neon.
 3. No primeiro boot, a aplicação aplica as migrations sozinha (schema + catálogo fictício). Não há passo

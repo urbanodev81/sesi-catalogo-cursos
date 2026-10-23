@@ -27,7 +27,7 @@ Link do Figma; imagens e ícones (em `frontend/public/assets/`); informações f
 - [x] API para consulta dos cursos
 - [x] Banco de dados de código aberto (PostgreSQL)
 - [x] Integração front-end ↔ API ↔ banco
-- [ ] Publicação da aplicação
+- [x] Publicação da aplicação
 - [x] Documentação técnica
 - [x] Registro do uso de IA (`USO_DE_IA.md`)
 

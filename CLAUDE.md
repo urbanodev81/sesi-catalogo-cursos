@@ -52,4 +52,6 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8.
 - Login de demonstração (aluno e professor) na `main` desde 23/10: cookie HttpOnly, PasswordHasher, 5 logins/min
   por IP, contas do seed com senha `sesi2026` (`Dados/ContasDeDemonstracao.cs`); 38 testes.
-- Falta: o Ricardo criar Neon + Render, URL publicada no README, repo público antes da entrega.
+- Publicado em 23/10: https://sesi-catalogo-cursos-yict.onrender.com (Render, Blueprint, conta GitHub urbanodev81;
+  Neon us-east-1, string sem pooler). Deploy automático a cada push na `main`.
+- Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.
