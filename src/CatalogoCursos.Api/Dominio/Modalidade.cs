@@ -34,6 +34,16 @@ public static class Rotulos
         (StatusCurso.Encerrado, "encerrado", "Encerrado"),
     ];
 
+    private static readonly (TipoAvaliacao Item, string Valor, string Rotulo)[] TiposAvaliacao =
+    [
+        (TipoAvaliacao.Prova, "prova", "Prova"),
+        (TipoAvaliacao.Trabalho, "trabalho", "Trabalho"),
+        (TipoAvaliacao.Questionario, "questionario", "Questionário"),
+    ];
+
+    public static (string Valor, string Rotulo) De(TipoAvaliacao t) =>
+        TiposAvaliacao.Where(x => x.Item == t).Select(x => (x.Valor, x.Rotulo)).Single();
+
     public static IEnumerable<(string Valor, string Rotulo)> TodasModalidades =>
         Modalidades.Select(m => (m.Valor, m.Rotulo));
 

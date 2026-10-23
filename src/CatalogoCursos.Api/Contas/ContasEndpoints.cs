@@ -50,7 +50,7 @@ public static class ContasEndpoints
     }
 
     private static async Task<Results<Ok<UsuarioDto>, ProblemHttpResult>> Entrar(
-        EntrarDto dados, CatalogoContext db, HttpContext http, CancellationToken ct)
+        EntrarDto dados, CatalogoContext db, HttpContext http, TimeProvider relogio, CancellationToken ct)
     {
         var email = dados.Email?.Trim().ToLowerInvariant() ?? "";
         var usuario = await db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, ct);
@@ -70,6 +70,8 @@ public static class ContasEndpoints
             ],
             CookieAuthenticationDefaults.AuthenticationScheme);
         await http.SignInAsync(new ClaimsPrincipal(identidade));
+        var agora = relogio.GetUtcNow();
+        await db.Usuarios.Where(u => u.Id == usuario.Id).ExecuteUpdateAsync(s => s.SetProperty(u => u.UltimoAcesso, agora), ct);
 
         return TypedResults.Ok(ParaDto(usuario.Nome, usuario.Email, usuario.Papel.ToString()));
     }

@@ -625,6 +625,87 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Avaliacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("Em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CursoId", "Em");
+
+                    b.ToTable("avaliacoes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 15, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Questionario",
+                            Titulo = "Questionário do módulo 1: vocabulário técnico"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 11, 6, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Trabalho",
+                            Titulo = "Tradução de um trecho de manual de máquina"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CursoId = 10,
+                            Em = new DateTimeOffset(new DateTime(2026, 12, 4, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Prova",
+                            Titulo = "Prova final de inglês instrumental"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 30, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Questionario",
+                            Titulo = "Questionário: estrutura de uma norma"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 11, 20, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Trabalho",
+                            Titulo = "Análise de uma norma do seu setor"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CursoId = 11,
+                            Em = new DateTimeOffset(new DateTime(2026, 12, 11, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            Tipo = "Prova",
+                            Titulo = "Prova final de normas técnicas"
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Categoria", b =>
                 {
                     b.Property<int>("Id")
@@ -966,6 +1047,109 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.DocumentoEnviado", b =>
+                {
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DocumentoId")
+                        .HasColumnType("integer");
+
+                    b.Property<byte[]>("Conteudo")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTimeOffset>("Em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NomeArquivo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Tamanho")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TipoConteudo")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.HasKey("UsuarioId", "DocumentoId");
+
+                    b.HasIndex("DocumentoId");
+
+                    b.ToTable("documentos_enviados", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UsuarioId = 1,
+                            DocumentoId = 1,
+                            Conteudo = new byte[] { 37, 80, 68, 70, 45, 49, 46, 52, 10, 49, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 67, 97, 116, 97, 108, 111, 103, 47, 80, 97, 103, 101, 115, 32, 50, 32, 48, 32, 82, 62, 62, 101, 110, 100, 111, 98, 106, 10, 50, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 80, 97, 103, 101, 115, 47, 75, 105, 100, 115, 91, 51, 32, 48, 32, 82, 93, 47, 67, 111, 117, 110, 116, 32, 49, 62, 62, 101, 110, 100, 111, 98, 106, 10, 51, 32, 48, 32, 111, 98, 106, 60, 60, 47, 84, 121, 112, 101, 47, 80, 97, 103, 101, 47, 80, 97, 114, 101, 110, 116, 32, 50, 32, 48, 32, 82, 47, 77, 101, 100, 105, 97, 66, 111, 120, 91, 48, 32, 48, 32, 53, 57, 53, 32, 56, 52, 50, 93, 62, 62, 101, 110, 100, 111, 98, 106, 10, 116, 114, 97, 105, 108, 101, 114, 60, 60, 47, 82, 111, 111, 116, 32, 49, 32, 48, 32, 82, 62, 62, 10, 37, 37, 69, 79, 70, 10 },
+                            Em = new DateTimeOffset(new DateTime(2026, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
+                            NomeArquivo = "identidade-ana.pdf",
+                            Tamanho = 193,
+                            TipoConteudo = "application/pdf"
+                        });
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.DocumentoExigido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Ordem")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Orientacao")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("documentos_exigidos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ordem = 1,
+                            Orientacao = "RG, CNH ou outro documento oficial com foto, frente e verso.",
+                            Titulo = "Documento de identidade"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ordem = 2,
+                            Orientacao = "Pode ser o próprio documento de identidade, se trouxer o número do CPF.",
+                            Titulo = "CPF"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ordem = 3,
+                            Orientacao = "Certificado ou histórico da última etapa concluída.",
+                            Titulo = "Comprovante de escolaridade"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Ordem = 4,
+                            Orientacao = "Emitida pela empresa onde trabalha, com data dos últimos 90 dias.",
+                            Titulo = "Declaração de vínculo com a indústria"
+                        });
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>
                 {
                     b.Property<int>("UsuarioId")
@@ -1282,6 +1466,9 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<DateTimeOffset?>("UltimoAcesso")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -1350,6 +1537,17 @@ namespace CatalogoCursos.Api.Dados.Migrations
                     b.Navigation("Aula");
                 });
 
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.Avaliacao", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.Curso", "Curso")
+                        .WithMany()
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curso");
+                });
+
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Curso", b =>
                 {
                     b.HasOne("CatalogoCursos.Api.Dominio.Categoria", "Categoria")
@@ -1359,6 +1557,23 @@ namespace CatalogoCursos.Api.Dados.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("CatalogoCursos.Api.Dominio.DocumentoEnviado", b =>
+                {
+                    b.HasOne("CatalogoCursos.Api.Dominio.DocumentoExigido", "Documento")
+                        .WithMany()
+                        .HasForeignKey("DocumentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CatalogoCursos.Api.Dominio.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Documento");
                 });
 
             modelBuilder.Entity("CatalogoCursos.Api.Dominio.Matricula", b =>

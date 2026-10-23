@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
 
 namespace CatalogoCursos.Api.Tests;
@@ -14,10 +16,14 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         .WithImage("postgres:16-alpine")
         .Build();
 
+    /// <summary>Relógio da API nos testes: fixo em 24/10/2026, e os testes de presença o adiantam.</summary>
+    public RelogioDeTeste Relogio { get; } = new(new DateTimeOffset(2026, 10, 24, 12, 0, 0, TimeSpan.Zero));
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
         builder.UseSetting("ConnectionStrings:Catalogo", _postgres.GetConnectionString());
+        builder.ConfigureTestServices(s => s.AddSingleton<TimeProvider>(Relogio));
     }
 
     public Task InitializeAsync() => _postgres.StartAsync();
@@ -31,3 +37,9 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
 [CollectionDefinition(nameof(ApiCollection))]
 public class ApiCollection : ICollectionFixture<ApiFactory>;
+
+public sealed class RelogioDeTeste(DateTimeOffset agora) : TimeProvider
+{
+    public DateTimeOffset Agora { get; set; } = agora;
+    public override DateTimeOffset GetUtcNow() => Agora;
+}

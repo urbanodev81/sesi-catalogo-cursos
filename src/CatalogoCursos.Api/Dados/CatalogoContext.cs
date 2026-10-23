@@ -10,6 +10,9 @@ public class CatalogoContext(DbContextOptions<CatalogoContext> options) : DbCont
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Matricula> Matriculas => Set<Matricula>();
     public DbSet<AulaConcluida> AulasConcluidas => Set<AulaConcluida>();
+    public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
+    public DbSet<DocumentoExigido> DocumentosExigidos => Set<DocumentoExigido>();
+    public DbSet<DocumentoEnviado> DocumentosEnviados => Set<DocumentoEnviado>();
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
@@ -79,6 +82,32 @@ public class CatalogoContext(DbContextOptions<CatalogoContext> options) : DbCont
             e.HasKey(x => new { x.UsuarioId, x.AulaId });
             e.HasOne<Usuario>().WithMany().HasForeignKey(x => x.UsuarioId);
             e.HasOne(x => x.Aula).WithMany().HasForeignKey(x => x.AulaId);
+        });
+
+        mb.Entity<Avaliacao>(e =>
+        {
+            e.ToTable("avaliacoes");
+            e.Property(x => x.Titulo).HasMaxLength(200);
+            e.Property(x => x.Tipo).HasConversion<string>().HasMaxLength(20);
+            e.HasIndex(x => new { x.CursoId, x.Em });
+            e.HasOne(x => x.Curso).WithMany().HasForeignKey(x => x.CursoId);
+        });
+
+        mb.Entity<DocumentoExigido>(e =>
+        {
+            e.ToTable("documentos_exigidos");
+            e.Property(x => x.Titulo).HasMaxLength(120);
+            e.Property(x => x.Orientacao).HasMaxLength(300);
+        });
+
+        mb.Entity<DocumentoEnviado>(e =>
+        {
+            e.ToTable("documentos_enviados");
+            e.HasKey(x => new { x.UsuarioId, x.DocumentoId });
+            e.Property(x => x.NomeArquivo).HasMaxLength(200);
+            e.Property(x => x.TipoConteudo).HasMaxLength(60);
+            e.HasOne<Usuario>().WithMany().HasForeignKey(x => x.UsuarioId);
+            e.HasOne(x => x.Documento).WithMany().HasForeignKey(x => x.DocumentoId);
         });
 
         DadosIniciais.Aplicar(mb);

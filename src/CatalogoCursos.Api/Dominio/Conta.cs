@@ -14,6 +14,8 @@ public class Usuario
     /// <summary>Hash do <c>PasswordHasher</c> do ASP.NET Core (PBKDF2 com sal); a senha nunca é gravada.</summary>
     public required string SenhaHash { get; set; }
     public Papel Papel { get; set; }
+    /// <summary>Último sinal de presença do front (a cada minuto, com a aba aberta). Base do "online" dos colegas.</summary>
+    public DateTimeOffset? UltimoAcesso { get; set; }
 }
 
 /// <summary>Aluno inscrito num curso. Nasce quando ele abre a primeira aula de um curso com inscrições abertas.</summary>

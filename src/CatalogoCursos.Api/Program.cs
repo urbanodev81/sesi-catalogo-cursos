@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CatalogoContext>(o => o.UseNpgsql(ConexaoBanco.Resolver(builder.Configuration)));
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton(TimeProvider.System); // os testes trocam por um relógio fixo
 
 // Login por cookie: a SPA e a API têm a mesma origem, então não há token para guardar no
 // JavaScript. HttpOnly (script não lê), SameSite=Lax (outro site não manda o cookie num POST,
@@ -72,6 +73,7 @@ app.UseRateLimiter();
 app.MapOpenApi();
 app.MapCursos();
 app.MapContas();
+app.MapAluno();
 app.MapGet("/health", async (CatalogoContext db, CancellationToken ct) =>
     await db.Database.CanConnectAsync(ct)
         ? Results.Ok(new { status = "ok" })

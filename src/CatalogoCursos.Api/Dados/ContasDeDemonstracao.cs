@@ -44,7 +44,42 @@ public static class ContasDeDemonstracao
             Concluida(2, Ingles, 2, 2, 8), Concluida(2, Normas, 1, 1, 3), Concluida(2, Normas, 1, 2, 5),
             // Carla: começou o inglês, ainda não abriu normas
             Concluida(3, Ingles, 1, 1, 8));
+
+        // Avaliações dos dois cursos com alunos: uma já passada (some da lista) e as próximas.
+        mb.Entity<Avaliacao>().HasData(
+            Avaliacao(1, Ingles, "Questionário do módulo 1: vocabulário técnico", TipoAvaliacao.Questionario, 2026, 10, 15),
+            Avaliacao(2, Ingles, "Tradução de um trecho de manual de máquina", TipoAvaliacao.Trabalho, 2026, 11, 6),
+            Avaliacao(3, Ingles, "Prova final de inglês instrumental", TipoAvaliacao.Prova, 2026, 12, 4),
+            Avaliacao(4, Normas, "Questionário: estrutura de uma norma", TipoAvaliacao.Questionario, 2026, 10, 30),
+            Avaliacao(5, Normas, "Análise de uma norma do seu setor", TipoAvaliacao.Trabalho, 2026, 11, 20),
+            Avaliacao(6, Normas, "Prova final de normas técnicas", TipoAvaliacao.Prova, 2026, 12, 11));
+
+        mb.Entity<DocumentoExigido>().HasData(
+            new DocumentoExigido { Id = 1, Ordem = 1, Titulo = "Documento de identidade",
+                Orientacao = "RG, CNH ou outro documento oficial com foto, frente e verso." },
+            new DocumentoExigido { Id = 2, Ordem = 2, Titulo = "CPF",
+                Orientacao = "Pode ser o próprio documento de identidade, se trouxer o número do CPF." },
+            new DocumentoExigido { Id = 3, Ordem = 3, Titulo = "Comprovante de escolaridade",
+                Orientacao = "Certificado ou histórico da última etapa concluída." },
+            new DocumentoExigido { Id = 4, Ordem = 4, Titulo = "Declaração de vínculo com a indústria",
+                Orientacao = "Emitida pela empresa onde trabalha, com data dos últimos 90 dias." });
+
+        // A Ana já entregou a identidade; os outros três aparecem como pendentes.
+        mb.Entity<DocumentoEnviado>().HasData(new
+        {
+            UsuarioId = 1, DocumentoId = 1, NomeArquivo = "identidade-ana.pdf", TipoConteudo = "application/pdf",
+            Tamanho = PdfDeExemplo.Length, Conteudo = PdfDeExemplo, Em = Inicio.AddDays(1),
+        });
     }
+
+    /// <summary>PDF mínimo válido (uma página em branco), para o download do seed abrir de verdade.</summary>
+    private static readonly byte[] PdfDeExemplo = System.Text.Encoding.ASCII.GetBytes(
+        "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n" +
+        "3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF\n");
+
+    private static object Avaliacao(int id, string slug, string titulo, TipoAvaliacao tipo, int ano, int mes, int dia) =>
+        new { Id = id, CursoId = DadosIniciais.IdCurso(slug), Titulo = titulo, Tipo = tipo,
+            Em = new DateTimeOffset(ano, mes, dia, 19, 0, 0, TimeSpan.FromHours(-3)) };
 
     private static object Matricula(int usuario, string slug, int dias) =>
         new { UsuarioId = usuario, CursoId = DadosIniciais.IdCurso(slug), Em = Inicio.AddDays(dias) };
