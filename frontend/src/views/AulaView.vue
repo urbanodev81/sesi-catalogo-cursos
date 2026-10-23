@@ -4,10 +4,20 @@ import { RouterLink, useRouter } from 'vue-router'
 import { ErroApi, obterAula, obterCurso } from '../api/cliente'
 import type { AulaConteudo, CursoDetalhe } from '../api/tipos'
 import IconeLinha from '../components/IconeLinha.vue'
+import { useSessao } from '../conta/sessao'
 import { useProgresso } from '../progresso/progresso'
 
 const props = defineProps<{ slug: string; modulo: number; aula: number }>()
 const router = useRouter()
+
+// A seta de voltar sai do ambiente de estudo: quem está logado volta para a área do aluno, de onde
+// abriu o curso; quem chegou pelo "Matricule-se" sem login volta para a página do curso.
+const { usuario } = useSessao()
+const voltar = computed(() =>
+  usuario.value
+    ? { para: { name: 'area-do-aluno' }, rotulo: 'Voltar para a área do aluno' }
+    : { para: { name: 'curso', params: { slug: props.slug } }, rotulo: 'Voltar para a página do curso' },
+)
 
 // O curso (módulos da barra lateral) só recarrega se o curso mudar; a aula, a cada navegação.
 const curso = shallowRef<CursoDetalhe>()
@@ -109,9 +119,9 @@ const blocos = computed(() => {
   <div class="aula-pagina">
     <aside class="aula-lateral" aria-label="Navegação do curso">
       <div class="aula-lateral__topo">
-        <RouterLink :to="{ name: 'curso', params: { slug } }" class="aula-lateral__voltar">
+        <RouterLink :to="voltar.para" class="aula-lateral__voltar">
           <IconeLinha nome="voltar" />
-          <span class="visualmente-oculto">Voltar para a página do curso</span>
+          <span class="visualmente-oculto">{{ voltar.rotulo }}</span>
         </RouterLink>
         <button
           type="button"

@@ -1701,9 +1701,12 @@ h3 {
 .botao-topo:hover {
   background: var(--vermelho-escuro);
 }
-/* Na página do curso, a barra de matrícula ocupa o pé da tela: o botão sobe e fica acima dela. */
-body:has(.barra-matricula) .botao-topo {
+/* Na página do curso, a barra de matrícula ocupa o pé da tela: os botões flutuantes sobem e ficam acima dela. */
+body:has(.barra-matricula) :is(.botao-topo, .a11y-botao) {
   bottom: 8.5rem;
+}
+body:has(.barra-matricula) .a11y-painel {
+  bottom: 12.5rem;
 }
 .aparecer-enter-active,
 .aparecer-leave-active {
@@ -1712,6 +1715,264 @@ body:has(.barra-matricula) .botao-topo {
 .aparecer-enter-from,
 .aparecer-leave-to {
   opacity: 0;
+}
+
+/* ---------- Painel de acessibilidade ---------- */
+html.a11y-fonte-1 {
+  font-size: 112.5%;
+}
+html.a11y-fonte-2 {
+  font-size: 125%;
+}
+html.a11y-sublinhar-links a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* Espaçamento da WCAG 1.4.12 (letra 0,12, palavra 0,16, linha 1,5 em diante). */
+html.a11y-espacamento-texto,
+html.a11y-espacamento-texto * {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+  line-height: 1.6 !important;
+}
+html.a11y-pausar-animacoes *,
+html.a11y-pausar-animacoes *::before,
+html.a11y-pausar-animacoes *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+/* O painel aciona o VLibras, então o botão azul nativo fica escondido (a classe sai se o painel não
+   conseguir assumir). opacity e não display: none, para não atrapalhar as medições do plugin. */
+html.dock-vlibras #vlibras-access-wrapper,
+html.dock-vlibras [vw-access-button] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.a11y-botao {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 6;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--texto);
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  cursor: pointer;
+}
+.a11y-botao:hover,
+.a11y-botao[aria-expanded='true'] {
+  background: var(--vermelho);
+}
+.a11y-botao .icone-linha {
+  width: 26px;
+  height: 26px;
+}
+.a11y-painel {
+  position: fixed;
+  left: 1rem;
+  bottom: 5rem;
+  z-index: 7;
+  width: min(20rem, 100vw - 2rem);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--fundo);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.2);
+}
+.a11y-painel button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.a11y-painel button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.a11y-painel input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  accent-color: var(--vermelho);
+  cursor: pointer;
+}
+.a11y-painel__topo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.a11y-painel__topo h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 1rem;
+}
+.a11y-painel__texto,
+.a11y-painel__icone {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: var(--raio);
+  background: none;
+  color: var(--texto-suave) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.a11y-painel__texto:hover,
+.a11y-painel__icone:hover {
+  color: var(--texto) !important;
+  background: var(--fundo-suave);
+}
+.a11y-destaque {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.75rem;
+  border: 2px solid var(--vermelho);
+  border-radius: 10px;
+  background: #fff4f3;
+  cursor: pointer;
+}
+.a11y-destaque > span:nth-child(2) {
+  flex: 1;
+}
+.a11y-destaque__icone {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--vermelho);
+  color: #fff;
+}
+.a11y-destaque strong,
+.a11y-destaque small,
+.a11y-libras strong,
+.a11y-libras small {
+  display: block;
+}
+.a11y-destaque small,
+.a11y-libras small {
+  color: var(--texto-suave);
+  font-size: 0.75rem;
+}
+.a11y-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-block: 0.25rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.a11y-passos {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.a11y-passos button {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--fundo);
+  font-weight: 800;
+}
+.a11y-passos button:not(:disabled):hover {
+  border-color: var(--vermelho);
+}
+.a11y-passos output {
+  width: 2rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-suave);
+}
+.a11y-secao {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-top: 1px solid var(--borda);
+  background: none;
+  font-weight: 700 !important;
+  text-align: left;
+}
+.a11y-secao .icone-linha {
+  transition: rotate 0.2s ease;
+}
+.a11y-secao__seta--aberta {
+  rotate: 180deg;
+}
+.a11y-opcoes {
+  display: flex;
+  flex-direction: column;
+}
+.a11y-opcoes label {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.a11y-libras {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: var(--fundo-suave);
+  text-align: left;
+}
+.a11y-libras:hover {
+  border-color: var(--vermelho);
+}
+.a11y-libras .icone-linha {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  color: var(--vermelho);
+}
+/* Guia de leitura: cobre até o cabeçalho e os flutuantes, senão não guia nada. */
+.a11y-guia {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: rgb(0 0 0 / 0.5);
+  pointer-events: none;
+}
+.a11y-guia--cima {
+  top: 0;
+}
+.a11y-guia--baixo {
+  bottom: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
