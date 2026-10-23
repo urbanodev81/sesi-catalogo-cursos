@@ -131,9 +131,9 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   falso recusado com a mensagem da API, envio de PDF atualizando a contagem de pendentes, perfil, axe e
   ausência de rolagem horizontal em 1440 e 390 px.
 
-- **Testes de integração** (`tests/`): 51 testes contra um PostgreSQL real criado na hora
+- **Testes de integração** (`tests/`): 54 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
-  3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos e o login (sessão, papéis, limite de tentativas, progresso).
+  3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos, o login (sessão, papéis, limite de tentativas por IP e por e-mail, progresso) e a volta da demonstração ao estado inicial.
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
 - **Execução real** com `docker compose`: cada rota conferida por HTTP (SPA, API, assets, OpenAPI),
   com leitura dos logs do contêiner.
@@ -215,3 +215,11 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     summary` valia para qualquer `summary` dentro da turma aberta. O teste no navegador leu o ícone de cada
     estado e pegou. **Correção:** as regras do acordeão passaram a valer só para os filhos diretos
     (`.acordeao > details > summary`), e a página do curso foi conferida de novo.
+16. **Limite de login que um cabeçalho desligava.** A IA limitou o login a 5 tentativas por minuto por IP,
+    com o IP lido do `X-Forwarded-For` (necessário atrás do proxy do Render) e aceitando esse cabeçalho de
+    qualquer origem. Os testes passavam, porque eles mesmos usam o cabeçalho para dar um IP a cada teste.
+    A revisão final, feita como QA, testou em produção: com o IP já bloqueado (429), o mesmo pedido com um
+    `X-Forwarded-For` inventado voltava 401, e cada pedido ganhava cota nova. **Correção:** um segundo
+    limite, de 5 senhas erradas por minuto por e-mail, que não depende do IP; o teste novo troca de IP a
+    cada tentativa e espera o 429. Na mesma revisão: corpo `null` no login dava 500 (agora 401), e 66 avisos
+    de build vinham de duas versões do EF Core (a API com a 10.0.13, os testes com a 10.0.4).

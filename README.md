@@ -6,7 +6,7 @@ Aplicação web para o Centro de Tecnologias e Educação Digital (CTED) apresen
 ambiente virtual de aprendizagem. O usuário consulta, pesquisa pelo nome, filtra por categoria,
 modalidade e status (combináveis) e abre os detalhes de cada curso, com módulos e aulas. Além do
 requisito, a tela de aula do protótipo funciona: conteúdo de cada aula, navegação entre aulas e progresso
-guardado no navegador.
+(no navegador para o visitante; na conta, para o aluno que entrou).
 
 Páginas: `/` (home), `/cursos` (listagem com busca e filtros), `/cursos/{slug}` (curso),
 `/cursos/{slug}/modulos/{m}/aulas/{a}` (aula), `/admin` (login de demonstração, porta única de alunos e professores),
@@ -31,7 +31,7 @@ Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
 
 | Camada | Tecnologia | Por quê |
 |---|---|---|
-| Back-end | C# / ASP.NET Core 10 (Minimal API) | Exigência do edital; Minimal API mantém três endpoints sem cerimônia |
+| Back-end | C# / ASP.NET Core 10 (Minimal API) | Exigência do edital; Minimal API: cada endpoint é uma função, agrupada por área (catálogo, conta, aluno, professor), sem controllers |
 | Acesso a dados | Entity Framework Core 10 + Npgsql | Migrations versionadas e seed no mesmo lugar |
 | Banco | PostgreSQL 16 | Código aberto; há oferta gratuita gerenciada para a publicação |
 | Front-end | Vue 3 + TypeScript + Vite, Vue Router | Componentes simples, tipagem dos contratos da API |
@@ -70,7 +70,7 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 │       ├── api/                cliente HTTP e tipos espelhando os DTOs
 │       ├── composables/        useCatalogo (busca, filtros, estados, URL) e useCarrossel
 │       ├── conteudo/           texto institucional do Figma (não é dado do catálogo)
-│       ├── progresso/          progresso nas aulas, atrás de uma interface (hoje no navegador)
+│       ├── progresso/          progresso nas aulas, atrás de uma interface (navegador ou API, conforme o login)
 │       ├── components/ views/  telas e componentes
 │       └── estilos/            tokens, fonte Open Sans, base de acessibilidade
 ├── database/catalogo.sql       script SQL completo (schema + dados), gerado das migrations
@@ -108,7 +108,7 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
-**Testes:** `dotnet test` roda os 51 testes de integração (requer Docker: cada execução cria um
+**Testes:** `dotnet test` roda os 54 testes de integração (requer Docker: cada execução cria um
 PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
 
 ## Configuração do banco
@@ -276,13 +276,17 @@ Implementado:
 **Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
 regras WCAG 2.0/2.1/2.2 A e AA mais boas práticas, rodado por Playwright em 14 telas e estados — home,
 listagem, busca, filtros combinados, lista vazia, filtro inválido, curso (aberto, em breve, encerrado e
-inexistente, com os acordeões abertos), aula, aula inexistente, área do aluno e 404 — em 1440 px e 390 px. Complementado com o que o axe não mede: rolagem horizontal a 320 px (reflow, WCAG
+inexistente, com os acordeões abertos), aula, aula inexistente, 404, privacidade, login, área do aluno, perfil,
+área do professor (turmas e alunos abertos) e os painéis de acessibilidade e de ajuda abertos — em 1440 px e 390 px. Complementado com o que o axe não mede: rolagem horizontal a 320 px (reflow, WCAG
 1.4.10), tamanho de todo alvo clicável, ordem de tabulação e foco após trocar de página.
 Achados e correções:
 - Títulos pulavam de nível (`h1` da página → `h3` no card): o título do card passou a `h2`.
 - Logo do topo e link da trilha tinham 19 px de altura clicável: passaram a 44 px sem mudar o visual.
 - Abrir uma página direto pelo link (não a home) já levava o foco ao conteúdo, e o "Pular para o
   conteúdo" ficava para trás: a primeira resolução da rota contava como troca de página. Corrigido.
+- Na área do professor, "Horários", "Materiais", "Alunos" e o formulário de publicar tinham o mesmo nome
+  em todas as turmas (`landmark-unique`): o leitor de tela listava quatro "Alunos" iguais. Cada bloco
+  passou a se rotular pelo título + nome da turma.
 
 Resultado: zero violações no nosso código e nenhum alvo abaixo de 44 px. Com o VLibras ligado, o axe
 aponta uma regra de boa prática (`region`, conteúdo fora de um marco da página) nos elementos que o plugin
@@ -325,6 +329,12 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
   e vão sumindo da lista conforme passam. O "online" é por sinal a cada minuto (polling), não por
   WebSocket: até 2 minutos de atraso para alguém aparecer ou sair. O perfil é só leitura, porque não há
   cadastro.
+- **Demonstração volta ao estado inicial quando o servidor reinicia.** A senha das contas é pública,
+  então qualquer visitante poderia trocar os documentos da Ana, publicar materiais ou marcar aulas, e o
+  próximo encontraria o site do jeito que o anterior deixou (ou um arquivo impróprio). Na publicação,
+  `Demo__RestaurarAoIniciar=true` (no `render.yaml`) faz cada boot apagar essas mudanças e regravar o seed,
+  lido do próprio modelo do EF. O plano gratuito reinicia depois de uns 15 minutos parado. Localmente fica
+  desligado.
 - **Hospedagem gratuita "dorme" sem uso:** a primeira visita pode levar cerca de 50 segundos. O front
   espera até 60 s; se passar disso, mostra a mensagem de demora e o botão "Tentar novamente". O edital
   aceita indisponibilidade temporária porque há instruções para rodar localmente (acima).
@@ -352,8 +362,9 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
     "Certificação"; entraram modalidade, carga horária, status e público-alvo, que o edital lista como
     informações do curso. Os ícones dessas linhas não vêm no pacote e foram desenhados no mesmo traço.
     A trilha "Cursos / nome breve" também é nossa, para quem chega por link direto.
-  - **"Matricule-se" e o play levam à primeira aula.** Não há login nem Moodle; esse é o fluxo do
-    protótipo (curso → aula). Curso em breve ou encerrado não mostra o botão nem a barra fixa, e sim um
+  - **"Matricule-se" e o play levam à primeira aula.** Esse é o fluxo do protótipo (curso → aula). Sem
+    login, a aula abre e o progresso fica no navegador; com o aluno logado, abrir uma aula de curso com
+    inscrições abertas é o que o matricula (não há tela de confirmação, que o protótipo também não tem). Curso em breve ou encerrado não mostra o botão nem a barra fixa, e sim um
     aviso (o encerrado aponta para os cursos com inscrições abertas).
   - **Textos do acordeão escritos aqui.** O protótipo só mostra os títulos fechados de "Módulos", "Aulas
     online e avaliações" e "Dúvidas frequentes". Módulos vêm da API; os outros dois são texto genérico.

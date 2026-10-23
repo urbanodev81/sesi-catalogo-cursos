@@ -41,13 +41,14 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 
 ## Estado (23/10/2026)
 
-- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 51 testes verdes.
+- Back-end completo: API, banco, seed com os cursos do Figma (12), migrations, script SQL, 54 testes verdes, build sem avisos (EF Relational fixado em 10.0.13).
 - Front fiel ao Figma: home (`/`), listagem (`/cursos`, montada com peças do Figma — o protótipo não a tem),
   curso (`/cursos/:slug`) e aula (`/cursos/:slug/modulos/:m/aulas/:a`, sem casca, `meta.semCasca`).
-  Progresso das aulas no localStorage atrás de `progresso/RepositorioProgresso` (trocar pela API se o login entrar).
+  Progresso atrás de `progresso/RepositorioProgresso`: localStorage para visitante, API para aluno logado
+  (abrir aula de curso aberto matricula).
   Texto institucional em `frontend/src/conteudo/institucional.ts`; ícones de traço em `IconeLinha.vue`.
-- Assets otimizados (WebP 1200 px, Open Sans woff2 Latin). Auditoria a11y refeita em 23/10 (14 telas × 1440/390,
-  axe zerado, reflow 320 px, ordem de Tab). README (com "diferenças em relação ao Figma") e USO_DE_IA completos.
+- Assets otimizados (WebP 1200 px, Open Sans woff2 Latin). Auditoria a11y refeita em 23/10 (14 telas + login, áreas e painéis × 1440/390,
+  axe zerado fora o `region` do VLibras, reflow 320 px, ordem de Tab). README (com "diferenças em relação ao Figma") e USO_DE_IA completos.
 - Publicação preparada: `render.yaml` (Blueprint, Docker, free, Virgínia) + Neon us-east-1 via `DATABASE_URL`;
   `./gerar-zip-publicacao.sh` gera o ZIP do entregável 8.
 - Login de demonstração (aluno e professor) na `main` desde 23/10: cookie HttpOnly, PasswordHasher, 5 logins/min
@@ -72,5 +73,7 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Privacidade: `/privacidade` + `AvisoPrivacidade.vue` (informativo, "Entendi", chave `sesi-aviso-privacidade`;
   fica no alto, abaixo do cabeçalho, para não disputar o pé da tela).
   Barra de matrícula `position: fixed` (sempre presa); rodapé com 7rem embaixo na página do curso.
+- Demo volta ao seed a cada boot na publicação (`Dados/DemoRestaurada.cs`, `Demo__RestaurarAoIniciar` no
+  render.yaml; seed lido do `IDesignTimeModel`, porque o modelo de execução não guarda o HasData).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.
