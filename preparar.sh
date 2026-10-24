@@ -42,6 +42,7 @@ docker compose up -d postgres
 
 echo "==> Testes"
 dotnet test
+(cd frontend && npm test)
 
 echo
 echo "Pronto. Para trabalhar:"
