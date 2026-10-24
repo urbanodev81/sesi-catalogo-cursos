@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { AJUDA_PLATAFORMA, CONTATO, DUVIDAS_FREQUENTES } from '../conteudo/institucional'
 import IconeLinha from './IconeLinha.vue'
 import { usePainelFlutuante } from '../composables/usePainelFlutuante'
+import { useRoute } from 'vue-router'
+import { temTour, useTour } from '../tutorial/useTour'
 
 // Painel de ajuda no canto inferior direito. Hoje responde às dúvidas frequentes (texto fixo, do site)
 // em formato de conversa; o campo para escrever fica desabilitado, com o aviso de que o assistente
@@ -16,6 +18,11 @@ const botao = ref<HTMLButtonElement>()
 const painel = ref<HTMLElement>()
 usePainelFlutuante('ajuda', aberto, botao, painel)
 const historico = ref<HTMLElement>()
+
+// O tour desta tela, se ela tiver um. Abrir o tour fecha este painel (um por vez).
+const route = useRoute()
+const { iniciar: iniciarTour } = useTour()
+const telaComTour = computed(() => temTour(String(route.name)))
 
 async function alternar() {
   aberto.value = !aberto.value
@@ -46,6 +53,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     ref="botao"
     type="button"
     class="ajuda-botao"
+    data-tour="ajuda"
     :aria-expanded="aberto"
     aria-controls="painel-ajuda"
     @click="alternar"
@@ -73,6 +81,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
         {{ m.texto }}
       </p>
     </div>
+
+    <button v-if="telaComTour" type="button" class="botao botao--contorno ajuda__tour" @click="iniciarTour(String(route.name))">
+      Fazer o tour desta página
+    </button>
 
     <ul class="ajuda__perguntas" aria-label="Perguntas frequentes">
       <li v-for="p in PERGUNTAS" :key="p.pergunta">

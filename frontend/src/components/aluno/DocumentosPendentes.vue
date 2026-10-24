@@ -42,7 +42,7 @@ const data = (iso: string) => new Date(iso).toLocaleDateString('pt-BR')
 </script>
 
 <template>
-  <section class="cartao painel-bloco" aria-labelledby="titulo-documentos">
+  <section class="cartao painel-bloco" data-tour="documentos" aria-labelledby="titulo-documentos">
     <h2 id="titulo-documentos" class="cartao__titulo">
       <IconeLinha nome="medalha" /> Documentos
       <span v-if="estado === 'pronto'" class="painel-bloco__contagem">

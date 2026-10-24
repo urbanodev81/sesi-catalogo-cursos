@@ -13,7 +13,7 @@ const quando = (iso: string) =>
 </script>
 
 <template>
-  <section class="cartao painel-bloco" aria-labelledby="titulo-avaliacoes">
+  <section class="cartao painel-bloco" data-tour="avaliacoes" aria-labelledby="titulo-avaliacoes">
     <h2 id="titulo-avaliacoes" class="cartao__titulo">
       <IconeLinha nome="calendario" /> Próximas avaliações
     </h2>

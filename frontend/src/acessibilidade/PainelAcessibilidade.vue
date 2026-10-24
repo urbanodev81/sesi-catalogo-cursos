@@ -128,6 +128,7 @@ onBeforeUnmount(() => {
     ref="botao"
     type="button"
     class="a11y-botao"
+    data-tour="acessibilidade"
     :aria-expanded="aberto"
     aria-controls="painel-acessibilidade"
     aria-label="Opções de acessibilidade"

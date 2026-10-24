@@ -110,7 +110,7 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
         <p v-else>Alunos e professores entram por aqui para ver os cursos ou as turmas.</p>
       </div>
       <div v-if="usuario" class="pagina-hero__acoes">
-        <RouterLink v-if="usuario.papel === 'aluno'" :to="{ name: 'perfil' }" class="botao botao--claro">Meu perfil</RouterLink>
+        <RouterLink v-if="usuario.papel === 'aluno'" :to="{ name: 'perfil' }" class="botao botao--claro" data-tour="perfil">Meu perfil</RouterLink>
         <button type="button" class="botao botao--claro" @click="aoSair">Sair</button>
       </div>
     </div>
@@ -164,7 +164,7 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
 
     <!-- ---------- Aluno: meus cursos ---------- -->
     <template v-else>
-    <section aria-labelledby="titulo-meus">
+    <section aria-labelledby="titulo-meus" data-tour="meus-cursos">
       <h2 id="titulo-meus" class="secao__titulo">Meus cursos</h2>
       <div v-if="meusCursos.length === 0" class="aviso">
         <p>Você ainda não começou nenhum curso.</p>

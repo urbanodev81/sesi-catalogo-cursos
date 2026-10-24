@@ -5,6 +5,12 @@ export const FECHAR_APOS_MS = 60_000
 
 // Um painel flutuante por vez: os dois (acessibilidade e ajuda) cobrem boa parte da tela no celular.
 const painelAberto = ref<string>()
+
+/** Outra coisa toma a tela (o tour): fecha o painel aberto. `undefined` devolve a vez aos painéis. */
+export function reservarTela(dono: string | undefined) {
+  painelAberto.value = dono
+}
+
 const EVENTOS = ['pointermove', 'pointerdown', 'keydown', 'wheel', 'scroll', 'touchstart'] as const
 
 /**

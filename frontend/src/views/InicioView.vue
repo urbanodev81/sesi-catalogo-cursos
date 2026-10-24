@@ -47,7 +47,7 @@ onBeforeUnmount(() => controle?.abort())
     <div class="container">
       <h1 id="titulo-inicio">Impulsione sua carreira na indústria</h1>
       <p>Amplie seus conhecimentos com excelência na melhor plataforma de estudos da indústria brasileira</p>
-      <RouterLink :to="{ name: 'catalogo' }" class="botao botao--claro">
+      <RouterLink :to="{ name: 'catalogo' }" class="botao botao--claro" data-tour="catalogo">
         Conhecer cursos
         <img src="/assets/icones/arrow-navigation-1.svg" alt="" width="24" height="24" />
       </RouterLink>
@@ -65,7 +65,7 @@ onBeforeUnmount(() => controle?.abort())
       <button type="button" class="botao" @click="carregar">Tentar novamente</button>
     </div>
 
-    <ul v-else ref="trilhoCursos" class="trilho" :aria-busy="estado === 'carregando'" aria-label="Cursos em destaque">
+    <ul v-else ref="trilhoCursos" data-tour="destaques" class="trilho" :aria-busy="estado === 'carregando'" aria-label="Cursos em destaque">
       <template v-if="estado === 'carregando'">
         <li v-for="n in 5" :key="n" class="destaque destaque--esqueleto" aria-hidden="true" />
       </template>

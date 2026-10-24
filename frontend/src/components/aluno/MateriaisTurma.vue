@@ -12,7 +12,7 @@ const tamanho = (bytes: number) =>
 </script>
 
 <template>
-  <section class="cartao painel-bloco" aria-labelledby="titulo-materiais">
+  <section class="cartao painel-bloco" data-tour="materiais" aria-labelledby="titulo-materiais">
     <h2 id="titulo-materiais" class="cartao__titulo"><IconeLinha nome="tela" /> Materiais das turmas</h2>
     <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">

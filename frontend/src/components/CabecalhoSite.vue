@@ -43,6 +43,7 @@ function fecharComEsc(e: KeyboardEvent) {
         ref="botaoMenu"
         type="button"
         class="topo__menu"
+        data-tour="entrar"
         :aria-expanded="menuAberto"
         aria-controls="menu-principal"
         @click="menuAberto = !menuAberto"
@@ -58,7 +59,7 @@ function fecharComEsc(e: KeyboardEvent) {
           <li><LinkAncora ancora="sobre">Sobre</LinkAncora></li>
           <li>
             <!-- Um botão para aluno e professor: "Entrar" para o visitante, "Meu painel" para quem entrou. -->
-            <RouterLink :to="{ name: !usuario ? 'entrar' : professor ? 'area-do-professor' : 'area-do-aluno' }" class="topo__aluno">
+            <RouterLink :to="{ name: !usuario ? 'entrar' : professor ? 'area-do-professor' : 'area-do-aluno' }" class="topo__aluno" data-tour="entrar">
               {{ usuario ? 'Meu painel' : 'Entrar' }}
             </RouterLink>
           </li>

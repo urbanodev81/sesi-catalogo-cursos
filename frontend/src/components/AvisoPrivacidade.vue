@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useTour } from '../tutorial/useTour'
 
 // Aviso informativo, não pedido de consentimento: o site só guarda o necessário para funcionar (ver
 // /privacidade), então não há "recusar". Aparece até o primeiro "Entendi". Sem localStorage
 // (aba anônima), aparece a cada visita, que é o lado seguro do erro.
 const CHAVE = 'sesi-aviso-privacidade'
 const visivel = ref(lerVisto() !== '1')
+// Na primeira visita o tour abre junto: o aviso espera ele terminar, para não disputar a tela.
+const { estado: tour } = useTour()
 
 function lerVisto() {
   try {
@@ -27,7 +30,7 @@ function entendi() {
 </script>
 
 <template>
-  <section v-if="visivel" class="aviso-privacidade" aria-label="Aviso de privacidade">
+  <section v-if="visivel && !tour.ativo" class="aviso-privacidade" aria-label="Aviso de privacidade">
     <p>
       Usamos só o necessário para o site funcionar: a sessão de login e as suas preferências.
       Sem rastreamento nem publicidade.

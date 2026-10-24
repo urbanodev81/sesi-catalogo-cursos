@@ -10,6 +10,7 @@ import ProgressoNavegacao from './components/ProgressoNavegacao.vue'
 import RodapeSite from './components/RodapeSite.vue'
 import { manterPresenca } from './conta/presenca'
 import { carregarSessao } from './conta/sessao'
+import TourGuiado from './tutorial/TourGuiado.vue'
 
 // Troca de página numa SPA não move o foco: o leitor de tela continuaria no link
 // clicado. Levamos o foco ao <main> (só na troca de caminho, não a cada filtro).
@@ -45,4 +46,5 @@ useRouter()
   <AjudaChat />
   <PainelAcessibilidade />
   <AvisoPrivacidade />
+  <TourGuiado />
 </template>

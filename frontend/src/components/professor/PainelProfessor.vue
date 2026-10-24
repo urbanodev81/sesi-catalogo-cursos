@@ -75,7 +75,7 @@ const documentos = (a: AlunoProgresso) =>
     </div>
     <p v-else-if="turmas.length === 0" class="aviso">Nenhum aluno matriculado ainda.</p>
 
-    <div v-else class="acordeao turmas-prof">
+    <div v-else class="acordeao turmas-prof" data-tour="turmas">
       <details v-for="(t, i) in turmas" :key="t.slug" :open="i === 0">
         <summary>
           <span>
@@ -90,7 +90,7 @@ const documentos = (a: AlunoProgresso) =>
         <!-- Cada bloco se rotula pelo título + nome da turma: "Alunos" sozinho se repetiria em toda turma. -->
         <div class="turma-prof">
           <!-- ---------- Horários ---------- -->
-          <section class="turma-prof__bloco" :aria-labelledby="`horarios-${t.slug} turma-${t.slug}`">
+          <section class="turma-prof__bloco" data-tour="horarios" :aria-labelledby="`horarios-${t.slug} turma-${t.slug}`">
             <h3 :id="`horarios-${t.slug}`" class="turma-prof__titulo"><IconeLinha nome="relogio" /> Horários da turma</h3>
             <p v-if="t.horarios.length === 0">Sem encontros fixos: o curso é feito no ritmo do aluno.</p>
             <ul v-else class="horarios">
@@ -103,7 +103,7 @@ const documentos = (a: AlunoProgresso) =>
           </section>
 
           <!-- ---------- Materiais ---------- -->
-          <section class="turma-prof__bloco" :aria-labelledby="`materiais-${t.slug} turma-${t.slug}`">
+          <section class="turma-prof__bloco" data-tour="materiais-prof" :aria-labelledby="`materiais-${t.slug} turma-${t.slug}`">
             <h3 :id="`materiais-${t.slug}`" class="turma-prof__titulo"><IconeLinha nome="tela" /> Materiais para os alunos</h3>
             <p v-if="t.materiais.length === 0">Nenhum material publicado nesta turma.</p>
             <ul v-else class="materiais">
@@ -141,7 +141,7 @@ const documentos = (a: AlunoProgresso) =>
           </section>
 
           <!-- ---------- Alunos ---------- -->
-          <section class="turma-prof__bloco turma-prof__bloco--largo" :aria-labelledby="`alunos-${t.slug} turma-${t.slug}`">
+          <section class="turma-prof__bloco turma-prof__bloco--largo" data-tour="alunos" :aria-labelledby="`alunos-${t.slug} turma-${t.slug}`">
             <h3 :id="`alunos-${t.slug}`" class="turma-prof__titulo"><IconeLinha nome="pessoas" /> Alunos</h3>
             <div class="alunos-prof">
               <details v-for="a in t.alunos" :key="a.nome">

@@ -18,7 +18,7 @@ const iniciais = (nome: string) =>
 </script>
 
 <template>
-  <section class="cartao painel-bloco" aria-labelledby="titulo-colegas">
+  <section class="cartao painel-bloco" data-tour="colegas" aria-labelledby="titulo-colegas">
     <h2 id="titulo-colegas" class="cartao__titulo"><IconeLinha nome="pessoas" /> Colegas da turma</h2>
     <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">

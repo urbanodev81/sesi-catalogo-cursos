@@ -30,7 +30,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
 
   <div class="container catalogo">
     <form class="filtros" role="search" aria-label="Buscar e filtrar cursos" @submit.prevent>
-      <div class="campo campo--busca">
+      <div class="campo campo--busca" data-tour="busca">
         <label for="busca">Buscar pelo nome</label>
         <!-- Campo em pílula com lupa, como a busca da tela de aula do Figma. -->
         <div class="busca">
@@ -39,7 +39,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
         </div>
       </div>
 
-      <div class="campo">
+      <div class="campo" data-tour="filtros">
         <label for="categoria">Categoria</label>
         <select id="categoria" :value="consulta.categoria" @change="ao('categoria')($event)">
           <option value="">Todas</option>
@@ -67,7 +67,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
     </form>
 
     <!-- Região viva: o leitor de tela anuncia a contagem a cada busca ou filtro. -->
-    <p class="resultado" role="status" aria-live="polite">{{ resumo }}</p>
+    <p class="resultado" data-tour="resultado" role="status" aria-live="polite">{{ resumo }}</p>
 
     <ul v-if="estado === 'carregando'" class="grade" aria-hidden="true">
       <li v-for="n in 6" :key="n" class="destaque destaque--esqueleto" />
@@ -84,7 +84,7 @@ const ao = (campo: 'categoria' | 'modalidade' | 'status') => (e: Event) =>
       <button v-if="temFiltro" type="button" class="botao" @click="limpar">Limpar filtros</button>
     </div>
 
-    <ul v-else class="grade" aria-label="Cursos">
+    <ul v-else class="grade" data-tour="lista" aria-label="Cursos">
       <li v-for="c in cursos" :key="c.id"><CursoCardDestaque :curso="c" :nivel="2" ficha /></li>
     </ul>
   </div>
