@@ -35,7 +35,7 @@ Sem entrar, tudo funciona igual e o progresso das aulas fica no navegador.
 | Acesso a dados | Entity Framework Core 10 + Npgsql | Migrations versionadas e seed no mesmo lugar |
 | Banco | PostgreSQL 16 | Código aberto; há oferta gratuita gerenciada para a publicação |
 | Front-end | Vue 3 + TypeScript + Vite, Vue Router | Componentes simples, tipagem dos contratos da API |
-| Testes | xUnit + Testcontainers | Integração contra um PostgreSQL real, não contra mock |
+| Testes | xUnit + Testcontainers; Vitest + Vue Test Utils | Back: integração contra um PostgreSQL real, não contra mock. Front: a lógica das telas, com a API simulada |
 | Execução | Docker / Docker Compose | Um comando sobe banco e aplicação |
 
 ## Arquitetura da solução
@@ -66,6 +66,7 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 ├── tests/CatalogoCursos.Api.Tests/   testes de integração (API real + PostgreSQL real)
 ├── frontend/
 │   ├── public/assets/          imagens, ícones e logos do material do Figma
+│   ├── tests/                  testes do front (Vitest): cliente da API, catálogo, progresso, aviso de demora
 │   └── src/
 │       ├── api/                cliente HTTP e tipos espelhando os DTOs
 │       ├── composables/        useCatalogo (busca, filtros, estados, URL) e useCarrossel
@@ -109,7 +110,12 @@ cd frontend && npm ci && npm run dev          # front em http://localhost:5173
 O script pode rodar de novo sem efeito colateral: ele pula o que já está instalado.
 
 **Testes:** `dotnet test` roda os 54 testes de integração (requer Docker: cada execução cria um
-PostgreSQL descartável). No front, `npm run build` faz a checagem de tipos (`vue-tsc`) antes do build.
+PostgreSQL descartável). No front, `(cd frontend && npm test)` roda os 29 testes do Vitest em menos de
+2 s, sem navegador e sem API: o `fetch` é simulado e o DOM é o do happy-dom. Eles cobrem o que a tela
+decide sozinha: a URL como fonte da verdade da busca e dos filtros, o atraso de 300 ms da digitação, o
+cancelamento da busca anterior (a resposta velha não sobrescreve a nova), a tradução de cada código HTTP
+para a mensagem da tela, o progresso do visitante no `localStorage` (valor corrompido, navegador que
+recusa gravar) e o aviso de "servidor acordando". `npm run build` faz ainda a checagem de tipos (`vue-tsc`).
 
 ## Configuração do banco
 
@@ -357,8 +363,9 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
 - **Sessão perdida quando a hospedagem reinicia:** as chaves que assinam o cookie ficam na memória do
   contêiner, e o plano gratuito reinicia o serviço quando ele "dorme". Basta entrar de novo. A correção
   seria guardar as chaves no banco (`PersistKeysToDbContext`).
-- **Testes automatizados só no back-end.** O front é verificado por compilação estrita (`vue-tsc`) e
-  pela auditoria de acessibilidade descrita acima, não por testes de componente.
+- **Sem teste de ponta a ponta no repositório.** O front tem testes da lógica (Vitest) e o back tem testes
+  de integração, mas o fluxo no navegador de verdade (clicar, ver a tela) foi conferido com Playwright fora
+  do projeto, não por uma suíte que roda a cada mudança.
 - **Somente leitura:** não há cadastro, edição nem exclusão de cursos, como o edital dispensa; os dados
   mudam por migration.
 - **Diferenças em relação ao Figma:**

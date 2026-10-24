@@ -22,7 +22,8 @@ export DOTNET_ROOT=~/.dotnet PATH=~/.dotnet:~/.local/node/bin:$PATH
 docker compose up -d postgres                         # banco local em 127.0.0.1:5470
 dotnet run --project src/CatalogoCursos.Api           # API em http://localhost:5070 (aplica migrations)
 (cd frontend && npm run dev)                          # front em http://localhost:5173, /api via proxy
-dotnet test                                           # 53 testes; sobem Postgres próprio (Testcontainers)
+dotnet test                                           # 54 testes; sobem Postgres próprio (Testcontainers)
+(cd frontend && npm test)                             # 29 testes do front (Vitest + happy-dom, fetch simulado)
 docker compose up -d --build                          # tudo junto em http://localhost:8080
 dotnet ef migrations add <Nome> -p src/CatalogoCursos.Api -o Dados/Migrations
 dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/catalogo.sql
@@ -82,4 +83,6 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Demo volta ao seed a cada boot na publicação (`Dados/DemoRestaurada.cs`, `Demo__RestaurarAoIniciar` no
   render.yaml; seed lido do `IDesignTimeModel`, porque o modelo de execução não guarda o HasData).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
+- Testes do front (24/10): `frontend/tests/` com Vitest + Vue Test Utils + happy-dom (cliente, useCatalogo,
+  progresso, useDemora); validados quebrando o código de propósito (USO_DE_IA nº 18).
 - Repo público desde 24/10 (https://github.com/urbanodev81/sesi-catalogo-cursos); ZIP do entregável 8 regerado no mesmo dia.

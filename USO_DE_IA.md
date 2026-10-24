@@ -146,6 +146,11 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
 - **Testes de integração** (`tests/`): 54 testes contra um PostgreSQL real criado na hora
   (Testcontainers). Cobrem o mínimo exigido pelo edital (6 cursos, 3 categorias, 2 modalidades,
   3 status), a busca, os filtros combinados, as respostas 400/404, o detalhe com módulos, o login (sessão, papéis, limite de tentativas por IP e por e-mail, progresso) e a volta da demonstração ao estado inicial.
+- **Testes do front** (`frontend/tests/`): 29 testes do Vitest para a lógica das telas, com o `fetch`
+  simulado: URL como fonte da verdade, atraso da busca, cancelamento da busca anterior, mensagens de erro
+  por código HTTP, progresso no navegador e aviso de demora. Para saber se eles pegam defeito de verdade,
+  o código foi quebrado de propósito cinco vezes (sem cancelamento, atraso de 100 ms, 400 sem a marca de
+  inválido, progresso duplicando, aviso sem esperar a carga) e cada quebra derrubou pelo menos um teste.
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
 - **Execução real** com `docker compose`: cada rota conferida por HTTP (SPA, API, assets, OpenAPI),
   com leitura dos logs do contêiner.
@@ -241,3 +246,8 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     capturas de cada passo, em 1440 e 390 px, mostraram os dois. **Correção:** o balão só vai abaixo ou
     acima com 260 px livres (senão fica no pé da tela, por cima do alvo), o rodapé com os botões é preso
     dentro do balão, e todo alvo do tour tem `scroll-margin-top` da altura do cabeçalho.
+18. **Teste que passava sem testar.** No teste do atraso da busca, a IA avançou o relógio falso em 299 ms
+    e conferiu que a URL ainda não tinha a busca, mas sem esperar o roteador terminar de gravar. A
+    conferência passaria com qualquer atraso, inclusive sem atraso nenhum. Isso apareceu quando o código foi
+    quebrado de propósito (atraso trocado para 100 ms) e nenhum teste falhou. **Correção:** esperar as
+    promessas pendentes (`flushPromises`) antes de cada conferência; com a quebra, o teste passou a falhar.
