@@ -85,4 +85,5 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
 - Testes do front (24/10): `frontend/tests/` com Vitest + Vue Test Utils + happy-dom (cliente, useCatalogo,
   progresso, useDemora); validados quebrando o código de propósito (USO_DE_IA nº 18).
+- CI (24/10): `.github/workflows/testes.yml` (back e front em paralelo, selo no README); grátis por ser repo público.
 - Repo público desde 24/10 (https://github.com/urbanodev81/sesi-catalogo-cursos); ZIP do entregável 8 regerado no mesmo dia.

@@ -152,6 +152,7 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
   o código foi quebrado de propósito cinco vezes (sem cancelamento, atraso de 100 ms, 400 sem a marca de
   inválido, progresso duplicando, aviso sem esperar a carga) e cada quebra derrubou pelo menos um teste.
 - **Compilação estrita**: `vue-tsc` no front e `dotnet build` no back.
+- **Integração contínua**: o GitHub Actions roda os testes do back e do front a cada push na `main`.
 - **Execução real** com `docker compose`: cada rota conferida por HTTP (SPA, API, assets, OpenAPI),
   com leitura dos logs do contêiner.
 - **Auditoria de acessibilidade** com axe-core e medições complementares (ver README, "Decisões de

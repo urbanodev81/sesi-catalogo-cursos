@@ -1,5 +1,7 @@
 # Catálogo de cursos — SESI Indústria
 
+[![Testes](https://github.com/urbanodev81/sesi-catalogo-cursos/actions/workflows/testes.yml/badge.svg)](https://github.com/urbanodev81/sesi-catalogo-cursos/actions/workflows/testes.yml)
+
 ## Objetivo da aplicação
 
 Aplicação web para o Centro de Tecnologias e Educação Digital (CTED) apresentar o catálogo de cursos do
@@ -76,6 +78,7 @@ Navegador ──► ASP.NET Core (uma imagem, uma porta)
 │       └── estilos/            tokens, fonte Open Sans, base de acessibilidade
 ├── database/catalogo.sql       script SQL completo (schema + dados), gerado das migrations
 ├── docs/DESAFIO.md             requisito transcrito, com checklist
+├── .github/workflows/testes.yml   CI: testes do back e do front a cada push
 ├── Dockerfile  docker-compose.yml  render.yaml
 ├── preparar.sh                 máquina nova pronta com um comando
 ├── gerar-zip-publicacao.sh     monta o ZIP dos arquivos de publicação
@@ -116,6 +119,10 @@ decide sozinha: a URL como fonte da verdade da busca e dos filtros, o atraso de 
 cancelamento da busca anterior (a resposta velha não sobrescreve a nova), a tradução de cada código HTTP
 para a mensagem da tela, o progresso do visitante no `localStorage` (valor corrompido, navegador que
 recusa gravar) e o aviso de "servidor acordando". `npm run build` faz ainda a checagem de tipos (`vue-tsc`).
+
+**Integração contínua:** a cada push e pull request na `main`, o GitHub Actions
+(`.github/workflows/testes.yml`) roda os dois conjuntos em paralelo, mais o build do front, e o selo no
+topo deste README mostra o resultado da última execução. Como o repositório é público, não há custo.
 
 ## Configuração do banco
 

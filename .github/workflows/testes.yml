@@ -1,0 +1,37 @@
+# Roda os testes a cada push e pull request na main. Repositório público: os minutos são gratuitos.
+name: Testes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  back-end:
+    name: Back-end (xUnit + Testcontainers)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      # O Docker já vem na máquina do GitHub; o Testcontainers sobe nele o PostgreSQL de cada execução.
+      - run: dotnet test
+
+  front-end:
+    name: Front-end (Vitest + vue-tsc)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
