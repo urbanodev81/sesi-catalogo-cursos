@@ -117,6 +117,18 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     **Decidido por mim:** aviso informativo e barra sempre presa no pé da tela.
     **Erro da IA, pego por mim:** o aviso nasceu no pé da tela, preto, empilhado sobre a barra de matrícula
     (também preta). Foi para o alto, como cartão claro abaixo do cabeçalho.
+12. **"Faça uma verificação geral, como full stack sênior, QA sênior e analista de negócio sênior."** Revisão
+    final antes do envio. A IA leu o código, rodou testes, build, auditoria de acessibilidade e testou a
+    produção. Os achados estão no erro nº 16 e na lista de limitações (demonstração restaurada a cada boot).
+    **Decidido por mim:** corrigir tudo, restaurar a demonstração a cada boot e documentar a matrícula ao
+    abrir a aula. **Descartado:** nada; o fechamento automático dos painéis ficou registrado como risco.
+13. **"Os cursos na home ficaram feios no mobile. Uma tela de loading seria boa para o login e o
+    carregamento? E o nosso sistema de apresentação ajudaria a entender o sistema?"** A IA ajustou o
+    carrossel (um card por tela no celular). Sobre a tela de carregamento, desaconselhou: a casa já
+    trocou o overlay pela barra (o README explica por quê), e o problema real é o servidor gratuito
+    acordando (24 s medidos), então propôs uma frase que aparece depois de 5 s de espera. Sobre o tour,
+    recomendou abrir só por pedido. **Decidido por mim:** a frase de demora e o tour **automático** na
+    primeira visita, com o aviso de privacidade esperando o tour terminar.
 
 ## Como o conteúdo foi validado
 
@@ -223,3 +235,9 @@ repositório. Transcritos com a grafia corrigida e o sentido intacto:
     limite, de 5 senhas erradas por minuto por e-mail, que não depende do IP; o teste novo troca de IP a
     cada tentativa e espera o 429. Na mesma revisão: corpo `null` no login dava 500 (agora 401), e 66 avisos
     de build vinham de duas versões do EF Core (a API com a 10.0.13, os testes com a 10.0.4).
+17. **Balão do tour sem os botões à vista.** No celular, no passo do carrossel (um alvo de quase meia tela),
+    o balão foi posto abaixo do alvo com o espaço que sobrava, e "Anterior/Próximo" ficaram escondidos na
+    rolagem interna dele. Na área do aluno, o começo de "Meus cursos" ficava atrás do cabeçalho fixo. As
+    capturas de cada passo, em 1440 e 390 px, mostraram os dois. **Correção:** o balão só vai abaixo ou
+    acima com 260 px livres (senão fica no pé da tela, por cima do alvo), o rodapé com os botões é preso
+    dentro do balão, e todo alvo do tour tem `scroll-margin-top` da altura do cabeçalho.

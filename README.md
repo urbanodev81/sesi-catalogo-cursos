@@ -271,6 +271,15 @@ Implementado:
   não corrige nada da página, que passa na auditoria sem ele. Ele oferece ajustes que o navegador não dá
   num clique. É um diálogo não modal: abre com o foco no primeiro controle, e Esc fecha e devolve o foco
   ao botão. O item de Libras só aparece se o plugin do governo carregar; se não carregar, nada quebra.
+- **Tour guiado** (abre sozinho na primeira visita; depois, pelo botão "Fazer o tour desta página" da
+  Ajuda): é um diálogo modal de verdade. O foco vai para o balão a cada passo, Tab fica preso nos botões
+  dele, Esc encerra e o foco volta para onde estava. O alvo de cada passo é achado pelo atributo
+  `data-tour` (contrato, não classe CSS) e precisa estar visível: no celular, o passo "Entrar" aponta para
+  o botão "Menu". Clicar fora pergunta antes de sair; pular e concluir contam como visto.
+- **Servidor acordando:** se uma carga passa de 5 s, o aviso de carregamento (e o "Entrando…" do login)
+  ganha a frase "O servidor gratuito está acordando: na primeira visita, isso leva até 50 segundos", no
+  mesmo lugar e anunciada pelo leitor de tela. Não há tela de carregamento por cima do conteúdo (ver a
+  barra entre páginas, nas diferenças em relação ao Figma).
 - Imagens decorativas com `alt=""`; links que abrem em nova aba avisam no texto.
 
 **Auditoria.** [axe-core](https://github.com/dequelabs/axe-core) 4.11 (o mesmo motor do Lighthouse),
@@ -402,13 +411,21 @@ Docker: `DATABASE_URL=... dotnet app/CatalogoCursos.Api.dll` (requer o runtime A
   - **Barra de matrícula sempre presa.** No protótipo ela acompanha a rolagem; aqui não para mais no fim
     da página (antes "pousava" acima do rodapé e, nesse instante, encostava nos botões flutuantes). O
     rodapé ganhou espaço embaixo para nada ficar escondido sob ela.
+  - **Tour guiado.** Não está no protótipo. Existe porque metade do que o site faz (login de
+    demonstração, áreas do aluno e do professor, acessibilidade) não aparece na primeira tela. Um tour por
+    tela (início, catálogo, área do aluno, área do professor), com holofote no elemento e balão branco
+    com os botões do próprio layout; abre sozinho só na primeira visita. Adaptado do tutorial que
+    usamos em outros sistemas, sem biblioteca de terceiro (`frontend/src/tutorial/`).
+  - **Carrossel da home no celular.** O card do Figma tem 272 px; no celular isso deixava o segundo card
+    pela metade, com título e resumo cortados. Abaixo de 640 px é um card por tela, com só uma fresta da
+    foto do próximo; de 640 a 1024 px, dois.
   - **Aviso de privacidade e página `/privacidade`.** Não estão no protótipo. O site só guarda o cookie de
     sessão (depois do login) e preferências no navegador, sem análise nem publicidade: pela LGPD e pelo
     guia de cookies da ANPD isso não pede consentimento, pede transparência. Por isso o aviso é
     informativo ("Entendi" + link), sem "aceitar/recusar", que seria um botão para recusar nada. A
     página diz também que o VLibras é carregado de `vlibras.gov.br`.
     O aviso aparece no alto, abaixo do cabeçalho, como cartão claro: o pé da tela já é da barra de
-    matrícula e dos botões flutuantes.
+    matrícula e dos botões flutuantes. Na primeira visita, ele espera o tour terminar.
   - **Painéis dos cantos se fecham sozinhos.** Acessibilidade e Ajuda abrem um por vez (no celular os dois
     juntos cobrem a tela) e fecham depois de 60 s sem movimento, toque, tecla ou rolagem. A conversa da
     Ajuda continua lá ao reabrir; se o foco estava no painel, volta ao botão que o abriu.

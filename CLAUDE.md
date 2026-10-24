@@ -73,6 +73,12 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Privacidade: `/privacidade` + `AvisoPrivacidade.vue` (informativo, "Entendi", chave `sesi-aviso-privacidade`;
   fica no alto, abaixo do cabeçalho, para não disputar o pé da tela).
   Barra de matrícula `position: fixed` (sempre presa); rodapé com 7rem embaixo na página do curso.
+- Tour guiado (23/10, molde do tutorial da casa, sem o pacote privado): `frontend/src/tutorial/`
+  (`passos.ts` por nome de rota, alvos `data-tour`, chave `sesi-tour-visto`). Abre sozinho na 1ª visita
+  (decisão do Ricardo); depois, "Fazer o tour desta página" na Ajuda. Abrir o tour fecha os painéis
+  (`reservarTela`) e o aviso de privacidade espera ele terminar.
+- Carga > 5 s mostra "servidor gratuito acordando" (`useDemora` + `components/Carregando.vue`); sem overlay.
+- Carrossel da home: 1 card por tela < 640 px, 2 até 1024 px, 272 px do Figma acima.
 - Demo volta ao seed a cada boot na publicação (`Dados/DemoRestaurada.cs`, `Demo__RestaurarAoIniciar` no
   render.yaml; seed lido do `IDesignTimeModel`, porque o modelo de execução não guarda o HasData).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
