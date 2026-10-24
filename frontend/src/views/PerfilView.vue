@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../components/Carregando.vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { obterPerfil } from '../api/cliente'
@@ -35,7 +36,7 @@ const quando = (iso: string) =>
   </section>
 
   <div class="container area">
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
 
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">
       <p>{{ erro }}</p>

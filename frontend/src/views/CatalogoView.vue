@@ -3,11 +3,13 @@ import { computed } from 'vue'
 import CursoCardDestaque from '../components/CursoCardDestaque.vue'
 import IconeLinha from '../components/IconeLinha.vue'
 import { useCatalogo } from '../composables/useCatalogo'
+import { TEXTO_DEMORA, useDemora } from '../composables/useDemora'
 
 const { busca, consulta, cursos, total, estado, erro, erroInvalido, filtros, temFiltro, definir, limpar, recarregar } = useCatalogo()
 
+const demorou = useDemora(() => estado.value === 'carregando')
 const resumo = computed(() => {
-  if (estado.value === 'carregando') return 'Carregando cursos…'
+  if (estado.value === 'carregando') return demorou.value ? `Carregando cursos… ${TEXTO_DEMORA}` : 'Carregando cursos…'
   if (estado.value === 'erro') return ''
   if (total.value === 0) return 'Nenhum curso encontrado'
   return total.value === 1 ? '1 curso encontrado' : `${total.value} cursos encontrados`

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../Carregando.vue'
 import { reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ErroApi, obterTurmas, publicarMaterial, removerMaterial, urlDoMaterial } from '../../api/cliente'
@@ -67,7 +68,7 @@ const documentos = (a: AlunoProgresso) =>
   <section aria-labelledby="titulo-turmas">
     <h2 id="titulo-turmas" class="secao__titulo">Suas turmas</h2>
 
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao" @click="carregar()">Tentar novamente</button>

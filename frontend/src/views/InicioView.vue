@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../components/Carregando.vue'
 import { nextTick, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ErroApi, listarCursos } from '../api/cliente'
@@ -58,6 +59,7 @@ onBeforeUnmount(() => controle?.abort())
       <h2 id="titulo-principais" class="secao__titulo">Principais cursos</h2>
     </div>
 
+    <Carregando v-if="estado === 'carregando'" class="container" texto="Carregando cursos…" oculto />
     <div v-if="estado === 'erro'" class="container aviso aviso--erro" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao" @click="carregar">Tentar novamente</button>

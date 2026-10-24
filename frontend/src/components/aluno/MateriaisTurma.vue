@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../Carregando.vue'
 import { obterMateriais, urlDoMaterial } from '../../api/cliente'
 import { useCarga } from '../../composables/useCarga'
 import IconeLinha from '../IconeLinha.vue'
@@ -13,7 +14,7 @@ const tamanho = (bytes: number) =>
 <template>
   <section class="cartao painel-bloco" aria-labelledby="titulo-materiais">
     <h2 id="titulo-materiais" class="cartao__titulo"><IconeLinha nome="tela" /> Materiais das turmas</h2>
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao botao--contorno" @click="carregar()">Tentar novamente</button>

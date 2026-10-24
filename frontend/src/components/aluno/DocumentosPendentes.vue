@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../Carregando.vue'
 import { computed, ref } from 'vue'
 import { ErroApi, enviarDocumento, obterDocumentos, urlDoArquivo } from '../../api/cliente'
 import type { Documento } from '../../api/tipos'
@@ -48,7 +49,7 @@ const data = (iso: string) => new Date(iso).toLocaleDateString('pt-BR')
         {{ pendentes === 0 ? 'tudo entregue' : `${pendentes} ${pendentes === 1 ? 'pendente' : 'pendentes'}` }}
       </span>
     </h2>
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao botao--contorno" @click="carregar()">Tentar novamente</button>

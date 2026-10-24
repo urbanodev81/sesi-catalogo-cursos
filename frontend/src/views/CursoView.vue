@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../components/Carregando.vue'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ErroApi, obterCurso } from '../api/cliente'
@@ -49,7 +50,7 @@ const totalAulas = computed(() => detalhe.value?.modulos.reduce((soma, m) => som
 
 <template>
   <div v-if="estado === 'carregando'" class="container detalhe-estado">
-    <p role="status">Carregando curso…</p>
+    <Carregando texto="Carregando curso…" />
   </div>
 
   <div v-else-if="estado === 'nao-encontrado'" class="container detalhe-estado">

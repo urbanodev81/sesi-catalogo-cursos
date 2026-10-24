@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../components/Carregando.vue'
 import { computed, nextTick, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { ErroApi, obterMeusCursos } from '../api/cliente'
@@ -10,6 +11,7 @@ import ProximasAvaliacoes from '../components/aluno/ProximasAvaliacoes.vue'
 import PainelProfessor from '../components/professor/PainelProfessor.vue'
 import IconeLinha from '../components/IconeLinha.vue'
 import { useSessao } from '../conta/sessao'
+import { TEXTO_DEMORA, useDemora } from '../composables/useDemora'
 
 // Login de demonstração (não é requisito do edital): o aluno vê os cursos, avaliações, documentos,
 // colegas e materiais; o professor vê as turmas (horários, materiais, histórico de cada aluno).
@@ -42,6 +44,7 @@ const email = ref('')
 const senha = ref('')
 const enviando = ref(false)
 const erroLogin = ref('')
+const loginDemorou = useDemora(enviando)
 
 async function aoEntrar() {
   erroLogin.value = ''
@@ -114,7 +117,7 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
   </section>
 
   <div class="container area">
-    <p v-if="usuario === undefined" role="status">Carregando…</p>
+    <Carregando v-if="usuario === undefined" />
 
     <!-- ---------- Visitante: login ---------- -->
     <div v-else-if="usuario === null" class="area__login">
@@ -132,6 +135,7 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
         <button type="submit" class="botao botao--escuro" :disabled="enviando">
           {{ enviando ? 'Entrando…' : 'Entrar' }}
         </button>
+        <p v-if="loginDemorou" class="area__demora" role="status">{{ TEXTO_DEMORA }}</p>
       </form>
 
       <aside class="cartao cartao--suave" aria-labelledby="titulo-demo">
@@ -151,7 +155,7 @@ const pct = (feitas: number, total: number) => (total ? Math.round((feitas / tot
     <!-- ---------- Professor: turmas ---------- -->
     <PainelProfessor v-else-if="usuario.papel === 'professor'" />
 
-    <p v-else-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-else-if="estado === 'carregando'" />
 
     <div v-else-if="estado === 'erro'" class="aviso aviso--erro" role="alert">
       <p>{{ erro }}</p>

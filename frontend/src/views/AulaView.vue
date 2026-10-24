@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../components/Carregando.vue'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { ErroApi, obterAula, obterCurso } from '../api/cliente'
@@ -197,7 +198,7 @@ const blocos = computed(() => {
     </aside>
 
     <div class="aula-conteudo">
-      <p v-if="estado === 'carregando' && !aulaAtual" role="status">Carregando aula…</p>
+      <Carregando v-if="estado === 'carregando' && !aulaAtual" texto="Carregando aula…" />
 
       <div v-else-if="estado === 'nao-encontrado'" class="aviso">
         <h1>Aula não encontrada</h1>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../Carregando.vue'
 import { RouterLink } from 'vue-router'
 import { obterAvaliacoes } from '../../api/cliente'
 import { useCarga } from '../../composables/useCarga'
@@ -16,7 +17,7 @@ const quando = (iso: string) =>
     <h2 id="titulo-avaliacoes" class="cartao__titulo">
       <IconeLinha nome="calendario" /> Próximas avaliações
     </h2>
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao botao--contorno" @click="carregar()">Tentar novamente</button>

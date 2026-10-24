@@ -2696,3 +2696,12 @@ html.dock-vlibras [vw-access-button] {
     justify-content: space-between;
   }
 }
+
+/* Aviso de carregamento (Carregando.vue) e a frase do servidor acordando. */
+.carregando--vazio {
+  margin: 0;
+}
+.area__demora {
+  margin: 0.75rem 0 0;
+  font-size: 0.9375rem;
+}

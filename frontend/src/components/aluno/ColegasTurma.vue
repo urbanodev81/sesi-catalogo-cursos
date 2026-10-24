@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Carregando from '../Carregando.vue'
 import { computed, onBeforeUnmount } from 'vue'
 import { obterColegas } from '../../api/cliente'
 import { useCarga } from '../../composables/useCarga'
@@ -19,7 +20,7 @@ const iniciais = (nome: string) =>
 <template>
   <section class="cartao painel-bloco" aria-labelledby="titulo-colegas">
     <h2 id="titulo-colegas" class="cartao__titulo"><IconeLinha nome="pessoas" /> Colegas da turma</h2>
-    <p v-if="estado === 'carregando'" role="status">Carregando…</p>
+    <Carregando v-if="estado === 'carregando'" />
     <div v-else-if="estado === 'erro'" role="alert">
       <p>{{ erro }}</p>
       <button type="button" class="botao botao--contorno" @click="carregar()">Tentar novamente</button>
