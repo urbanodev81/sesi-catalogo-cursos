@@ -82,4 +82,4 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
 - Demo volta ao seed a cada boot na publicação (`Dados/DemoRestaurada.cs`, `Demo__RestaurarAoIniciar` no
   render.yaml; seed lido do `IDesignTimeModel`, porque o modelo de execução não guarda o HasData).
 - Antes de push (publica no Render), subir local e o Ricardo olhar.
-- Falta: repo público antes da entrega (hoje privado), depois da revisão final do Ricardo.
+- Repo público desde 24/10 (https://github.com/urbanodev81/sesi-catalogo-cursos); ZIP do entregável 8 regerado no mesmo dia.
