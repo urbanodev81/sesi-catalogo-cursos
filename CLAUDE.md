@@ -87,3 +87,5 @@ dotnet ef migrations script --idempotent -p src/CatalogoCursos.Api -o database/c
   progresso, useDemora); validados quebrando o código de propósito (USO_DE_IA nº 18).
 - CI (24/10): `.github/workflows/testes.yml` (back e front em paralelo, selo no README); grátis por ser repo público.
 - Repo público desde 24/10 (https://github.com/urbanodev81/sesi-catalogo-cursos); ZIP do entregável 8 regerado no mesmo dia.
+- Entrega (24/10): tudo conferido; rascunho do e-mail + checklist de envio em `publicacao/ENTREGA.md` (fora do git,
+  junto do ZIP). Envio marcado para 25/10, respondendo ao e-mail das instruções. Falta só enviar.
